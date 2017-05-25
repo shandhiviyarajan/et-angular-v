@@ -1,0 +1,28 @@
+{
+  "status": true,
+  "message": "Job information loaded",
+  "data": [
+    {
+      "id": 0,
+      "JobName": "Carpenter"
+    },
+    {
+      "id": 1,
+      "JobName": "Painter"
+    },
+    {
+      "id": 2,
+      "JobName": "Mechanic"
+    },
+    {
+      "id": 3,
+      "JobName": "Plumber"
+    },
+    {
+      "id": 4,
+      "JobName": "Electrician"
+    }
+  ]
+}
+
+

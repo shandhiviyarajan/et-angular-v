@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <title> Easy Trades - Angular version </title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- CSS libraries -->
+    <link rel="stylesheet" href="assets/angular/plugins/loading.plugin.css"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="assets/css/materialize.css"/>
+    <link rel="stylesheet" href="assets/css/font-awesome.css"/>
+    <link rel="stylesheet" href="assets/angular/plugins/timepicker/timepicker.css"/>
+    <link rel="stylesheet" href="assets/css/styles.css"/>
+
+</head>
+<body data-ng-controller="ngMainController as Main">
+
+
+<ui-view>
+
+</ui-view>
+
+
+<footer>
+    <div class="footer-links">
+        <ul>
+            <li><a ui-sref="about">About</a></li>
+            <li><a ui-sref="contact">Contact</a></li>
+            <li><a ui-sref="faq">FAQ</a></li>
+            <li><a ui-sref="terms">terms</a></li>
+        </ul>
+    </div>
+    <ul class="footer-social-links">
+        <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+        <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a href="#" target="_blank"><i class="fa fa-pinterest"></i></a></li>
+        <li><a href="#" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+    </ul>
+    <a class="goto-top">
+        <div><i class="fa fa-angle-up"></i></div>
+    </a>
+</footer>
+
+
+<script src="assets/js/jquery.js"></script>
+<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+<script src="assets/js/materialize.js"></script>
+<script src="assets/js/slider.js"></script>
+<script src="assets/js/script.js"></script>
+
+<!-- Angular JS libraries -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+<script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-cookies.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-resource.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-sanitize.js"></script>
+
+<!-- Angular Js plugins -->
+<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+<script src="assets/angular/plugins/loading.plugin.js"></script>
+<script src="assets/angular/plugins/timepicker/timepicker.js"></script>
+<script src="assets/angular/plugins/moment/moment.js"></script>
+
+<!-- Angular application-->
+<script src="assets/angular/modules/et.router.module.js"></script>
+<script src="assets/angular/modules/et.constant.module.js"></script>
+<script src="assets/angular/modules/et.api.module.js"></script>
+<script src="assets/angular/modules/et.controllers.employer.module.js"></script>
+<script src="assets/angular/modules/et.controllers.employee.module.js"></script>
+<script src="assets/angular/modules/et.directives.module.js"></script>
+<script src="assets/angular/app.js"></script>
+
+
+</body>
+</html>
