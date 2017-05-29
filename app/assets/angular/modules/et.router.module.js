@@ -33,6 +33,13 @@
         };
         $stateProvider.state(home);
 
+        var searchJobs = {
+            name: 'searchJobs',
+            url: '/search?skill&location',
+            templateUrl: base + '/templates/search'
+        };
+        $stateProvider.state(searchJobs);
+
         var signIn = {
             name: 'signIn',
             url: '/sign-in',
@@ -199,6 +206,14 @@
         };
         $stateProvider.state(addSkills);
 
+        var myBilling = {
+            cache: false,
+            name: 'myBilling',
+            url: '/employee/billing',
+            templateUrl: base + '/templates/my-billing-employee'
+        };
+        $stateProvider.state(myBilling);
+
 
         /* Employer Routs
          -----------------------------------------------------------------------------------------------------*/
@@ -287,6 +302,27 @@
             templateUrl: base + '/templates/time-sheet-employer'
         };
         $stateProvider.state(timeSheetEmployer);
+
+        var timeSheetFiltered = {
+            name: 'timeSheetFiltered',
+            url: '/employer/timesheets/:CreatedBy',
+            templateUrl: base + '/templates/time-sheet-filtered-employer'
+        };
+        $stateProvider.state(timeSheetFiltered);
+
+        var weekTimeSheet = {
+            name: 'weekTimeSheet',
+            url: '/employer/timesheets/:JobID/:ContractID',
+            templateUrl: base + '/templates/week-time-sheet-employer'
+        };
+        $stateProvider.state(weekTimeSheet);
+
+        var myBillingEmployer = {
+            name: 'myBillingEmployer',
+            url: '/employer/billing/',
+            templateUrl: base + '/templates/my-billing-employer'
+        };
+        $stateProvider.state(myBillingEmployer);
     }
 
     /**

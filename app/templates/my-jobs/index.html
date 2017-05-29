@@ -73,27 +73,27 @@
                                 </a>
                             </td>
                             <td style="text-transform: capitalize;">
-                                {{Contract.Job.JobState}}
+                                {{Contract.Status}}
                             </td>
                             <td>{{Contract.Job.JobName}}
                             </td>
 
                             <td style="text-align:right;">
-                                <!--<button-->
-                                        <!--data-ng-click="Employee.applyJob(Job.id)"-->
-                                        <!--class="btn btn-rounded btn-default btn-dark">-->
-                                    <!--<strong>-->
-                                        <!--Apply-->
-                                    <!--</strong>-->
-                                <!--</button>-->
+                                <button data-ng-hide="Contract.Status == 'Accepted'"
+                                        data-ng-click="Employee.applyJob(Job.id)"
+                                        class="btn btn-rounded btn-default btn-dark">
+                                    <strong>
+                                        Approve
+                                    </strong>
+                                </button>
 
-                                <!--<button-->
-                                <!--data-ng-click="Employee.cancelJob(Job._id)"-->
-                                <!--class="btn btn-rounded btn-default btn-dark">-->
-                                <!--<strong>-->
-                                <!--Cancel-->
-                                <!--</strong>-->
-                                <!--</button>-->
+                                <button
+                                data-ng-click="Employee.cancelJob(Job._id)"
+                                class="btn btn-rounded btn-default btn-dark">
+                                <strong>
+                               Decline
+                                </strong>
+                                </button>
 
                             </td>
                         </tr>

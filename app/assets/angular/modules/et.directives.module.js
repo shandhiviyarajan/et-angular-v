@@ -82,6 +82,10 @@
      --------------------------------------------------------------------------------------------------------- */
     angular.module('etDirectives')
         .directive('etSelectBox', etSelectBox);
+
+    etSelectBox.$inject = ['$timeout'];
+
+
     function etSelectBox() {
 
         var directive = {
@@ -90,8 +94,13 @@
         };
 
         function link(scope, element, attr) {
-            $(element).material_select('destroy');
-            $(element).material_select();
+
+
+            setTimeout(function () {
+                //$(element).material_select('destroy');
+                $(element).material_select();
+            }, 1500);
+
         }
 
         return directive;

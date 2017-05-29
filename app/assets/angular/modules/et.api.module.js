@@ -41,19 +41,53 @@
      --------------------------------------------------------------------------- */
     angular.module("etAPI")
         .factory("AppService", AppService);
-    AppService.$inject = ['$http', 'RESOURCE_URL'];
-    function AppService($http, RESOURCE_URL) {
+    AppService.$inject = ['$rootScope', '$http', '$timeout'];
+    function AppService($rootScope, $http, $timeout) {
 
         var AppService = {};
 
         AppService.Collections = [];
         AppService.Collections.Search = [];
+        AppService.Skills = [];
+        AppService.Locations = [];
 
-        /* Get all locations
+        /* Get all locations & skills
          --------------------------------------------------------------------------- */
-        AppService.GetLocations = function (callback) {
+        AppService.GetSkillsLocations = function (skills, locations) {
+            $http({
+                url: 'https://easytrades.herokuapp.com/skills',
+                method: 'GET'
+            }).then(function (response) {
+                if (response.data.status) {
 
+                    skills(response.data);
+
+                } else {
+                    console.log("Empty Skills");
+                }
+            }, function (error) {
+
+            });
+
+
+            //Get locations
+            $http({
+                url: 'https://easytrades.herokuapp.com/locations/cities',
+                method: 'GET'
+            }).then(function (response) {
+                if (response.data.status) {
+
+                    locations(response.data);
+
+                } else {
+                    console.log("Empty Locations");
+                }
+            }, function (error) {
+
+            });
         };
+
+
 
         return AppService;
     }
@@ -137,7 +171,7 @@
                     'request_url': RESOURCE_URL.SIGN_UP,
                     'JWT_TOKEN': null,
                     'request_method': 'POST',
-                    'query_data': true,
+                    'query_data': false,
                     'post_data': {
                         "Email": user.email,
                         "Password": user.password,
@@ -340,6 +374,28 @@
             });
         };
 
+        /* Add skills - Employee
+         ------------------------------------------------------------------------------- */
+        ServiceEmployee.AddSkills = function (skills, callback) {
+
+            $http({
+                url: '/curl/index_r.php',
+                method: 'POST',
+                data: {
+                    'request_url': 'https://easytrades.herokuapp.com/employee/' + $rootScope.globals.current_user.username + '/skills',
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
+                    'request_method': 'POST',
+                    'query_data': false,
+                    'post_data': {'Skills': skills}
+                }
+            }).then(function (success) {
+                callback(success.data);
+            }, function (error) {
+                callback(error.data)
+            });
+
+        };
+
         /* View jobs - Employee
          ------------------------------------------------------------------------------- */
         ServiceEmployee.ViewMyJobs = function (callback) {
@@ -400,7 +456,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': RESOURCE_URL.EMPLOYEE.APPLY_JOB + job_id + '/true',
+                    'request_url': 'employee/job/5926b5b176704030348cde1e/true',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,
@@ -547,7 +603,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': 'https://easytrades.herokuapp.com/employer/user/'+ application_id,
+                    'request_url': 'https://easytrades.herokuapp.com/employer/user/' + application_id,
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,
@@ -660,7 +716,7 @@
                 url: '/curl/index_r.php',
                 method: "POST",
                 data: {
-                    'request_url': RESOURCE_URL.EMPLOYER.VIEW_JOB_BY_ID + job_id,
+                    'request_url': 'https://easytrades.herokuapp.com/employer/job?id=' + job_id,
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,

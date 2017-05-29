@@ -59,11 +59,35 @@
      * ------------------------------------------------------------------------------------------ */
     angular.module('etControllersEmployee')
         .controller("HomeController", HomeController);
-    HomeController.$inject = ['$scope', 'Search', 'AuthService', 'AppService'];
-    function HomeController($scope, Search, AuthService, AppService) {
+    HomeController.$inject = ['$scope', '$state', 'Search', 'AuthService', 'AppService'];
+    function HomeController($scope, $state, Search, AuthService, AppService) {
         $scope.search_input = "";
         $scope.search_array = [];
 
+
+        $scope.skills = [];
+        $scope.locations = [];
+
+        $scope.selected_skill = null;
+        $scope.selected_location = null;
+
+        $scope.valid = true;
+
+        $scope.search = function () {
+
+            //$state.go('searchJob', {'skill': $scope.selected_skill, 'location': $scope.selected_location});
+        };
+
+
+        $scope.checkValid = function () {
+            $scope.valid = ($scope.selected_skill != null && $scope.selected_location != null) ? false : true;
+        };
+
+        AppService.GetSkillsLocations(function (skills) {
+            $scope.skills = skills.data.Skills;
+        }, function (locations) {
+            $scope.locations = locations.data.Locations;
+        });
 
         Search.Search(function (result) {
             $scope.search_array = result.data;
@@ -131,11 +155,12 @@
         Login.login = function () {
             AuthService.Login(Login.email, Login.password, function (response) {
                 console.log(response);
-                if (response.message = "ok") {
+
+                if (response.status) {
                     MessageService.Success("Login Successful !", 4000);
                     var LoggedUser = {
-                        username: response.username,
-                        token: response.token,
+                        username: response.data.username,
+                        token: response.data.token,
                         type: Login.type
                     };
 
@@ -143,10 +168,10 @@
                     AuthService.SetCredentials(LoggedUser);
                     //Redirect to my profile//
                     $state.go("myBusinessHome");
-
                 } else {
-                    MessageService.Success("Login failed, please try again!", 4000);
+                    MessageService.Error("Login failed please try again !");
                 }
+
             });
         }
     }
@@ -158,8 +183,8 @@
 
     angular.module('etControllersEmployee')
         .controller('RegisterEmployeeController', RegisterEmployeeController);
-    RegisterEmployeeController.$inject = ['$scope', '$rootScope', '$state', 'AuthService'];
-    function RegisterEmployeeController($scope, $rootScope, $state, AuthService) {
+    RegisterEmployeeController.$inject = ['$scope', '$rootScope', '$state', 'AuthService', 'MessageService'];
+    function RegisterEmployeeController($scope, $rootScope, $state, AuthService, MessageService) {
         console.log("Employee Sign Up Controller");
         var Register = this;
         Register.error_message = "";
@@ -178,16 +203,15 @@
 
             AuthService.CreateUser(Register.user, function (response) {
                 console.log(response);
-                if (response.data.error) {
-                    Materialize.toast(response.data.error.message, 4000);
+                if (response.status) {
+                    MessageService.Success("User created !");
+                    $state.go("signInEmployee");
                 } else {
-                    $state.go("addLocation");
-                    Materialize.toast('New user account created', 4000);
+                    MessageService.Error("User created !!! no Status set");
+                    $state.go("signInEmployee");
                 }
             });
         }
-
-
     }
 
     /**
@@ -374,34 +398,7 @@
                     MessageService.Error("Location update error!");
                 }
             });
-
         };
-
-
-        /* Get new locations - employee
-         ----------------------------------------------------------------------------------------- */
-        //Location.getNewLocations = function (area, location) {
-        //    angular.forEach(Location.check, function (v, k) {
-        //        if (v) {
-        //            if (k == area) {
-        //                Location.newLocations.push({
-        //                    'Area': area,
-        //                    'Location': location
-        //                });
-        //            }
-        //        } else {
-        //            var index = Location.newLocations.map(function (f) {
-        //                console.log(f.Area);
-        //                return f.Area;
-        //            }).indexOf(area);
-        //            if (index > -1) {
-        //                Location.newLocations.splice(index, 1);
-        //            }
-        //        }
-        //    });
-        //};
-
-
 
 
     }
@@ -411,45 +408,13 @@
      * ------------------------------------------------------------------------------------------ */
     angular.module('etControllersEmployee')
         .controller('SkillController', SkillController);
-    SkillController.$inject = ['$scope', '$state', '$stateParams', 'AuthService', 'ServiceEmployee'];
-    function SkillController($scope, $state, $stateParams, AuthService, ServiceEmployee) {
+    SkillController.$inject = ['$scope', '$state', '$stateParams', 'AuthService', 'ServiceEmployee', 'AppService', 'MessageService'];
+    function SkillController($scope, $state, $stateParams, AuthService, ServiceEmployee, AppService, MessageService) {
         var Skill = this;
-        Skill.skills = [
-            {
-                "id": 1,
-                "name": "Mechanic",
-                "skills": ["Decoration",
-                    "Exterior painting",
-                    "Interior painting"],
-                "level": "Basic"
-            },
-            {
-                "id": 2,
-                "name": "Truck Driver",
-                "skills": ["Automotive",
-                    "Exterior painting",
-                    "Interior painting"],
-                "level": "Basic"
-            },
-            {
-                "id": 3,
-                "name": "Carpenter",
-                "skills": ["Driving",
-                    "A/C Repair",
-                    "Engine Check"],
-                "level": "Basic"
-            },
-            {
-                "id": 3,
-                "name": "Painter",
-                "skills": ["Driving",
-                    "A/C Repair",
-                    "Engine Check"],
-                "level": "Basic"
-            }
-        ];
-
+        Skill.skills = [];
         Skill.selected_skills = [];
+        Skill.user_skills = [];
+        Skill.final_skills = [];
 
 
         /* Redirect non authenticated user to home / sign in
@@ -458,22 +423,66 @@
             $state.go("home");
         }
 
-
-        /* Get user Skills
+        /* Get all skills
          ---------------------------------------------------------------------------------------- */
+        AppService.GetSkillsLocations(function (response) {
+            console.log(response);
+            Skill.skills = response.data.Skills;
 
-        ServiceEmployee.GetProfileEmployee(function (response) {
-            Skill.user_skills = response.data.Skills;
-            angular.forEach(Skill.user_skills, function (v, k) {
-                Skill.user_skills[k].Status = true;
+
+            angular.forEach(Skill.skills, function (S, K) {
+                Skill.final_skills.push({
+                    "Category": S,
+                    "Status": false,
+                    "Skill":"",
+                    "Level": ""
+                });
             });
 
-            console.log(Skill.user_skills);
+
+            /* Get user Skills
+             ---------------------------------------------------------------------------------------- */
+            ServiceEmployee.GetProfileEmployee(function (response) {
+                Skill.user_skills = response.data.Skills;
+                angular.forEach(Skill.user_skills, function (U, K) {
+                    angular.forEach(Skill.final_skills, function (F, K) {
+                        if (U.Category == F.Category) {
+                            F.Status = true;
+                            F.Level = U.Level;
+                        }
+                    });
+                });
+            });
+
+
+        }, function (r) {
         });
 
 
+        /* Add new user Skills
+         ---------------------------------------------------------------------------------------- */
         Skill.addSkills = function () {
-
+            angular.forEach(Skill.final_skills, function (F, K) {
+                if (F.Status) {
+                    delete F.Status;
+                    Skill.selected_skills.push(F);
+                }
+            });
+            ServiceEmployee.AddSkills(Skill.selected_skills, function (response) {
+                console.log(response);
+                if (response.status) {
+                    MessageService.Success("Skills updated successfully !");
+                    Skill.user_skills = response.data.Skills
+                }
+                angular.forEach(Skill.user_skills, function (U, K) {
+                    angular.forEach(Skill.final_skills, function (F, K) {
+                        if (U.Category == F.Category) {
+                            F.Status = true;
+                            F.Level = U.Level;
+                        }
+                    });
+                });
+            });
         }
     }
 
@@ -528,7 +537,6 @@
                 console.log(error);
             });
         };
-
 
 
         /* Add Experience employee
@@ -599,84 +607,182 @@
      * ------------------------------------------------------------------------------------------ */
     angular.module('etControllersEmployee')
         .controller('EmployeeJobsController', EmployeeJobsController);
-    EmployeeJobsController.$inject = ['$scope', '$rootScope', '$state', '$stateParams', 'AuthService', 'ServiceEmployee', 'MessageService'];
-    function EmployeeJobsController($scope, $rootScope, $state, $stateParams, AuthService, ServiceEmployee, MessageService) {
+    EmployeeJobsController.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'AuthService', 'ServiceEmployee', 'MessageService'];
+    function EmployeeJobsController($scope, $rootScope, $state, $stateParams, $http, AuthService, ServiceEmployee, MessageService) {
 
         var Employee = this;
         Employee.jobs = [];
-        Employee.underway = [];
+        Employee.unsuccessful = [];
         Employee.completed = [];
         Employee.accepted = [];
+        Employee.pending = [];
+        Employee.declined = [];
+        Employee.check = [];
 
         /* View Jobs
          ------------------------------------------------------------------------------------------ */
-        if (AuthService.isAuthenticated()) {
+        if (!AuthService.isAuthenticated()) {
+            $state.go("home");
+        }
 
+        Employee.viewMyJobs = function () {
             ServiceEmployee.ViewMyJobs(function (response) {
-                console.log(response);
                 if (response.status) {
-
-                    //angular.forEach(response.data, function (v, k) {
-                    //    console.log(v);
-                    //
-                    //    if (v.contractors.length > 0) {
-                    //        angular.forEach(v.contractors, function (v2, k2) {
-                    //            if (v2.ApplicantID == $rootScope.globals.current_user.username) {
-                    //
-                    //                if (v2.Status == "hired") {
-                    //                    Employee.completed.push(v);
-                    //                } else {
-                    //                    Employee.underway.push(v);
-                    //                }
-                    //            }
-                    //        });
-                    //    }
-                    //
-                    //    Employee.jobs = response.data;
-                    //
-                    //});
-
                     angular.forEach(response.data, function (V, K) {
+                        console.log(V._id);
 
-                        if (V._id = "Accepted") {
-                            Employee.accepted.push(V);
+                        switch (V._id) {
+                            case "Pending":
+                                Employee.pending.push(V);
+                                break;
+
+                            case "Accepted":
+                                Employee.accepted.push(V);
+                                break;
+
+                            case "Completed":
+                                Employee.completed.push(V);
+                                break;
+
+                            case "Unsuccessful":
+                                Employee.unsuccessful.push(V);
+                                break;
+
+                            case "Declined":
+                                Employee.declined.push(V);
+                                break;
                         }
+
                     });
 
-                    console.log(Employee.accepted);
 
-
-
+                    console.log(Employee);
 
                     MessageService.Success("Jobs loaded !");
                 } else {
                     MessageService.Error("User jobs not found !");
                 }
             });
-        }
+        };
+
+        Employee.viewMyJobs();
 
         /* Apply Job
          ------------------------------------------------------------------------------------------ */
-        Employee.applyJob = function (job_id) {
-
-
-            ServiceEmployee.ApplyJob(job_id, function (response) {
-                console.log(response);
-
-                if (response.error) {
-                    MessageService.Error(response.error.message);
-                }
-            });
+        Employee.acceptJob = function (job_id) {
+            if (job_id != null) {
+                $http({
+                    url: '/curl/index_r.php',
+                    method: 'POST',
+                    data: {
+                        'request_url': 'https://easytrades.herokuapp.com/employee/job/' + job_id + '/true',
+                        'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
+                        'request_method': 'GET',
+                        'query_data': true,
+                        'post_data': null
+                    }
+                }).then(function (success) {
+                    console.log(success.data);
+                    MessageService.Success("Jobs updated!");
+                    Employee.viewMyJobs();
+                }, function (error) {
+                    console.log(error.data);
+                });
+            } else {
+                MessageService.Error("Invitation ID is not set!");
+            }
         };
 
-        /* Cancel Job
+        /* Decline Job
          ------------------------------------------------------------------------------------------ */
-        Employee.cancelJob = function (job_id) {
-            ServiceEmployee.CancelJob(job_id, function (response) {
+        Employee.declineJob = function (job_id) {
+            if (job_id != null) {
+                $http({
+                    url: '/curl/index_r.php',
+                    method: 'POST',
+                    data: {
+                        'request_url': 'https://easytrades.herokuapp.com/employee/job/' + job_id + '/false',
+                        'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
+                        'request_method': 'GET',
+                        'query_data': true,
+                        'post_data': null
+                    }
+                }).then(function (success) {
+                    console.log(success.data);
+                    MessageService.Success("Jobs updated!");
+                    Employee.viewMyJobs();
+                }, function (error) {
+                    console.log(error.data);
+                });
+            } else {
+                MessageService.Error("Invitations ID is not set");
+            }
+        }
 
-                console.log(response);
+        /* Unsuccessful Job
+         ------------------------------------------------------------------------------------------ */
+        // http://localhost:3000/employee/job/592966f40038c437b88c7ee8/unsuccessful
+        //http://localhost:3000/employee/job/592968df0038c437b88c7eea/completed
 
-            });
+        /* Unsuccessful Job
+         ------------------------------------------------------------------------------------------ */
+        Employee.unsuccessfulJob = function (job_id) {
+            if (job_id != null) {
+                $http({
+                    url: '/curl/index_r.php',
+                    method: 'POST',
+                    data: {
+                        'request_url': 'https://easytrades.herokuapp.com/employee/job/' + job_id + '/unsuccessful',
+                        'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
+                        'request_method': 'GET',
+                        'query_data': true,
+                        'post_data': null
+                    }
+                }).then(function (success) {
+                    MessageService.Success("Jobs updated!");
+                    Employee.viewMyJobs();
+                    console.log(success.data);
+                }, function (error) {
+                    console.log(error.data);
+                });
+            } else {
+                MessageService.Error("Invitations ID is not set");
+            }
+        }
+
+        /* Completed Job
+         ------------------------------------------------------------------------------------------ */
+        Employee.completedJob = function (job_id) {
+            if (job_id != null) {
+                $http({
+                    url: '/curl/index_r.php',
+                    method: 'POST',
+                    data: {
+                        'request_url': 'https://easytrades.herokuapp.com/employee/job/' + job_id + '/completed',
+                        'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
+                        'request_method': 'GET',
+                        'query_data': true,
+                        'post_data': null
+                    }
+                }).then(function (success) {
+                    MessageService.Success("Jobs updated!");
+                    Employee.viewMyJobs();
+                    console.log(success.data);
+                }, function (error) {
+                    console.log(error.data);
+                });
+            } else {
+                MessageService.Error("Invitations ID is not set");
+            }
+        };
+
+
+        Employee.checkAccepted = function (i, id) {
+            if (Employee.check[i]) {
+                Employee.unsuccessfulJob(id);
+            } else {
+                Employee.completedJob(id);
+            }
         }
     }
 
@@ -745,9 +851,6 @@
                     } else {
                         MessageService.Error("Time sheets not found !");
                     }
-
-
-
 
 
                 });
@@ -847,5 +950,99 @@
         }
     }
 
+
+    //employee billing
+
+    angular.module('etControllersEmployee')
+        .controller("EmployeeBillingController", EmployeeBillingController);
+    EmployeeBillingController.$inject = ['$scope', '$rootScope', '$http', 'MessageService'];
+
+    function EmployeeBillingController($scope, $rootScope, $http, MessageService) {
+        console.log("Billing controller employee");
+        var Billing = this;
+        Billing.account = {};
+        Billing.step_1 = true;
+        Billing.step_2 = false;
+
+
+        Billing.addAccountStepOne = function () {
+
+            $http({
+                url: '/curl/index_r.php',
+                method: 'POST',
+                data: {
+                    'request_url': 'https://easytrades.herokuapp.com/user/billing/bank',
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
+                    'request_method': 'POST',
+                    'query_data': false,
+                    'post_data': Billing.account
+                }
+
+            }).then(function (response) {
+
+                if (response.data.data.status) {
+                    Billing.account = {};
+                    MessageService.Success("Account information saved successfully !");
+                    Billing.step_2 = true;
+                    Billing.step_1 = false;
+                } else {
+                    MessageService.Error(response.data.data.message);
+                }
+
+            }, function (response) {
+                MessageService.Error(response.message);
+                console.log(response);
+            });
+        };
+
+        Billing.addAccountStepTwo = function () {
+        }
+
+    }
+
+
+    //search job
+    angular.module('etControllersEmployee')
+        .controller("SearchJobController", SearchJobController);
+    SearchJobController.$inject = ['$scope', '$rootScope', '$http', '$state', '$stateParams', 'MessageService', 'AuthService'];
+    function SearchJobController($scope, $rootScope, $http, $state, $stateParams, MessageService, AuthService) {
+
+        var Search = this;
+
+        Search.results = "Please wait...";
+        Search.count = 0;
+        Search.show_results = true;
+
+
+        $http({
+            url: '/curl/index_r.php',
+            method: 'POST',
+            data: {
+                'request_url': 'https://easytrades.herokuapp.com/employer/job/search?location=' + $stateParams.location + '&skill=' + $stateParams.skill,
+                'JWT_TOKEN': null,
+                'request_method': 'GET',
+                'query_data': true,
+                'post_data': null
+            }
+        }).then(function (response) {
+            console.log(response);
+
+            if (response.data.status) {
+                Search.count = response.data.data.count;
+                Search.show_results = true;
+
+            } else {
+                Search.results = "No results found !"
+
+            }
+
+
+        }, function (response) {
+            console.log(response);
+
+        });
+
+
+    }
 
 })(jQuery, angular);

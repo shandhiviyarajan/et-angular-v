@@ -43,10 +43,17 @@ function run($url, $post_data, $HEADER, $method)
     curl_setopt($curlRequest, CURLOPT_URL, $url);
     if ($method == 'post' || $method == 'POST') {
         curl_setopt($curlRequest, CURLOPT_POST, 1);
+    } elseif ($method == 'put' || $method == 'PUT') {
+
+        curl_setopt($curlRequest, CURLOPT_CUSTOMREQUEST, "PUT");
+
+    } else {
+        if (isset($post_data)) {
+            curl_setopt($curlRequest, CURLOPT_POSTFIELDS, $post_data);
+        }
     }
-    if (isset($post_data)) {
-        curl_setopt($curlRequest, CURLOPT_POSTFIELDS, $post_data);
-    }
+
+
     curl_setopt($curlRequest, CURLOPT_RETURNTRANSFER, 0);
     curl_setopt($curlRequest, CURLOPT_CONNECTTIMEOUT, 5);
     $data = curl_exec($curlRequest);

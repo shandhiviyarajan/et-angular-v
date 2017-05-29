@@ -55,12 +55,18 @@
                     <table class="responsive-table">
                         <tbody>
                         <tr data-ng-repeat="Job in Employee.jobs">
-                            <td><a ui-sref="viewJobEmployer({JobID:Job.id})" data-ng-bind="'#' + Job.id">View Job</a>
+                            <td>#{{Job.id}}
                             </td>
                             <td>
                                 {{Job.JobState}}
                             </td>
                             <td>{{Job.JobName}} <span class="new badge"> {{Job.NmuberOfEmployees}}</span></a>
+                            </td>
+                            <td>
+                                <a ui-sref="editJob({JobID:Job.id})" class="btn btn-rounded">Edit</a> &nbsp;
+                            </td>
+                            <td>
+                                <a ui-sref="viewJobEmployer({JobID:Job.id})">View Job</a>
                             </td>
                         </tr>
 
@@ -70,119 +76,7 @@
                 <div id="test-swipe-2" class="col s12"></div>
                 <div id="test-swipe-3" class="col s12"></div>
                 <div id="test-swipe-4" class="col s12"></div>
-
-
-                <!--<div>-->
-                <!--<h5>My Jobs</h5>-->
-                <!--<table class="bordered striped" cellpadding="0" cellspacing="0">-->
-                <!--<thead>-->
-                <!--<tr>-->
-                <!--<th>-->
-                <!--View Job-->
-                <!--</th>-->
-                <!--<th>-->
-                <!--Added by-->
-                <!--</th>-->
-                <!--<th>-->
-                <!--Ending date-->
-                <!--</th>-->
-                <!--<th>-->
-                <!--Hired Applications-->
-                <!--</th>-->
-                <!--<th>-->
-                <!--Job Name-->
-                <!--</th>-->
-                <!--<th>-->
-                <!--Job Discription-->
-                <!--</th>-->
-                <!--<th>-->
-                <!--Job State-->
-                <!--</th>-->
-                <!--<th>-->
-                <!--Proffession-->
-                <!--</th>-->
-                <!--<th>-->
-                <!--Location-->
-                <!--</th>-->
-                <!--<th>-->
-                <!--Nmuber Of Employees-->
-                <!--</th>-->
-
-                <!--<th>-->
-                <!--Starting Date-->
-                <!--</th>-->
-                <!--<th>-->
-                <!--Starting Time-->
-                <!--</th>-->
-                <!--<th>-->
-                <!--Applicants-->
-                <!--</th>-->
-
-                <!--</tr>-->
-                <!--</thead>-->
-                <!--<tbody>-->
-                <!--<tr data-ng-repeat="Job in Employee.jobs">-->
-                <!--<td>-->
-                <!--<a ui-sref="viewJob({JobID:Job._id})" data-ng-bind="'#' + Job._id">View Job</a>-->
-                <!--</td>-->
-                <!--<td>-->
-                <!--<span data-ng-bind="Job.AddedBy"></span>-->
-                <!--</td>-->
-                <!--<td>-->
-                <!--{{Job.EndingDate}}-->
-                <!--</td>-->
-                <!--<td>-->
-                <!--<ul>-->
-                <!--<li data-ng-repeat="application in Job.HiredApplications">-->
-
-                <!--<a ui-sref="application" data-ng-bind="application"></a>-->
-
-                <!--</li>-->
-                <!--</ul>-->
-                <!--</td>-->
-
-                <!--<td>-->
-                <!--{{Job.JobName}}-->
-                <!--</td>-->
-                <!--<td>-->
-                <!--{{Job.JobDiscription}}-->
-                <!--</td>-->
-
-                <!--<td>-->
-                <!--{{Job.JobState}}-->
-                <!--</td>-->
-
-                <!--<td>-->
-                <!--{{Job.Proffesion}}-->
-                <!--</td>-->
-
-                <!--<td>-->
-                <!--{{Job.Location}}-->
-                <!--</td>-->
-
-                <!--<td>-->
-                <!--{{Job.NmuberOfEmployees}}-->
-                <!--</td>-->
-
-                <!--<td>-->
-                <!--{{Job.StartingDate}}-->
-                <!--</td>-->
-                <!--<td>-->
-                <!--{{Job.StartingTime}}-->
-                <!--</td>-->
-
-                <!--<td>-->
-                <!--<ul>-->
-                <!--<li data-ng-repeat="applicant in Job.applicants">-->
-                <!--<a ui-sref="ProfileOthers({ApplicantID:applicant.ApplicantID})" data-ng-bind="applicant.ApplicantID">-->
-                <!--</a>-->
-                <!--</li>-->
-                <!--</ul>-->
-                <!--</td>-->
-                <!--</tr>-->
-                <!--</tbody>-->
-                <!--</table>-->
-                <!--</div>-->
+                
             </div>
             <div class="gap x"></div>
         </div>

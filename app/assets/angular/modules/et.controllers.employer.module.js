@@ -22,8 +22,8 @@
 
     angular.module('etControllersEmployer')
         .controller('RegisterEmployerController', RegisterEmployerController);
-    RegisterEmployerController.$inject = ['$scope', '$state', 'AuthService'];
-    function RegisterEmployerController($scope, $state, AuthService) {
+    RegisterEmployerController.$inject = ['$scope', '$state', 'AuthService', 'MessageService'];
+    function RegisterEmployerController($scope, $state, AuthService, MessageService) {
 
         var Register = this;
 
@@ -38,10 +38,11 @@
             };
             AuthService.CreateUser(Register.user, function (response) {
                 console.log(response);
-                if (response.data.error) {
-                    Materialize.toast(response.data.error.message, 4000);
+                if (response.status) {
+                    MessageService.Success("Employer user created successfully!");
+                    $state.go("signInEmployer");
                 } else {
-                    Materialize.toast("Employer user created successfully!", 4000);
+                    MessageService.Error("Error creating employer user!");
                 }
             });
         }
@@ -64,25 +65,30 @@
         Login.type = 'employer';
 
 
+        if (AuthService.isAuthenticated()) {
+            $state.go("myBusinessHomeEmployer");
+        }
+
         /* User login employer
          ---------------------------------------------------------------------------------------- */
         Login.login = function () {
             AuthService.Login(Login.email, Login.password, function (response) {
                 console.log(response);
 
-                if (response.message == "ok") {
+                if (response.status) {
 
-                    //Display message
+
                     MessageService.Success("User logged in successful!. Please wait redirecting...");
 
-                    //Create logged user information
+
                     var LoggedUser = {
-                        username: response.username,
-                        token: response.token,
+                        username: response.data.username,
+                        token: response.data.token,
                         type: Login.type
                     };
                     //Set credentials//
                     AuthService.SetCredentials(LoggedUser);
+                    AuthService.isAuthenticated();
                     $state.go("myBusinessHomeEmployer");
 
                 } else {
@@ -118,30 +124,30 @@
          ---------------------------------------------------------------------------------------- */
         Profile.getProfile = function () {
 
-                if (Profile.ApplicantID == null) {
-                    ServiceEmployer.GetProfileEmployer(function (user) {
+            if (Profile.ApplicantID == null) {
+                ServiceEmployer.GetProfileEmployer(function (user) {
 
-                        if (user.status) {
-                            MessageService.Success("User information loaded !");
-                            Profile.user = user.data;
-                            console.log(user);
-                        } else {
+                    if (user.status) {
+                        MessageService.Success("User information loaded !");
+                        Profile.user = user.data;
+                        console.log(user);
+                    } else {
 
-                            MessageService.Error("User not found!");
-                            $state.go("signInEmployer");
-                        }
-                    });
-                } else {
-                    ServiceEmployer.GetApplicantProfile(Profile.ApplicantID, function (response) {
-                        if (response.status && response.data.length > 0) {
-                            MessageService.Success("User information loaded !");
-                            Profile.user = response.data[0];
-                            console.log(response);
-                        } else {
-                            MessageService.Error("User not found!");
-                        }
-                    });
-                }
+                        MessageService.Error("User not found!");
+                        $state.go("signInEmployer");
+                    }
+                });
+            } else {
+                ServiceEmployer.GetApplicantProfile(Profile.ApplicantID, function (response) {
+                    if (response.status && response.data.length > 0) {
+                        MessageService.Success("User information loaded !");
+                        Profile.user = response.data[0];
+                        console.log(response);
+                    } else {
+                        MessageService.Error("User not found!");
+                    }
+                });
+            }
 
         };
 
@@ -174,64 +180,25 @@
      * ------------------------------------------------------------------------------------------ */
     angular.module("etControllersEmployer")
         .controller('PostJobController', PostJobController);
-    PostJobController.$inject = ['$scope', '$rootScope', '$state', '$http', '$timeout', '$stateParams', 'AuthService', 'ServiceEmployer', 'MessageService'];
-    function PostJobController($scope, $rootScope, $state, $http, $timeout, $stateParams, AuthService, ServiceEmployer, MessageService) {
+    PostJobController.$inject = ['$scope', '$rootScope', '$state', '$http', '$timeout', '$stateParams', 'AuthService', 'ServiceEmployer', 'MessageService', 'AppService'];
+    function PostJobController($scope, $rootScope, $state, $http, $timeout, $stateParams, AuthService, ServiceEmployer, MessageService, AppService) {
 
         console.log("Post job controller");
 
         var Job = this;
-        Job.new = {}
+        Job.new = {};
 
         Job.skills = [];
         Job.locations = [];
 
 
-        /* Get Profession
-         ---------------------------------------------------------------------------------------- */
-        Job.getProfessions = function () {
+        AppService.GetSkillsLocations(function (skills) {
+            Job.skills = skills.data.Skills;
+        }, function (locations) {
 
-//Get skills
-            $http({
-                url: 'https://easytrades.herokuapp.com/skills',
-                method: 'GET'
-            }).then(function (response) {
-                if (response.data.status) {
-                    Job.skills = response.data.data.Skills;
+            Job.locations = locations.data.Locations;
 
-                    $timeout(function () {
-                        $('select').material_select();
-                    }, 500);
-                } else {
-                    Job.skills = [];
-                    console.log("Empty Skills");
-                }
-            }, function (error) {
-
-            });
-
-
-            //Get locations
-            $http({
-                url: 'https://easytrades.herokuapp.com/locations/cities',
-                method: 'GET'
-            }).then(function (response) {
-                if (response.data.status) {
-                    Job.locations = response.data.data.Locations;
-
-                } else {
-                    Job.skills = [];
-                    console.log("Empty Skills");
-                }
-            }, function (error) {
-
-            });
-
-
-        };
-
-        Job.getProfessions();
-
-
+        });
 
 
         /* Post Job - employer
@@ -250,10 +217,13 @@
             }
 
             ServiceEmployer.PostJob(Job.new, function (response) {
+                console.log(response);
 
                 if (response.status) {
                     MessageService.Success("Job posted successfully !");
                     Job.new = {};
+                    $state.go("myJobsEmployer");
+
                 } else {
                     MessageService.Error("Error on posting !");
                 }
@@ -295,11 +265,12 @@
      * ------------------------------------------------------------------------------------------ */
     angular.module('etControllersEmployer')
         .controller('EmployerViewJobsController', EmployerViewJobsController);
-    EmployerViewJobsController.$inject = ['$scope', '$state', '$stateParams', 'AuthService', 'ServiceEmployer', 'MessageService'];
-    function EmployerViewJobsController($scope, $state, $stateParams, AuthService, ServiceEmployer, MessageService) {
+    EmployerViewJobsController.$inject = ['$scope', '$rootScope', '$state', '$http', '$stateParams', 'AuthService', 'ServiceEmployer', 'MessageService'];
+    function EmployerViewJobsController($scope, $rootScope, $state, $http, $stateParams, AuthService, ServiceEmployer, MessageService) {
 
         $scope.JobID = $stateParams.JobID;
         $scope.Job = {};
+
 
         /* View single job
          --------------------------------------------------------------------------------------- */
@@ -321,9 +292,33 @@
 
         /* Approve a job applicant
          --------------------------------------------------------------------------------------- */
-        $scope.approve = function (user_id, status) {
-            ServiceEmployer.ApproveJob(user_id, status, function (response) {
-                alert(user_id);
+        $scope.hire = function (user_id) {
+
+
+            $http({
+                url: '/curl/index_r.php',
+                method: 'POST',
+                data: {
+                    'request_url': 'https://easytrades.herokuapp.com/employer/hire/' + $scope.JobID,
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
+                    'request_method': 'POST',
+                    'query_data': false,
+                    'post_data': {
+                        'Employees': [user_id]
+                    }
+                }
+
+            }).then(function (response) {
+                console.log(response);
+
+                if (response.data.data.status) {
+                    MessageService.Success("Employee hired successfully !");
+                } else {
+                    MessageService.Error(response.data.data.message);
+                }
+
+            }, function (error) {
+                console.log(error);
             });
         }
     }
@@ -335,22 +330,28 @@
 
     angular.module('etControllersEmployer')
         .controller('EmployerEditJobsController', EmployerEditJobsController);
-    EmployerEditJobsController.$inject = ['$scope', '$state', '$stateParams', 'AuthService', 'ServiceEmployee'];
-    function EmployerEditJobsController($scope, $state, $stateParams, AuthService, ServiceEmployer) {
-        $scope.JobID = $stateParams.JobID;
-        $scope.edit_job = {};
+    EmployerEditJobsController.$inject = ['$scope', '$state', '$stateParams', 'AuthService', 'ServiceEmployee', 'AppService', 'MessageService'];
+    function EmployerEditJobsController($scope, $state, $stateParams, AuthService, ServiceEmployer, AppService, MessageService) {
 
+        var Edit = this;
+        Edit.Job = {};
+        Edit.skills = [];
+        Edit.locations = [];
 
+        AppService.GetSkillsLocations(function (skills) {
+            Edit.skills = skills.data.Skills;
+        }, function (locations) {
+            Edit.locations = locations.data.Locations;
+        });
 
+        ServiceEmployer.ViewSingleJob($stateParams.JobID, function (response) {
+            Edit.Job = response.data[0];
+            console.log(response);
+        });
 
-        if ($scope.JobID) {
-            ServiceEmployer.ViewSingleJob($scope.JobID, function (response) {
-                $scope.edit_job = response.data[0];
-                console.log(response);
-            });
-        }
+        Edit.edit = function () {
 
-        $scope.editJob = function () {
+            MessageService.Error("API URL not specified");
 
         }
     }
@@ -361,33 +362,193 @@
 
     angular.module('etControllersEmployer')
         .controller('EmployerTimeSheetController', EmployerTimeSheetController);
-    EmployerTimeSheetController.$inject = ['$scope', '$state', '$stateParams', 'AuthService', 'ServiceEmployer', 'MessageService'];
-    function EmployerTimeSheetController($scope, $state, $stateParams, AuthService, ServiceEmployer, MessageService) {
+    EmployerTimeSheetController.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'AuthService', 'ServiceEmployer', 'MessageService'];
+    function EmployerTimeSheetController($scope, $rootScope, $state, $stateParams, $http, AuthService, ServiceEmployer, MessageService) {
 
         var Timesheet = this;
         Timesheet.weekly_timesheets = [];
+        Timesheet.user_timesheets = [];
+        Timesheet.created_by = $stateParams.CreatedBy;
+        Timesheet.contract_id = $stateParams.ContractID;
+        Timesheet.timesheet_id = "";
+        Timesheet.single_timesheet = [];
+        Timesheet.work_hours = 0;
+        Timesheet.contested_hours = 0;
+        Timesheet.approved_hours;
+        Timesheet.reason = "";
 
-        ServiceEmployer.GetTimeSheets(function (response) {
-            if (response.status) {
-                MessageService.Success("Timesheets Loaded!");
-                Timesheet.timesheets = response.data;
+        Timesheet.addContest = function (wh, timesheet_id) {
+            Timesheet.timesheet_id = timesheet_id;
+            Timesheet.work_hours = wh;
 
-
-                angular.forEach(Timesheet.timesheets, function (V, K) {
-                    Timesheet.weekly_timesheets.push(V.Applicants[0].WeeklyTimesheets[0]);
-                });
-
-                console.log(Timesheet.weekly_timesheets[0]);
-
-            } else {
-                MessageService.Error("No time sheets found !");
-                $state.go("myBusinessHomeEmployer");
+        };
+        Timesheet.contestHours = function () {
+            $http({
+                url: '/curl/index_r.php',
+                method: 'POST',
+                data: {
+                    'request_url': 'https://easytrades.herokuapp.com/employer/timesheet/' + $stateParams.ContractID + '/' + Timesheet.timesheet_id,
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
+                    'request_method': 'POST',
+                    'query_data': false,
+                    'post_data': {
+                        "ContestHours": Timesheet.contested_hours,
+                        "Reason": Timesheet.reason
+                    }
+                }
+            }).then(function (response) {
+                MessageService.Success("Contested successfully !");
+                Timesheet.single_timesheet.TimeSheets = response.data.data.TimeSheets;
+                console.log(response.data.data.TimeSheets);
+            }, function (response) {
                 console.log(response);
-            }
-        });
+            });
+
+        };
+        Timesheet.approveTimesheet = function (timesheet_id) {
+            Timesheet.timesheet_id = timesheet_id;
+            console.log(timesheet_id);
+
+            $http({
+                url: '/curl/index_r.php',
+                method: 'POST',
+                data: {
+                    'request_url': 'https://easytrades.herokuapp.com/employer/timesheet/' + $stateParams.ContractID + '/' + Timesheet.timesheet_id,
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
+                    'request_method': 'PUT',
+                    'query_data': true,
+                    'post_data': null
+                }
+            }).then(function (response) {
+                MessageService.Success("Approved successfully !");
+                console.log(response);
+            }, function (response) {
+                console.log(response);
+            });
+        };
+
+
+        if ($stateParams.CreatedBy != null) {
+            var httpRequest = $http({
+                url: '/curl/index_r.php',
+                method: 'POST',
+                data: {
+                    'request_url': 'https://easytrades.herokuapp.com/employer/timesheets?CreatedBy=' + $stateParams.CreatedBy,
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
+                    'request_method': 'GET',
+                    'query_data': true,
+                    'post_data': null
+                }
+            });
+            httpRequest.then(function (success) {
+                console.log(success);
+            }, function (error) {
+                console.log(error);
+            });
+
+        } else {
+            ServiceEmployer.GetTimeSheets(function (response) {
+                if (response.status) {
+                    MessageService.Success("Time sheets Loaded!");
+                    Timesheet.timesheets = response.data;
+
+                    angular.forEach(Timesheet.timesheets, function (V, K) {
+                        Timesheet.weekly_timesheets.push(V);
+                    });
+
+
+                    if ($stateParams.ContractID != null) {
+                        angular.forEach(Timesheet.weekly_timesheets, function (W, k) {
+                            W.Applicants.forEach(function (A, K) {
+                                A.WeeklyTimesheets.forEach(function (T, K) {
+                                    if (T.ContractID == $stateParams.ContractID) {
+                                        Timesheet.single_timesheet = T;
+
+                                    }
+                                });
+                            });
+                        });
+                    }
+
+
+                } else {
+                    MessageService.Error("No time sheets found !");
+                    $state.go("myBusinessHomeEmployer");
+                    console.log(response);
+                }
+            });
+        }
     }
 
     //employer/timesheets
+
+
+    //Employer Billing
+
+    angular.module("etControllersEmployer")
+        .controller("EmployerBillingController", EmployerBillingController);
+    EmployerBillingController.$inject = ['$scope', '$http', 'MessageService'];
+    function EmployerBillingController($scope, $http, MessageService) {
+
+        var Billing = this;
+        Billing.stripe_token = null;
+        Billing.card = {
+            'number': 4242424242424242,
+            'exp_month': 12,
+            'exp_year': 2018,
+            'cvc': 123
+        };
+        Billing.saveCard = function () {
+            //Get stripe token
+            $http({
+                url: '/curl/stripe.php',
+                method: 'POST',
+                data: {
+                    'request_url': null,
+                    'JWT_TOKEN': null,
+                    'request_method': null,
+                    'query_data': false,
+                    'post_data': Billing.card
+                }
+            }).then(function (response) {
+                MessageService.Success("Please wait...");
+
+                Billing.stripe_token = response.data.id;
+                console.log(response.data.id);
+
+                //Send stripe token
+                if (Billing.stripe_token != null) {
+                    $http({
+                        url: '/curl/index_r.php',
+                        method: 'POST',
+                        data: {
+                            'request_url': 'https://easytrades.herokuapp.com/user/billing',
+                            'JWT_TOKEN': null,
+                            'request_method': 'POST',
+                            'query_data': false,
+                            'post_data': {
+                                "stripeToken": Billing.stripe_token
+                            }
+                        }
+                    }).then(function (response) {
+                        MessageService.Success("Your card added successfully !");
+                        console.log(response);
+                    }, function (response) {
+                        console.log(response);
+
+                    });
+                } else {
+
+                    MessageService.Error("Error adding your card !");
+
+                }
+
+
+            }, function (error) {
+                console.log(e);
+            });
+        }
+    }
 
 
 })(jQuery, angular);

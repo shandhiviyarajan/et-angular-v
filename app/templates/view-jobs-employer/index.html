@@ -39,7 +39,6 @@
             </div>
         </nav>
         <br>
-{{Job.applicants}}
         <div class="col s12 m12">
             <table class="responsive-table striped">
                 <thead>
@@ -49,13 +48,12 @@
                     <th>Name</th>
                     <th>Experience</th>
                     <th>Status</th>
-                    <th>Feedback</th>
-                    <th>Hire?</th>
-                    <th>Actions</th>
+                    <!--<th>Feedback</th>-->
+                    <th>Hire</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr data-ng-repeat="applicant in Job.contractors">
+                <tr data-ng-repeat="applicant in Job.contractors | orderBy:Status:true">
                     <td>
                         <a ui-sref="ProfileOthersEmployer({ApplicantID:applicant.EmployeeId})">{{$index+1}}</a>
                     </td>
@@ -64,24 +62,17 @@
                     </td>
                     <td><a href="#">-</a></td>
                     <td><a href="#">{{applicant.Status}}</a></td>
+                    <!--<td>-->
+                        <!--<i class="ico ico-star active"></i>-->
+                        <!--<i class="ico ico-star active"></i>-->
+                        <!--<i class="ico ico-star active"></i>-->
+                        <!--<i class="ico ico-star active"></i>-->
+                        <!--<i class="ico ico-star"></i>-->
+                    <!--</td>-->
                     <td>
-                        <i class="ico ico-star active"></i>
-                        <i class="ico ico-star active"></i>
-                        <i class="ico ico-star active"></i>
-                        <i class="ico ico-star active"></i>
-                        <i class="ico ico-star"></i>
-                    </td>
-                    <td>
-                        <input data-ng-model="applicant.Status"
-                               data-ng-true-value="'hired'"
-                               data-ng-false-value="'declined'"
-                               type="checkbox"
-                               class="filled-in"
-                               id="filled-in-box{{$index}}" />
-                        <label for="filled-in-box{{$index}}"></label>
-                    </td>
-                    <td>
-                        <a class="btn btn-rounded btn-dark" data-ng-click="approve(applicant.id,applicant.Status)">Update</a>
+                        <a data-ng-click="hire(applicant.EmployeeId)"
+                           data-ng-if="applicant.Status=='Pending'"
+                           class="btn btn-rounded btn-dark">Hire</a>
                     </td>
                 </tr>
                 </tbody>
@@ -97,7 +88,7 @@
                     </span>
                 </label>
             </p>
-            <p><label class="form-title"><strong>Profession:</strong></label>
+            <p><label class="form-title"><strong>Profession:</strong>{{Job.JobName}}</label>
                 <span data-ng-bind="Job.Proffesion"></span></p>
             <p><label class="form-title"><strong>Description:</strong></label>
                 <span data-ng-bind="Job.JobDiscription"></span>

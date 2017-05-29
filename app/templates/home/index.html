@@ -2,23 +2,33 @@
     <div class="container">
         <et-nav></et-nav>
         <div class="slider-form" data-ng-controller="HomeController">
-    <h2>
-        Find the perfect match <strong>fast</strong></h2>
+            <h2>Find the perfect match <strong>fast</strong></h2>
 
             <div style="text-align:center;" id="search_jobs_form">
-                <input data-ng-model="search_input"
-                       placeholder="Search"
-                       id="search_jobs"
-                       type="text"
-                       class="form-input round"
-                       autofocus>
-                <button type="submit"
-                        class="btn btn-rounded">Search</button>
-                <ul id="search_results" data-ng-show="search_input">
-                    <li data-ng-repeat="Job in search_array | filter:search_input">
-                        <a ui-sref="getJob({JobID:Job.JobName})">{{Job.JobName}}</a>
-                    </li>
-                </ul>
+
+                <div class="row">
+
+
+                    <div class="col s5">
+                        <select data-ng-change="checkValid()" data-et-select-box name="" data-ng-model="selected_skill">
+                            <option value="" disabled selected> Select Skill</option>
+                            <option data-ng-repeat="skill in skills" value="{{skill}}"> {{skill}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col s5">
+                        <select data-ng-change="checkValid()" data-et-select-box
+                                data-ng-model="selected_location">
+                            <option value="" disabled selected> Select Location</option>
+                            <option data-ng-repeat="location in locations" value="{{location}}"> {{location}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col s2">
+                        <a ui-sref="searchJobs({skill:selected_skill, location:selected_location})"
+                           data-ng-disabled="valid" class="btn btn-rounded">Search</a>
+                    </div>
+                </div>
             </div>
 
         </div>

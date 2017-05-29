@@ -26,9 +26,11 @@
 
 <div class="row">
     <div class="container" data-ng-controller="PostJobController as Job">
+{{
+        Job.new}}
         <div class="gap x"></div>
             <div class="input-field col s12">
-                <select  et-select-box data-ng-model="Job.new.Proffesion">
+                <select et-select-box data-ng-model="Job.new.Proffesion">
                     <option value="" disabled selected>Choose a profession</option>
                     <option data-ng-repeat="skill in Job.skills">{{skill}}</option>
                 </select>
@@ -93,33 +95,29 @@
                     <option value="10">10</option>
                 </select>
             </div>
-        <!--<div class="input-field col s12">-->
-        <!--<input data-ng-model="Job.new.hour_rate"-->
-        <!--id="report_to"-->
-        <!--type="text"-->
-        <!--class="validate">-->
-        <!--<label for="report_to">Hour Rate</label>-->
-        <!--</div>-->
-        <!--<div class="input-field col s12">-->
-        <!--<input data-ng-model="Job.new.hire"-->
-        <!--class="with-gap"-->
-        <!--id="hire_manually"-->
-        <!--name="hire"-->
-        <!--type="radio"-->
-        <!--value="Manually"-->
-        <!--/>-->
-        <!--<label for="hire_manually">I want to view and hire applicants manually</label>-->
-        <!--</div>-->
-        <!--<div class="input-field col s12">-->
-        <!--<input data-ng-model="Job.new.hire"-->
-        <!--class="with-gap"-->
-        <!--id="hire_auto"-->
-        <!--name="hire"-->
-        <!--type="radio"-->
-        <!--value="Automatically"-->
-        <!--/>-->
-        <!--<label for="hire_auto">Automatically hire the best applicants</label>-->
-        <!--</div>-->
+        <!--data-ng-model="Job.new.hire"-->
+        <!--data-ng-model="Job.new.hire"-->
+        <div class="input-field col s12">
+            <input
+                   data-ng-checked="true"
+                   value="Automatic"
+                   class="with-gap"
+                   id="hire_auto"
+                   name="hire"
+                   type="radio"
+                    />
+            <label for="hire_auto">Automatically hire the best applicants</label>
+        </div>
+
+        <div class="input-field col s12">
+            <input
+                   class="with-gap"
+                   id="hire_manu"
+                   name="hire"
+                   type="radio"
+                   value="Manual" />
+            <label for="hire_manu">Manually hire the best applicants</label>
+        </div>
             <div class="clearfix"></div>
             <div class="gap x"></div>
             <div class="btn-block">

@@ -23,9 +23,9 @@
         </svg>
     </div>
 </header>
-
 <div class="row">
-    <div class="container" data-ng-controller="EmployerEditJobsController">
+    <div class="container" data-ng-controller="EmployerEditJobsController as Edit">
+
         <div class="gap x"></div>
 
         <nav class="page-breadcrumb">
@@ -33,67 +33,70 @@
                 <div class="col s12">
                     <a ui-sref="myBusinessHomeEmployer" class="breadcrumb">My Home</a>
                     <a ui-sref="myJobsEmployer" class="breadcrumb">My Jobs</a>
-                    <a ui-sref="#" class="breadcrumb">Edit -  Job Name</a>
+                    <a ui-sref="#" class="breadcrumb">Edit -  {{Edit.Job._id}} - {{Edit.Job.JobName}}</a>
                 </div>
             </div>
         </nav>
 
         <div class="input-field col s12">
-            <select et-select-box>
-                <option value="" disabled selected>Choose a profession</option>
-                <option value="Carpenter">Carpenter</option>
-                <option value="Mechanic">Mechanic</option>
-                <option value="Painter">Painter</option>
+            <select et-select-box data-ng-model="Edit.Job.Proffesion">
+                <option value="{{Edit.Job.Proffesion}}" selected>{{Edit.Job.Proffesion}}</option>
+                <option data-ng-repeat="skill in Edit.skills" value="{{skill}}">
+                    {{skill}}
+                </option>
             </select>
         </div>
         <div class="input-field textarea-block extended col s12">
-                <textarea id="desc_of_work" class="materialize-textarea">
+                <textarea data-ng-model="Edit.Job.JobDiscription" id="desc_of_work" class="materialize-textarea">
                 </textarea>
-            <label for="desc_of_work">Description of work and what employee need to bring / Dress code / osh
+            <label for="desc_of_work" class="active">Description of work and what employee need to bring / Dress code / osh
                 requirements</label>
         </div>
         <div class="input-field col s12">
-            <input
+            <input data-ng-model="Edit.Job.JobName"
                    id="job_name"
                    type="text"
                    class="validate">
-            <label for="job_name">Job Name</label>
+            <label class="active" for="job_name">Job Name</label>
         </div>
         <div class="input-field col s12">
-            <select et-select-box>
-                <option value="" disabled selected>Location</option>
-                <option value="Location 1 ">Location 1</option>
-                <option value="Location 2">Location 2</option>
-                <option value="Location 3">Location 3</option>
+            <select et-select-box data-ng-model="Edit.Job.Location">
+                <option value="{{Edit.Job.Location}}" selected>{{Edit.Job.Location}}</option>
+                <option data-ng-repeat="location in Edit.locations" value="{{location}}">
+                    {{location}}
+                </option>
             </select>
         </div>
         <div class="input-field col s6">
             <i class="ico ico-calendar prefix"></i>
             <input data-et-datepicker
+                   data-ng-model="Edit.Job.StartingDate | date"
                    id="start_date"
                    type="text">
-            <label for="start_date">Start Date</label>
+            <label class="active" for="start_date">Start Date</label>
         </div>
         <div class="input-field col s6">
             <i class="ico ico-calendar prefix"></i>
             <input data-et-datepicker
+                   data-ng-model="Edit.Job.EndingDate | date"
                    id="end_date"
                    type="text">
-            <label for="end_date">End Date</label>
+            <label class="active" for="end_date">End Date</label>
         </div>
         <div class="input-field col s12">
             <input et-time-picker
+                   data-ng-model="Edit.Job.StartingTime"
                    id="start_time"
                    type="text"
                    class="validate">
-            <label for="start_time">Start Time</label>
+            <label class="active" for="start_time">Start Time</label>
         </div>
         <div class="input-field col s12">
-            <input
+            <input data-ng-model="Edit.Job.NmuberOfEmployees"
                    id="job_no"
                    type="number"
                    class="validate">
-            <label for="job_no">Number of employees</label>
+            <label class="active" for="job_no">Number of employees</label>
         </div>
         <div class="input-field col s12">
             <input

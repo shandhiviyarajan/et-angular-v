@@ -40,82 +40,51 @@
         <div class="gap x"></div>
 
         <div class="col s12 m12">
-            <table class="highlight">
-                <thead>
-                <tr>
-                    <th>
-                        Created
-                    </th>
-                    <th>Job Id</th>
-                    <th>Status</th>
-                    <th>Created Date</th>
-                    <th>
-                        View
-                    </th>
-                </tr>
-                </thead>
+           <table class="highlight bordered">
+               <tr>
+                   <th>Job ID</th>
+                   <th>Created By</th>
+                   <th>
+                       Status
+                   </th>
+                   <th>View Time sheets</th>
+               </tr>
+           </table>
+            <ul data-ng-repeat="timesheet in Timesheet.weekly_timesheets">
+                <li>
+                    <ul>
+                        <li data-ng-repeat="applicant in timesheet.Applicants">
+                            <ul>
+                                <li data-ng-repeat="week in applicant.WeeklyTimesheets">
+                                    <table class="highlight bordered">
+                                        <tr>
+                                            <td>
+                                                {{week.JobId}}
+                                            </td>
+                                            <td>
+                                                {{week.CreatedBy}}
+                                            </td>
+                                            <td>
+                                                {{week.Status}}
+                                            </td>
+                                            <td>
+                                               <a ui-sref="weekTimeSheet({JobID:week.JobId, ContractID:week.ContractID})"> View time sheet</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </li>
+
+                            </ul>
+
+                        </li>
+                    </ul>
+
+                </li>
+            </ul>
 
 
-                <tbody>
-                <tr data-ng-repeat="timesheet in Timesheet.weekly_timesheets">
-                    <td style="text-transform: capitalize;">
-                        &nbsp; {{timesheet.CreatedBy}}
-                    </td>
-                    <td>{{timesheet.JobId}}</td>
-                    <td>{{timesheet.Status}}</td>
-                    <td>{{timesheet.CreatedDate | date}}</td>
-                    <td>
-                        <a ui-sref="#">View Time sheet</a>
-                    </td>
-                    <!--<td>-->
-                        <!--<a class="btn waves-effect waves-light">Approve</a>-->
-                        <!--<a class="btn waves-effect waves-light"-->
-                           <!--et-trigger-modal href="#contest_modal">Contest</a>-->
-                    <!--</td>-->
-                </tr>
-                </tbody>
-            </table>
             <div class="gap x"></div>
-            <div id="contest_modal" class="modal">
-                <div class="modal-content">
-                    <h5>Contesting Time sheet</h5>
-                    <br>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Worked for</th>
-                            <th>Contest</th>
-                            <th>Approved</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>5 Hours</td>
-                            <td>
-                                <div class="input-field">
-                                    <input id="first_name"
-                                           type="text"
-                                           value="0"
-                                           style="max-width: 50px;height: 27px;text-align: center;">
-                                    hours
-                                </div>
-                            </td>
-                            <td>2 hours</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="input-field col s12">
-                        <textarea id="reason" class="materialize-textarea"></textarea>
-                        <label for="reason">Enter the reason here</label>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="modal-footer">
-                    <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
-                    <input type="button" class="modal-action modal-close waves-effect waves-green btn-flat"
-                           value="Contest">
-                </div>
-            </div>
+
         </div>
     </div>
 </div>

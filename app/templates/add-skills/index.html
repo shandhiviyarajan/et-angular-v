@@ -29,58 +29,41 @@
     <div class="gap x"></div>
     <div class="row">
         <div class="col s12 m12">
+            {{Skill.final_skills}}
+            <table class="highlight bordered" class="skill_table">
+                <tr data-ng-repeat="skill in Skill.final_skills | orderBy:'asc'">
+                    <td >
+                        <div class="switch-field">
+                            {{$index + 1}} &nbsp;
+                            <span>{{skill.Category}}</span>
+                        </div>
+                    </td>
 
-            <div class="input-field">
-                <select multiple et-select-box data-ng-model="Skill.select">
-                    <option value="0">Mechanic</option>
-                    <option value="1">Truck Driver</option>
-                    <option value="2">Carpenter</option>
-                    <option value="3">Painter</option>
-                </select>
-            </div>
+                    <td width="200">
+                        <div class="switch">
+                            <label>
+                                <input type="checkbox" data-ng-model="skill.Status">
+                                <span class="lever"></span>
+                            </label>
+                        </div>
+                    </td>
 
-            <ul>
-                <li data-ng-repeat="selected in Skill.select">
-                    <div class="skills" data-ng-repeat="Work in Skill.skills | filter:{id:selected}">
-                        <div class="title-block"><h5>{{ Work.name}}</h5></div>
-                        <ul>
-                            <li>
-                                <div class="switch-field">
-                                            <span>Choose your level</span>
-                                            <input name="{{ Work.name }}" type="radio" />
-                                            <label>Basic</label>
+                    <td>
+                        <input id="{{skill.Category}}+{{$index}}" type="radio" name="{{skill.Category}}"
+                               data-ng-model="skill.Level" value="Basic">
+                        <label for="{{skill.Category}}+{{$index}}">Basic</label>
+                        &nbsp;
+                        <input id="{{skill.Category}}+{{$index}}+1" type="radio" name="{{skill.Category}}"
+                               data-ng-model="skill.Level" value="Advanced">
+                        <label for="{{skill.Category}}+{{$index}}+1">Advanced</label>
+                    </td>
 
-                                            <input name="{{ Work.name }}" type="radio" />
-                                            <label>Advanced</label>
-                                </div>
-                            </li>
-                        </ul>
-                        <p>
-                            &nbsp;
-                        </p>
-                    </div>
-                </li>
-            </ul>
+                    <td>
 
+                    </td>
+                </tr>
+            </table>
 
-            <!--<div class="skills">-->
-            <!--<div class="title-block"><h5>Home Painting and Decoration</h5></div>-->
-            <!--<div class="switch-field">-->
-            <!--<span>Decoration</span><div class="switch"><label><input type="checkbox"><span class="lever"></span></label></div>-->
-            <!--</div>-->
-            <!--<div class="switch-field">-->
-            <!--<span>Exterior painting</span><div class="switch"><label><input type="checkbox"><span class="lever"></span></label></div>-->
-            <!--</div>-->
-            <!--<div class="switch-field">-->
-            <!--<span>Interior painting</span><div class="switch"><label><input type="checkbox"><span class="lever"></span></label></div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="skills">-->
-            <!--<div class="title-block"><h5>Automotive Painting</h5> <a class="btn-delete" href=""><i class="ico ico-trash"></i></a></div>-->
-            <!--<div class="switch-field">-->
-            <!--<span>Automotive Painting</span><div class="switch"><label><input type="checkbox"><span class="lever"></span></label></div>-->
-            <!--</div>-->
-            <!--</div>-->
             <div class="gap x"></div>
             <div class="center-align">
                 <input type="submit" data-ng-click="Skill.addSkills()" class="btn btn-dark btn-rounded" value="Save skills">

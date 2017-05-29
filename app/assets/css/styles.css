@@ -1039,3 +1039,11 @@ span.badge.contested{
 .collapsible-header.active {
     background: #eee;
 }
+
+#search_jobs_form {
+    width: 100%;
+}
+
+.select-wrapper {
+    background: #fff;
+}
