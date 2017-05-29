@@ -189,26 +189,32 @@
         var Register = this;
         Register.error_message = "";
         Register.success_message = "";
+        Register.user = {};
+        Register.email = "";
+        Register.username = "";
+        Register.password = "";
+        Register.type = "employee";
+
+
 
         /* User register employee
          ---------------------------------------------------------------------------------------- */
         Register.register = function () {
             Register.user = {
-                terms: Register.terms,
-                username: Register.username,
-                email: Register.email,
-                type: "employee",
-                password: Register.password
+                "Email": Register.email,
+                "UserName": Register.username,
+                "Password": Register.password,
+                "Type": "employee"
             };
 
+            console.log(Register.user);
+
             AuthService.CreateUser(Register.user, function (response) {
-                console.log(response);
                 if (response.status) {
                     MessageService.Success("User created !");
                     $state.go("signInEmployee");
                 } else {
-                    MessageService.Error("User created !!! no Status set");
-                    $state.go("signInEmployee");
+                    MessageService.Error(response.message);
                 }
             });
         }
@@ -434,7 +440,7 @@
                 Skill.final_skills.push({
                     "Category": S,
                     "Status": false,
-                    "Skill":"",
+                    "Skill": "",
                     "Level": ""
                 });
             });
@@ -683,7 +689,7 @@
                     }
                 }).then(function (success) {
                     console.log(success.data);
-                    MessageService.Success("Jobs updated!");
+                    MessageService.Success("Job Accepted!");
                     Employee.viewMyJobs();
                 }, function (error) {
                     console.log(error.data);
@@ -709,7 +715,7 @@
                     }
                 }).then(function (success) {
                     console.log(success.data);
-                    MessageService.Success("Jobs updated!");
+                    MessageService.Success("Job declined!");
                     Employee.viewMyJobs();
                 }, function (error) {
                     console.log(error.data);

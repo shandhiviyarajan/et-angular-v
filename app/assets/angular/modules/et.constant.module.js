@@ -18,7 +18,7 @@
     angular.module('etConstant')
         .constant('RESOURCE_URL', {
             LOGIN: 'https://easytrades.herokuapp.com/login',
-            SIGN_UP: 'https://easytrades.herokuapp.com/signup',
+            SIGN_UP: 'https://easytrades.herokuapp.com/signup/',
             PROFILE_OTHER_USER: '',
             SIGN_OUT:'https://easytrades.herokuapp.com/logout',
             LOCATIONS:'https://easytrades.herokuapp.com/locations/cities',

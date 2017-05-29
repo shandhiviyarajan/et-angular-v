@@ -46,12 +46,63 @@
             <div class="tab-block">
 
                 <ul id="tabs-swipe-demo" class="tabs" data-et-tabs>
-                    <li class="tab col s3"><a class="active" href="#test-swipe-1">Hiring</a></li>
-                    <li class="tab col s3"><a href="#test-swipe-2">Underway</a></li>
-                    <li class="tab col s3"><a href="#test-swipe-3">Completed</a></li>
-                    <li class="tab col s3"><a href="#test-swipe-4">Unsuccessful</a></li>
+                    <li class="tab col s2"><a class="active" href="#test-swipe-1">Pending</a></li>
+                    <li class="tab col s2"><a href="#test-swipe-2">Underway</a></li>
+                    <li class="tab col s2"><a href="#test-swipe-3">Completed</a></li>
+                    <li class="tab col s2"><a href="#test-swipe-4">Unsuccessful</a></li>
+                    <li class="tab col s2"><a href="#test-swipe-5">Declined</a></li>
                 </ul>
                 <div id="test-swipe-1" class="col s12">
+                    <table class="responsive-table bordered highlight">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Job Id</th>
+                            <th>Status</th>
+                            <th>Job Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-ng-repeat="Contract in Employee.pending[0].Contracts">
+                            <td>
+                                {{$index+1}}
+                            </td>
+                            <td>
+                                <a ui-sref="viewJob({JobID:Contract.JobId})"
+                                   data-ng-bind="'#' + Contract.JobId">
+                                    View Job
+                                </a>
+                            </td>
+                            <td style="text-transform: capitalize;">
+                                {{Contract.Status}}
+                            </td>
+                            <td>{{Contract.JobName}}
+                            </td>
+
+                            <td style="text-align:right;">
+                                <button
+                                        data-ng-click="Employee.acceptJob(Contract._id)"
+                                        class="btn btn-rounded btn-default btn-dark">
+                                    <strong>
+                                        Accept
+                                    </strong>
+                                </button>
+                                <button
+                                        data-ng-click="Employee.declineJob(Contract._id)"
+                                        class="btn btn-rounded btn-default btn-dark">
+                                    <strong>
+                                        Decline
+                                    </strong>
+                                </button>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="test-swipe-2" class="col s12">
+
+{{Employee.check}}
                     <table class="responsive-table bordered highlight">
                         <thead>
                         <tr>
@@ -67,74 +118,26 @@
                                 {{$index+1}}
                             </td>
                             <td>
-                                <a ui-sref="viewJob({JobID:Contract.Job.id})"
-                                   data-ng-bind="'#' + Contract.Job.id">
+                                <a ui-sref="viewJob({JobID:Contract.JobId})"
+                                   data-ng-bind="'#' + Contract.JobId">
                                     View Job
                                 </a>
                             </td>
                             <td style="text-transform: capitalize;">
                                 {{Contract.Status}}
                             </td>
-                            <td>{{Contract.Job.JobName}}
+                            <td>{{Contract.JobName}}
                             </td>
 
                             <td style="text-align:right;">
-                                <button data-ng-hide="Contract.Status == 'Accepted'"
-                                        data-ng-click="Employee.applyJob(Job.id)"
-                                        class="btn btn-rounded btn-default btn-dark">
-                                    <strong>
-                                        Approve
-                                    </strong>
-                                </button>
-
-                                <button
-                                data-ng-click="Employee.cancelJob(Job._id)"
-                                class="btn btn-rounded btn-default btn-dark">
-                                <strong>
-                               Decline
-                                </strong>
-                                </button>
-
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="test-swipe-2" class="col s12">
 
 
-                    <table class="responsive-table bordered highlight">
-                        <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Job Id</th>
-                            <th>Status</th>
-                            <th>Job Name</th>
-                        </tr>
-                        </thead>
-                        <!--| orderBy:'underway._id':true-->
-                        <tbody>
-                        <tr data-ng-repeat="underway in Employee.underway ">
-                            <td>{{$index+1}}</td>
-                            <td>
-                                <a ui-sref="viewJob({JobID:underway._id})"
-                                   data-ng-bind="'#' + underway._id">
-                                    View Job
-                                </a>
-                            </td>
-                            <td>
-                                {{underway.applicants[0].Status}}
-                            </td>
-                            <td>{{underway.JobName}}
-                            </td>
-                            <td style="text-align:right;">
-                                <button
-                                        data-ng-click="Employee.cancelJob(Job._id)"
-                                        class="btn btn-rounded btn-default btn-dark">
-                                    <strong>
-                                        Cancel
-                                    </strong>
-                                </button>
+                                <input  id=check{{$index}}" type="checkbox"
+                                       data-ng-model="Employee.check[$index]"
+                                data-ng-change="Employee.checkAccepted($index,Contract.JobId)">
+                                <label for=check{{$index}}">End Contract</label>
+
+
                             </td>
                         </tr>
                         </tbody>
@@ -153,36 +156,105 @@
                             <th>Job Name</th>
                         </tr>
                         </thead>
-                        <!--| orderBy:'underway._id':true-->
                         <tbody>
-                        <tr data-ng-repeat="completed in Employee.completed ">
-                            <td>{{$index+1}}</td>
+                        <tr data-ng-repeat="Contract in Employee.completed[0].Contracts">
                             <td>
-                                <a ui-sref="viewJob({JobID:completed._id})"
-                                   data-ng-bind="'#' + completed._id">
+                                {{$index+1}}
+                            </td>
+                            <td>
+                                <a ui-sref="viewJob({JobID:Contract.JobId})"
+                                   data-ng-bind="'#' + Contract.JobId">
                                     View Job
                                 </a>
                             </td>
-                            <td>
-                                {{completed.applicants[0].Status}}
+                            <td style="text-transform: capitalize;">
+                                {{Contract.Status}}
                             </td>
-                            <td>{{completed.JobName}}
+                            <td>{{Contract.JobName}}
                             </td>
+
                             <td style="text-align:right;">
-                                <button disabled
-                                        data-ng-click="Employee.cancelJob(Job._id)"
-                                        class="btn btn-rounded btn-default btn-dark">
-                                    <strong>
-                                        Cancel
-                                    </strong>
-                                </button>
+
+
                             </td>
                         </tr>
                         </tbody>
                     </table>
 
                 </div>
-                <div id="test-swipe-4" class="col s12"></div>
+                <div id="test-swipe-4" class="col s12">
+
+                    <table class="responsive-table bordered highlight">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Job Id</th>
+                            <th>Status</th>
+                            <th>Job Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-ng-repeat="Contract in Employee.unsuccessful[0].Contracts">
+                            <td>
+                                {{$index+1}}
+                            </td>
+                            <td>
+                                <a ui-sref="viewJob({JobID:Contract.JobId})"
+                                   data-ng-bind="'#' + Contract.JobId">
+                                    View Job
+                                </a>
+                            </td>
+                            <td style="text-transform: capitalize;">
+                                {{Contract.Status}}
+                            </td>
+                            <td>{{Contract.JobName}}
+                            </td>
+
+                            <td style="text-align:right;">
+                               
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div id="test-swipe-5" class="col s12">
+
+                    <table class="responsive-table bordered highlight">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Job Id</th>
+                            <th>Status</th>
+                            <th>Job Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-ng-repeat="Contract in Employee.declined[0].Contracts">
+                            <td>
+                                {{$index+1}}
+                            </td>
+                            <td>
+                                <a ui-sref="viewJob({JobID:Contract.JobId})"
+                                   data-ng-bind="'#' + Contract.JobId">
+                                    View Job
+                                </a>
+                            </td>
+                            <td style="text-transform: capitalize;">
+                                {{Contract.Status}}
+                            </td>
+                            <td>{{Contract.JobName}}
+                            </td>
+
+                            <td style="text-align:right;">
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
             </div>
             <div class="gap x"></div>
         </div>

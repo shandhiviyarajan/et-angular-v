@@ -27,7 +27,7 @@
         .config(config);
     config.$inject = ['$httpProvider'];
     function config($httpProvider) {
-        //Set fucking default headers//
+        //Set fucking angular default headers//
         $httpProvider.defaults.headers.common = {};
         $httpProvider.defaults.headers.post = {};
         $httpProvider.defaults.headers.put = {};
@@ -76,9 +76,7 @@
                 method: 'GET'
             }).then(function (response) {
                 if (response.data.status) {
-
                     locations(response.data);
-
                 } else {
                     console.log("Empty Locations");
                 }
@@ -86,9 +84,6 @@
 
             });
         };
-
-
-
         return AppService;
     }
 
@@ -165,22 +160,11 @@
         AuthService.CreateUser = function (user, callback) {
 
             $http({
-                url: '/curl/index_r.php',
+                url: 'https://easytrades.herokuapp.com/signup/',
                 method: "POST",
-                data: {
-                    'request_url': RESOURCE_URL.SIGN_UP,
-                    'JWT_TOKEN': null,
-                    'request_method': 'POST',
-                    'query_data': false,
-                    'post_data': {
-                        "Email": user.email,
-                        "Password": user.password,
-                        "UserName": user.username,
-                        "Type": user.type
-                    }
-                },
+                data: "{\n\t\"Email\": \""+user.Email+"\", \n\t\"Password\": \""+user.Password+"\", \n\t\"UserName\": \""+user.UserName+"\", \n\t\"Type\": \""+user.Type+"\"\n\t\n}",
                 headers: {
-                    "Content-type": "application/json"
+                    "Content-type": "application/x-www-form-urlencoded"
                 }
 
             }).then(function (success) {
