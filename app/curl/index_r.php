@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: application/json');
+//header("Content-Type: text/json");
 
 $request_data = file_get_contents('php://input');
 $ARR_POST_DATA = json_decode($request_data, true);
@@ -19,19 +19,21 @@ if ($query_data) {
     }
 } else {
     $post_data = json_encode($post_data_array);
+    //$post_data = $post_data_array;
 }
-
 
 //SET Request header//
 if (isset($JWT_TOKEN) and $JWT_TOKEN != null) {
     $HEADER = array(
-        'Content-Type: application/json',
-        'Authorization:' . $JWT_TOKEN
+        "Content-Type: application/json",
+        "Authorization:" . $JWT_TOKEN
     );
 } else {
-    $HEADER = array('Content-Type: application/json'
+    $HEADER = array(
+        "Content-Type: application/json"
     );
 }
+
 
 run($request_url, $post_data, $HEADER, $request_method);
 
@@ -40,13 +42,41 @@ function run($url, $post_data, $HEADER, $method)
     $curlRequest = curl_init();
     curl_setopt($curlRequest, CURLOPT_HTTPHEADER, $HEADER);
     curl_setopt($curlRequest, CURLOPT_URL, $url);
-    if ($method == 'post' || $method == 'POST') {
-        curl_setopt($curlRequest, CURLOPT_POST, 1);
-    } else {
-        if (isset($post_data)) {
-            curl_setopt($curlRequest, CURLOPT_POSTFIELDS, $post_data);
-        }
+
+    $method = strtoupper($method);
+
+
+    switch ($method) {
+
+        case 'GET':
+            if (isset($post_data)) {
+                curl_setopt($curlRequest, CURLOPT_POSTFIELDS, $post_data);
+            }
+            break;
+
+        case 'POST':
+            curl_setopt($curlRequest, CURLOPT_POST, 1);
+            break;
+
+        case 'PUT':
+            curl_setopt($curlRequest, CURLOPT_CUSTOMREQUEST, 'PUT');
+            break;
+
+        case 'DELETE':
+            break;
     }
+
+//
+//    if ($method == 'post' || $method == 'POST') {
+//        curl_setopt($curlRequest, CURLOPT_POST, 1);
+//    } elseif ($method == 'put' || $method == 'PUT') {
+//        curl_setopt($curlRequest, CURLOPT_CUSTOMREQUEST, 'PUT');
+//    } else {
+//        if (isset($post_data)) {
+//            curl_setopt($curlRequest, CURLOPT_POSTFIELDS, $post_data);
+//        }
+//    }
+
 
     curl_setopt($curlRequest, CURLOPT_RETURNTRANSFER, 0);
     curl_setopt($curlRequest, CURLOPT_CONNECTTIMEOUT, 5);
@@ -55,12 +85,6 @@ function run($url, $post_data, $HEADER, $method)
     return json_encode($data);
 }
 
-
-//elseif ($method == 'put' || $method == 'PUT') {
-//
-//curl_setopt($curlRequest, CURLOPT_CUSTOMREQUEST, "PUT");
-//
-//}
 
 
 

@@ -59,8 +59,8 @@
      * ------------------------------------------------------------------------------------------ */
     angular.module('etControllersEmployee')
         .controller("HomeController", HomeController);
-    HomeController.$inject = ['$scope', '$state', 'Search', 'AuthService', 'AppService'];
-    function HomeController($scope, $state, Search, AuthService, AppService) {
+    HomeController.$inject = ['$scope', '$state', 'AuthService', 'AppService'];
+    function HomeController($scope, $state, AuthService, AppService) {
         $scope.search_input = "";
         $scope.search_array = [];
 
@@ -73,15 +73,13 @@
 
         $scope.valid = true;
 
-        $scope.search = function () {
-
-            //$state.go('searchJob', {'skill': $scope.selected_skill, 'location': $scope.selected_location});
-        };
-
-
         $scope.checkValid = function () {
             $scope.valid = ($scope.selected_skill != null && $scope.selected_location != null) ? false : true;
         };
+
+
+        /* Get Skills and Location
+        ------------------------------------------------------------------------------------------ */
 
         AppService.GetSkillsLocations(function (skills) {
             $scope.skills = skills.data.Skills;
@@ -89,11 +87,6 @@
             $scope.locations = locations.data.Locations;
         });
 
-        Search.Search(function (result) {
-            $scope.search_array = result.data;
-            //Set application global collections
-            AppService.Collections.Search = result.data;
-        });
     }
 
     /**
@@ -194,8 +187,6 @@
         Register.username = "";
         Register.password = "";
         Register.type = "employee";
-
-
 
         /* User register employee
          ---------------------------------------------------------------------------------------- */
@@ -338,6 +329,7 @@
                 method: 'GET'
             });
             httpRequest.then(function (response) {
+                console.log(response);
                 if (response.data.status) {
                     Location.all = response.data.data.Locations;
                 } else {
@@ -385,11 +377,10 @@
         /* Add / Update Location
          ------------------------------------------------------------------------------------ */
         Location.addLocation = function () {
-
-
             Location.locations.forEach(function (cv, i) {
 
                 if (cv.Status) {
+                    delete cv.Status;
                     Location.new_locations.push(cv);
                 }
 
@@ -441,7 +432,7 @@
                     "Category": S,
                     "Status": false,
                     "Skill": "",
-                    "Level": ""
+                    "Level": "Basic"
                 });
             });
 
@@ -449,6 +440,7 @@
             /* Get user Skills
              ---------------------------------------------------------------------------------------- */
             ServiceEmployee.GetProfileEmployee(function (response) {
+                console.log(response);
                 Skill.user_skills = response.data.Skills;
                 angular.forEach(Skill.user_skills, function (U, K) {
                     angular.forEach(Skill.final_skills, function (F, K) {
@@ -474,6 +466,8 @@
                     Skill.selected_skills.push(F);
                 }
             });
+
+
             ServiceEmployee.AddSkills(Skill.selected_skills, function (response) {
                 console.log(response);
                 if (response.status) {
@@ -986,17 +980,16 @@
 
             }).then(function (response) {
 
-                if (response.data.data.status) {
+                if (response.data.status) {
                     Billing.account = {};
                     MessageService.Success("Account information saved successfully !");
                     Billing.step_2 = true;
                     Billing.step_1 = false;
                 } else {
-                    MessageService.Error(response.data.data.message);
+                    MessageService.Error(response.data.message);
                 }
 
             }, function (response) {
-                MessageService.Error(response.message);
                 console.log(response);
             });
         };
