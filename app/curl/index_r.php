@@ -1,15 +1,21 @@
 <?php
 //header("Content-Type: text/json");
 
+
+//get the post data
 $request_data = file_get_contents('php://input');
+
+//make a request data array
 $ARR_POST_DATA = json_decode($request_data, true);
 
+//assign to vars
 $JWT_TOKEN = $ARR_POST_DATA['JWT_TOKEN'];
 $request_url = $ARR_POST_DATA['request_url'];
 $request_method = $ARR_POST_DATA['request_method'];
 $post_data_array = $ARR_POST_DATA['post_data'];
 $query_data = $ARR_POST_DATA['query_data'];
 $post_data = null;
+
 
 if ($query_data) {
     if (isset($post_data_array)) {
@@ -19,7 +25,6 @@ if ($query_data) {
     }
 } else {
     $post_data = json_encode($post_data_array);
-    //$post_data = $post_data_array;
 }
 
 //SET Request header//
