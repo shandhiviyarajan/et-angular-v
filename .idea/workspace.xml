@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d17a9abf-d216-4e03-80f8-72dc984e36d6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/angular/modules/et.controllers.employee.module.js" afterPath="$PROJECT_DIR$/app/assets/angular/modules/et.controllers.employee.module.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/curl/index_r.php" afterPath="$PROJECT_DIR$/app/curl/index_r.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/curl/stripe.php" afterPath="$PROJECT_DIR$/app/curl/stripe.php" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,8 +27,8 @@
       <file leaf-file-name="et.controllers.employee.module.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/angular/modules/et.controllers.employee.module.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5925926">
-              <caret line="988" column="64" selection-start-line="988" selection-start-column="64" selection-end-line="988" selection-end-column="64" />
+            <state vertical-scroll-proportion="10.962963">
+              <caret line="964" column="31" selection-start-line="964" selection-start-column="31" selection-end-line="964" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -38,27 +38,17 @@
         <entry file="file://$PROJECT_DIR$/app/assets/angular/modules/et.api.module.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="266" column="33" selection-start-line="266" selection-start-column="33" selection-end-line="266" selection-end-column="33" />
+              <caret line="267" column="37" selection-start-line="267" selection-start-column="37" selection-end-line="267" selection-end-column="37" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index_r.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index_r.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/curl/index_r.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.6896552">
-              <caret line="1" column="41" selection-start-line="1" selection-start-column="41" selection-end-line="1" selection-end-column="41" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="stripe.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/curl/stripe.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.16470589">
-              <caret line="14" column="43" selection-start-line="14" selection-start-column="43" selection-end-line="14" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.11764706">
+              <caret line="24" column="26" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -85,8 +75,8 @@
         <option value="$PROJECT_DIR$/app/templates/my-profile/index.html" />
         <option value="$PROJECT_DIR$/app/templates/add-skills/index.html" />
         <option value="$PROJECT_DIR$/app/assets/angular/modules/et.api.module.js" />
-        <option value="$PROJECT_DIR$/app/assets/angular/modules/et.controllers.employee.module.js" />
         <option value="$PROJECT_DIR$/app/curl/stripe.php" />
+        <option value="$PROJECT_DIR$/app/assets/angular/modules/et.controllers.employee.module.js" />
         <option value="$PROJECT_DIR$/app/curl/index_r.php" />
       </list>
     </option>
@@ -660,34 +650,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/angular/modules/et.api.module.js">
+    <entry file="file://$PROJECT_DIR$/../etfront/app/curl/stripe.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="266" column="33" selection-start-line="266" selection-start-column="33" selection-end-line="266" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/angular/modules/et.controllers.employee.module.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5925926">
-          <caret line="988" column="64" selection-start-line="988" selection-start-column="64" selection-end-line="988" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/curl/index_r.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6896552">
-          <caret line="1" column="41" selection-start-line="1" selection-start-column="41" selection-end-line="1" selection-end-column="41" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/curl/stripe.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16470589">
-          <caret line="14" column="43" selection-start-line="14" selection-start-column="43" selection-end-line="14" selection-end-column="43" />
+        <state vertical-scroll-proportion="0.30588236">
+          <caret line="20" column="20" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/angular/modules/et.controllers.employee.module.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="10.962963">
+          <caret line="964" column="31" selection-start-line="964" selection-start-column="31" selection-end-line="964" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/angular/modules/et.api.module.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="267" column="37" selection-start-line="267" selection-start-column="37" selection-end-line="267" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/curl/index_r.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.11764706">
+          <caret line="24" column="26" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
           <folding />
         </state>
       </provider>

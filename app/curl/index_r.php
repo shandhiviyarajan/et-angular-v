@@ -1,7 +1,6 @@
 <?php
 header('Content-Type: application/json');
 
-
 //get the post data
 $request_data = file_get_contents('php://input');
 
@@ -32,8 +31,7 @@ if ($query_data) {
 //set request header//
 if (isset($JWT_TOKEN) and $JWT_TOKEN != null) {
     $HEADER = array(
-        "Content-Type: application/json",
-        "Authorization:" . $JWT_TOKEN
+        "Authorization:" . $JWT_TOKEN,
     );
 } else {
     $HEADER = array(
@@ -94,8 +92,3 @@ function run($url, $post_data, $HEADER, $method)
     //return to front
     return json_encode($data);
 }
-
-
-
-
-

@@ -955,14 +955,21 @@
 
     angular.module('etControllersEmployee')
         .controller("EmployeeBillingController", EmployeeBillingController);
-    EmployeeBillingController.$inject = ['$scope', '$rootScope', '$http', 'MessageService'];
+    EmployeeBillingController.$inject = ['$scope', '$rootScope', '$http', '$state', 'AuthService', 'MessageService'];
 
-    function EmployeeBillingController($scope, $rootScope, $http, MessageService) {
+    function EmployeeBillingController($scope, $rootScope, $http, $state, AuthService, MessageService) {
         console.log("Billing controller employee");
         var Billing = this;
         Billing.account = {};
         Billing.step_1 = true;
         Billing.step_2 = false;
+
+
+        if (!AuthService.isAuthenticated()) {
+
+            $state.go("home");
+
+        }
 
 
         Billing.addAccountStepOne = function () {
