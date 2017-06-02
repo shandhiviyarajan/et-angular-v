@@ -64,6 +64,15 @@
         Login.password = 'test123';
         Login.type = 'employer';
 
+        console.log($state);
+
+        $rootScope.$on('$stateChangeStart',
+            function(event, toState, toParams, fromState, fromParams, options){
+
+                console.log(fromState);
+
+            });
+
 
         if (AuthService.isAuthenticated()) {
             $state.go("myBusinessHomeEmployer");
@@ -185,6 +194,7 @@
 
         console.log("Post job controller");
 
+
         var Job = this;
         Job.new = {};
 
@@ -203,7 +213,31 @@
 
         /* Post Job - employer
          ---------------------------------------------------------------------------------------- */
+
         Job.postJob = function () {
+            if ($state.$current.name == 'searchJobs') {
+
+                if (AuthService.isAuthenticated()) {
+                    if ($rootScope.globals.current_user.type == 'employer') {
+                        Job.prepareJob();
+                        Job.job();
+
+                    } else {
+                        MessageService.Error('Please sign in as a employer !');
+                        $state.go('signInEmployer');
+                    }
+                } else {
+                    MessageService.Error('Please sign in as a employer !');
+                    $state.go('signInEmployer');
+                }
+            } else {
+                Job.prepareJob();
+                Job.job();
+            }
+        };
+
+
+        Job.prepareJob = function () {
             if (Job.new.StartingDate != "" && Job.new.StartingDate != undefined && Job.new.StartingDate != null) {
                 Job.new.StartingDate = Job.new.StartingDate.split("/").reverse().join("-");
             } else {
@@ -215,7 +249,10 @@
             } else {
                 Job.new.EndingDate = {};
             }
+        };
 
+        localStorage.setItem("new_job",Job.new);
+        Job.job = function () {
             ServiceEmployer.PostJob(Job.new, function (response) {
                 console.log(response);
 
@@ -226,6 +263,7 @@
 
                 } else {
                     MessageService.Error("Error on posting !");
+                    MessageService.Error(response.message);
                 }
 
             });

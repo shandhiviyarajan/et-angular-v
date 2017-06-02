@@ -47,6 +47,10 @@ run($request_url, $post_data, $HEADER, $request_method);
 function run($url, $post_data, $HEADER, $method)
 {
 
+    var_dump(func_get_args());
+
+    exit();
+
     //create request
     $curlRequest = curl_init();
 
@@ -60,12 +64,6 @@ function run($url, $post_data, $HEADER, $method)
 
     switch ($method) {
 
-        case 'GET':
-            if (isset($post_data)) {
-                curl_setopt($curlRequest, CURLOPT_POSTFIELDS, $post_data);
-            }
-            break;
-
         case 'POST':
             curl_setopt($curlRequest, CURLOPT_POST, 1);
             break;
@@ -76,18 +74,24 @@ function run($url, $post_data, $HEADER, $method)
 
         case 'DELETE':
             break;
+
     }
 
+    curl_setopt($curlRequest, CURLOPT_POSTFIELDS, $post_data);
 
     //set return as a string is false
-    curl_setopt($curlRequest, CURLOPT_RETURNTRANSFER, 0);
+    curl_setopt($curlRequest, CURLOPT_RETURNTRANSFER, true);
     //connection timeout
     curl_setopt($curlRequest, CURLOPT_CONNECTTIMEOUT, 5);
     //run curl request
+
+
+
     $data = curl_exec($curlRequest);
 
     //close
     curl_close($curlRequest);
+
 
     //return to front
     return json_encode($data);
