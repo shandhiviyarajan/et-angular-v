@@ -28,71 +28,26 @@ if ($query_data) {
     $post_data = json_encode($post_data_array);
 }
 
-//set request header//
+
+require_once ('vendor/guzzel/autoload.php');
+use GuzzleHttp\Client;
+
+$client = new Client([]);
 if (isset($JWT_TOKEN) and $JWT_TOKEN != null) {
-    $HEADER = array(
-        "Authorization:" . $JWT_TOKEN,
-    );
+    $response = $client->request($request_method, $request_url, [
+        'headers' => [
+            'Content-Type'     => 'application/json',
+            'Authorization'      => $JWT_TOKEN
+        ],
+        'json' => $post_data
+    ]);
 } else {
-    $HEADER = array(
-        "Content-Type: application/json"
-    );
+    $response = $client->request($request_method, $request_url, [
+        'headers' => [
+            'Content-Type'     => 'application/json'
+        ],
+        'json' => $post_data
+    ]);
 }
-
-//call the curl function
-run($request_url, $post_data, $HEADER, $request_method);
-
-
-//curl function
-function run($url, $post_data, $HEADER, $method)
-{
-
-    var_dump(func_get_args());
-
-    exit();
-
-    //create request
-    $curlRequest = curl_init();
-
-    //set header
-    curl_setopt($curlRequest, CURLOPT_HTTPHEADER, $HEADER);
-    //set url
-    curl_setopt($curlRequest, CURLOPT_URL, $url);
-
-    //uppercase all methods PUT,POST,GET,DELETE
-    $method = strtoupper($method);
-
-    switch ($method) {
-
-        case 'POST':
-            curl_setopt($curlRequest, CURLOPT_POST, 1);
-            break;
-
-        case 'PUT':
-            curl_setopt($curlRequest, CURLOPT_CUSTOMREQUEST, 'PUT');
-            break;
-
-        case 'DELETE':
-            break;
-
-    }
-
-    curl_setopt($curlRequest, CURLOPT_POSTFIELDS, $post_data);
-
-    //set return as a string is false
-    curl_setopt($curlRequest, CURLOPT_RETURNTRANSFER, true);
-    //connection timeout
-    curl_setopt($curlRequest, CURLOPT_CONNECTTIMEOUT, 5);
-    //run curl request
-
-
-
-    $data = curl_exec($curlRequest);
-
-    //close
-    curl_close($curlRequest);
-
-
-    //return to front
-    return json_encode($data);
-}
+$results = $response->getBody();
+print_r($results);
