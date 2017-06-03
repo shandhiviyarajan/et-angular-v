@@ -14,7 +14,7 @@ $request_method = $ARR_POST_DATA['request_method'];
 $post_data_array = $ARR_POST_DATA['post_data'];
 $query_data = $ARR_POST_DATA['query_data'];
 
-//create a black post_data
+//create a blank post_data
 $post_data = null;
 
 //if query_data true build a query array else send as a object
