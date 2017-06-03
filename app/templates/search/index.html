@@ -28,112 +28,120 @@
     <div class="container" data-ng-controller="SearchJobController as Search">
 
 
-        <h3 data-ng-show="Search.show_results">
+        <h3 data-ng-if="Search.show_results">
             {{Search.results}}
         </h3>
 
         <a ui-sref="home">Search again</a>
 
-        <!--<div class="gap x"></div>-->
-        <!--<div class="input-field col s12">-->
-            <!--<select et-select-box data-ng-model="Search.Proffesion">-->
-                <!--<option value="" disabled selected>Choose a profession</option>-->
-                <!--<option data-ng-repeat="skill in Search.skills">{{skill}}</option>-->
-            <!--</select>-->
-        <!--</div>-->
-        <!--<div class="input-field textarea-block extended col s12">-->
-                <!--<textarea data-ng-model="Search.JobDiscription"-->
-                          <!--id="desc_of_work"-->
-                          <!--class="materialize-textarea">-->
-                <!--</textarea>-->
-            <!--<label for="desc_of_work">Description of work and what employee need to bring / Dress code / osh-->
-                <!--requirements</label>-->
-        <!--</div>-->
-        <!--<div class="input-field col s12">-->
-            <!--<input data-ng-model="Search.JobName"-->
-                   <!--id="job_name"-->
-                   <!--type="text"-->
-                   <!--class="validate">-->
-            <!--<label for="job_name">Job Name</label>-->
-        <!--</div>-->
-        <!--<div class="input-field col s12">-->
-            <!--<select et-select-box data-ng-model="Search.Location">-->
-                <!--<option value="" disabled selected>Location</option>-->
-                <!--<option data-ng-repeat="location in Search.locations">{{location}}</option>-->
-            <!--</select>-->
-        <!--</div>-->
-        <!--<div class="input-field col s6">-->
-            <!--<i class="ico ico-calendar prefix"></i>-->
-            <!--<input data-ng-model="Search.StartingDate"-->
-                   <!--data-et-datepicker-->
-                   <!--id="start_date"-->
-                   <!--type="text"-->
-            <!--&gt;-->
-            <!--<label for="start_date">Start Date</label>-->
-        <!--</div>-->
-        <!--<div class="input-field col s6">-->
-            <!--<i class="ico ico-calendar prefix"></i>-->
-            <!--<input data-ng-model="Search.EndingDate"-->
-                   <!--data-et-datepicker-->
-                   <!--id="end_date"-->
-                   <!--type="text">-->
-            <!--<label for="end_date">End Date</label>-->
-        <!--</div>-->
-        <!--<div class="input-field col s12">-->
-            <!--<input et-time-picker-->
-                   <!--data-ng-model="Search.StartingTime"-->
-                   <!--id="start_time"-->
-                   <!--type="text"-->
-                   <!--class="validate">-->
-            <!--<label for="start_time">Start Time</label>-->
-        <!--</div>-->
-        <!--<div class="input-field col s12">-->
-            <!--<select et-select-box data-ng-model="Search.NmuberOfEmployees">-->
-                <!--<option value="" disabled selected>Number of employees</option>-->
-                <!--<option value="1">1</option>-->
-                <!--<option value="2">2</option>-->
-                <!--<option value="3">3</option>-->
-                <!--<option value="4">4</option>-->
-                <!--<option value="5">5</option>-->
-                <!--<option value="6">6</option>-->
-                <!--<option value="7">7</option>-->
-                <!--<option value="8">8</option>-->
-                <!--<option value="9">9</option>-->
-                <!--<option value="10">10</option>-->
-            <!--</select>-->
-        <!--</div>-->
-        <!--&lt;!&ndash;data-ng-model="Search.hire"&ndash;&gt;-->
-        <!--&lt;!&ndash;data-ng-model="Search.hire"&ndash;&gt;-->
-        <!--<div class="input-field col s12">-->
-            <!--<input-->
-                    <!--data-ng-checked="true"-->
-                    <!--value="Automatic"-->
-                    <!--class="with-gap"-->
-                    <!--id="hire_auto"-->
-                    <!--name="hire"-->
-                    <!--type="radio"-->
-            <!--/>-->
-            <!--<label for="hire_auto">Automatically hire the best applicants</label>-->
-        <!--</div>-->
-
-        <!--<div class="input-field col s12">-->
-            <!--<input-->
-                    <!--class="with-gap"-->
-                    <!--id="hire_manu"-->
-                    <!--name="hire"-->
-                    <!--type="radio"-->
-                    <!--value="Manual"/>-->
-            <!--<label for="hire_manu">Manually hire the best applicants</label>-->
-        <!--</div>-->
-        <!--<div class="clearfix"></div>-->
-        <!--<div class="gap x"></div>-->
-        <!--<div class="btn-block">-->
-            <!--<input type="submit"-->
-                   <!--class="btn btn-rounded btn-default btn-dark"-->
-                   <!--value="Post a Job"-->
-                   <!--data-ng-click="Job.postJob()">-->
-        <!--</div>-->
-
         <div class="gap x"></div>
+        <div class="row">
+            <div data-ng-controller="PostJobController as Job">
+                {{
+                Job.new}}
+                <div class="gap x"></div>
+                <div class="input-field col s12">
+                    <select et-select-box data-ng-model="Job.new.Proffesion">
+                        <option value="" disabled selected>Choose a profession</option>
+                        <option data-ng-repeat="skill in Job.skills">{{skill}}</option>
+                    </select>
+                </div>
+                <div class="input-field textarea-block extended col s12">
+                <textarea data-ng-model="Job.new.JobDiscription"
+                          id="desc_of_work"
+                          class="materialize-textarea">
+                </textarea>
+                    <label for="desc_of_work">Description of work and what employee need to bring / Dress code / osh requirements</label>
+                </div>
+                <div class="input-field col s12">
+                    <input data-ng-model="Job.new.JobName"
+                           id="job_name"
+                           type="text"
+                           class="validate">
+                    <label for="job_name">Job Name</label>
+                </div>
+                <div class="input-field col s12">
+                    <select et-select-box data-ng-model="Job.new.Location">
+                        <option value="" disabled selected>Location</option>
+                        <option data-ng-repeat="skill in Job.locations">{{skill}}</option>
+                    </select>
+                </div>
+                <div class="input-field col s6">
+                    <i class="ico ico-calendar prefix"></i>
+                    <input data-ng-model="Job.new.StartingDate"
+                           data-et-datepicker
+                           id="start_date"
+                           type="text"
+                    >
+                    <label for="start_date">Start Date</label>
+                </div>
+                <div class="input-field col s6">
+                    <i class="ico ico-calendar prefix"></i>
+                    <input data-ng-model="Job.new.EndingDate"
+                           data-et-datepicker
+                           id="end_date"
+                           type="text">
+                    <label for="end_date">End Date</label>
+                </div>
+                <div class="input-field col s12">
+                    <input et-time-picker
+                           data-ng-model="Job.new.StartingTime"
+                           id="start_time"
+                           type="text"
+                           class="validate">
+                    <label for="start_time">Start Time</label>
+                </div>
+                <div class="input-field col s12">
+                    <select et-select-box  data-ng-model="Job.new.NmuberOfEmployees">
+                        <option value="" disabled selected>Number of employees</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                <!--data-ng-model="Job.new.hire"-->
+                <!--data-ng-model="Job.new.hire"-->
+                <div class="input-field col s12">
+                    <input
+                            data-ng-checked="true"
+                            value="Automatic"
+                            class="with-gap"
+                            id="hire_auto"
+                            name="hire"
+                            type="radio"
+                    />
+                    <label for="hire_auto">Automatically hire the best applicants</label>
+                </div>
+
+                <div class="input-field col s12">
+                    <input
+                            class="with-gap"
+                            id="hire_manu"
+                            name="hire"
+                            type="radio"
+                            value="Manual" />
+                    <label for="hire_manu">Manually hire the best applicants</label>
+                </div>
+                <div class="clearfix"></div>
+                <div class="gap x"></div>
+                <div class="btn-block">
+                    <input type="submit"
+                           class="btn btn-rounded btn-default btn-dark"
+                           value="Post a Job"
+                           data-ng-click="Job.postJob()">
+                </div>
+
+                <div class="gap x"></div>
+            </div>
+        </div>
+        <div class="gap x"></div>
+
     </div>
 </div>

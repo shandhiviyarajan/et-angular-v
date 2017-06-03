@@ -16,9 +16,6 @@ $query_data = $ARR_POST_DATA['query_data'];
 $post_data = null;
 
 
-//print_r($ARR_POST_DATA);
-
-
 //SET Request header//
 if (isset($JWT_TOKEN) and $JWT_TOKEN != null) {
     $HEADER = array(

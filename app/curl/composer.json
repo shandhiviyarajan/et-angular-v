@@ -1,5 +1,7 @@
 {
   "require": {
-    "stripe/stripe-php": "4.*"
+    "stripe/stripe-php": "4.*",
+    "guzzlehttp/guzzle": "^6.2",
+    "symfony/http-foundation": "^3.3"
   }
 }
