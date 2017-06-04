@@ -13,7 +13,7 @@
 (function ($, angular) {
     "use strict";
 
-    //Angular strict DI Mode enabled '',
+    //Angular strict DI Mode enabled 'angular-loading-bar',
 
     //Start etAPI module
     angular.module("etAPI", [
@@ -105,17 +105,17 @@
         AuthService.Login = function (email, password, callback) {
 
             $http({
-               url: RESOURCE_URL.LOGIN,
-               method: 'POST',
-               headers: {
-                   'Content-type': 'application/x-www-form-urlencoded'
-               },
-               data: "Email=" + email + "&Password=" + password
+                url: RESOURCE_URL.LOGIN,
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded'
+                },
+                data: "Email=" + email + "&Password=" + password
 
             }).then(function (success) {
-               callback(success.data);
+                callback(success.data);
             }, function (error) {
-               callback(error.data);
+                callback(error.data);
             });
         };
 
@@ -184,7 +184,6 @@
         };
 
 
-
         /* Clear credentials
          ---------------------------------------------------------------------------- */
         AuthService.ClearCredentials = function () {
@@ -226,23 +225,20 @@
          --------------------------------------------------------------------------- */
         ServiceEmployee.GetProfileEmployee = function (callback) {
 
-            var httpRequest = $http({
-               url: '/curl/index_r.php',
-               method: 'POST',
-               data: {
-                   'request_url': 'https://easytrades.herokuapp.com/employee/my-profile',
-                   'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                   'request_method': 'GET',
-                   'query_data': false,
-                   'post_data': null
-               }
-            });
 
-            httpRequest.then(function (success) {
+            var httpRequest = $http({
+                url: '/curl/api.php?function=getProfile',
+                method: 'POST',
+                headers: {
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
+                    'username': $rootScope.globals.current_user.username
+                }
+            }).then(function (success) {
                 callback(success.data);
             }, function (error) {
                 callback(error.data);
             });
+
         };
 
         /* Get profile by other users - Employee
@@ -250,14 +246,13 @@
         ServiceEmployee.GetProfileSingleEmployee = function (username, callback) {
 
             var httpRequest = $http({
-                url: '/curl/index_r.php',
+                url: '/curl/api.php?function=api_call_employee',
                 method: 'POST',
-                data: {
+                headers: {
                     'request_url': 'http://easytrades.herokuapp.com/employee/' + username + '/profile',
-                    'JWT_TOKEN': null,
                     'request_method': 'GET',
-                    'query_data': true,
-                    'post_data': null
+                    'JWT_TOKEN': null,
+                    'data': null
                 }
             });
 
@@ -272,33 +267,31 @@
          --------------------------------------------------------------------------- */
         ServiceEmployee.UpdateProfile = function (userObj, callback) {
 
-
             var httpRequest = $http({
-               url: '/curl/index_r.php',
-               method: 'POST',
-               data: {
-                   'request_url': RESOURCE_URL.EMPLOYEE.UPDATE_PROFILE + $rootScope.globals.current_user.username + '/details',
-                   'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                   'request_method': 'POST',
-                   'query_data': false,
-                   'post_data': {
-                       'FirstName': userObj.FirstName,
-                       'LastName': userObj.LastName,
-                       'IRDNumber': userObj.IRDNumber,
-                       'GSTNumber': userObj.GSTNumber,
-                       'Address': {
-                           'Street': userObj.Address.Street,
-                           'City': userObj.Address.City,
-                           'PostalCode': userObj.Address.PostalCode
-                       },
-                       'DoBDate': userObj.DoBDate,
-                       'DoBMonth': userObj.DoBMonth,
-                       'DoBYear': userObj.DoBYear
-                   }
-               }
+                url: '/curl/api.php?function=updateProfile',
+                method: 'POST',
+                headers: {
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
+                    'username': $rootScope.globals.current_user.username,
+                    'request_url': 'https://easytrades.herokuapp.com/employee/' + $rootScope.globals.current_user.username,
+                    'request_method': 'POST',
+
+                    'data': angular.toJson({
+                        'FirstName': userObj.FirstName,
+                        'LastName': userObj.LastName,
+                        'IRDNumber': userObj.IRDNumber,
+                        'GSTNumber': userObj.GSTNumber,
+                        'Address': {
+                            'Street': userObj.Address.Street,
+                            'City': userObj.Address.City,
+                            'PostalCode': userObj.Address.PostalCode
+                        },
+                        'DoBDate': userObj.DoBDate,
+                        'DoBMonth': userObj.DoBMonth,
+                        'DoBYear': userObj.DoBYear
+                    })
+                }
             });
-
-
             httpRequest.then(function (success) {
                 callback(success.data);
             }, function (error) {
@@ -324,28 +317,24 @@
          --------------------------------------------------------------------------- */
         ServiceEmployee.AddLocation = function (locations, callback) {
 
-            $http({
-                url: '/curl/index_r.php',
+            var httpRequest = $http({
+                url: '/curl/api.php?function=updateLocations',
                 method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.EMPLOYEE.ADD_LOCATION + $rootScope.globals.current_user.username + '/location',
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'POST',
-                    'query_data': false,
-                    'post_data': {
-                        'Locations': locations
-                    }
-
-                },
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authentication': 'JWT ' + $rootScope.globals.current_user.token
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
+                    'request_url': 'https://easytrades.herokuapp.com/employee/' + $rootScope.globals.current_user.username + '/location',
+                    'request_method': 'POST',
+                    'data': angular.toJson({
+                        'Locations': locations
+                    })
                 }
-            }).then(function (success) {
+            });
+            httpRequest.then(function (success) {
                 callback(success.data);
             }, function (error) {
                 callback(error.data);
             });
+
         };
 
 
@@ -354,17 +343,18 @@
         ServiceEmployee.AddExperience = function (experience, callback) {
 
             $http({
-                url: '/curl/index_r.php',
+                url: '/curl/api.php?function=updateExperience',
                 method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.EMPLOYEE.ADD_EXPERIENCE + $rootScope.globals.current_user.username + '/experience',
+                headers: {
+                    'request_url': 'https://easytrades.herokuapp.com/employee/' + $rootScope.globals.current_user.username + '/experience',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'POST',
                     'query_data': false,
-                    'post_data': experience
+                    'data': angular.toJson(experience)
 
                 }
             }).then(function (success) {
+                console.log(success);
                 callback(success.data);
             }, function (error) {
                 callback(error.data);
@@ -376,14 +366,14 @@
         ServiceEmployee.AddSkills = function (skills, callback) {
 
             $http({
-                url: '/curl/index_r.php',
+                url: '/curl/api.php?function=updateSkills',
                 method: 'POST',
-                data: {
+                headers: {
                     'request_url': 'https://easytrades.herokuapp.com/employee/' + $rootScope.globals.current_user.username + '/skills',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'POST',
                     'query_data': false,
-                    'post_data': {"Skills": skills}
+                    'data': angular.toJson({"Skills": skills})
                 }
             }).then(function (success) {
                 callback(success.data);
@@ -453,7 +443,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': 'https://easytrades.herokuapp.com/employee/job/'+job_id+'/true',
+                    'request_url': 'https://easytrades.herokuapp.com/employee/job/' + job_id + '/true',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,
@@ -541,14 +531,14 @@
         ServiceEmployee.AddTimeSheet = function (timesheet, callback) {
 
             $http({
-                url: '/curl/index_r.php',
+                url: '/curl/api.php?function=add_time_sheet',
                 method: 'POST',
-                data: {
+                headers: {
+                    'username': $rootScope.globals.current_user.username,
                     'request_url': 'https://easytrades.herokuapp.com/employee/' + $rootScope.globals.current_user.username + '/timesheet',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'POST',
-                    'query_data': false,
-                    'post_data': timesheet
+                    'data': angular.toJson(timesheet)
                 }
             }).then(function (success) {
                 callback(success.data);
@@ -619,14 +609,12 @@
          ------------------------------------------------------------------------------- */
         ServiceEmployer.UpdateProfileEmployer = function (user, callback) {
             var httpRequest = $http({
-                url: '/curl/index_r.php',
+                url: '/curl/api.php?function=update_profile_employer',
                 method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.EMPLOYER.UPDATE_PROFILE + $rootScope.globals.current_user.username + "/update",
+                headers: {
+                    'username':$rootScope.globals.current_user.username,
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'POST',
-                    'query_data': false,
-                    'post_data': user
+                    'post_data': angular.toJson(user)
                 }
             });
 
@@ -641,14 +629,11 @@
          ------------------------------------------------------------------------------- */
         ServiceEmployer.PostJob = function (job, callback) {
             var httpRequest = $http({
-                url: '/curl/index_r.php',
+                url: '/curl/api.php?function=post_job_employer',
                 method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.EMPLOYER.ADD_JOB,
+                headers: {
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'POST',
-                    'query_data': false,
-                    'post_data': job
+                    'data': angular.toJson(job)
                 }
             });
 
@@ -663,14 +648,12 @@
          ------------------------------------------------------------------------------- */
         ServiceEmployer.ViewJobs = function (callback) {
             var httpRequest = $http({
-                url: '/curl/index_r.php',
+                url: '/curl/api.php?function=view_all_jobs_employer',
                 method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.EMPLOYER.VIEW_JOBS,
+                headers: {
+                    'request_url': 'https://easytrades.herokuapp.com/employer/jobs',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET',
-                    'query_data': true,
-                    'post_data': null
+                    'request_method': 'GET'
                 }
             });
 
@@ -686,16 +669,15 @@
          ------------------------------------------------------------------------------- */
         ServiceEmployer.ViewJobsByState = function (callback) {
             var httpRequest = $http({
-                url: '/curl/index_r.php',
+                url: '/curl/api.php?function=view_all_jobs_employer',
                 method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.EMPLOYER.VIEW_JOBS_HIRING,
+                headers: {
+                    'request_url': 'https://easytrades.herokuapp.com/employer/jobs',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET',
-                    'query_data': true,
-                    'post_data': null
+                    'request_method': 'GET'
                 }
             });
+
 
             httpRequest.then(function (success) {
                 callback(success.data);
@@ -709,14 +691,13 @@
          ------------------------------------------------------------------------------- */
         ServiceEmployer.ViewSingleJob = function (job_id, callback) {
             $http({
-                url: '/curl/index_r.php',
+                url: '/curl/api.php?function=view_single_job',
                 method: 'POST',
-                data: {
+                headers: {
                     'request_url': 'https://easytrades.herokuapp.com/employer/job?id=' + job_id,
+                    'job_id': job_id,
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET',
-                    'query_data': true,
-                    'post_data': null
+                    'request_method': 'GET'
                 }
             }).then(function (success) {
                 callback(success.data);
@@ -732,7 +713,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': RESOURCE_URL.EMPLOYER.APPROVE_JOB + user_id + "/" + status,
+                    'request_url': 'https://easytrades.herokuapp.com/employer/job/' + user_id + "/" + status,
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'PUT',
                     'query_data': true,
@@ -744,6 +725,8 @@
                 callback(error.data);
             });
         };
+
+
 
         ServiceEmployer.GetTimeSheets = function (callback) {
             $http({

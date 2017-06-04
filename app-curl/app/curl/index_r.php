@@ -2,10 +2,6 @@
 header('Content-Type: application/json');
 
 
-//Require guzzle
-require_once ('vendor/guzzel/autoload.php');
-use GuzzleHttp\Client;
-
 //get the post data
 $request_data = file_get_contents('php://input');
 
@@ -21,6 +17,9 @@ $query_data = $ARR_POST_DATA['query_data'];
 
 //create a blank post_data
 $post_data = null;
+$options = array();
+$headers = array();
+
 
 //if query_data true build a query array else send as a object
 if ($query_data) {
@@ -33,24 +32,60 @@ if ($query_data) {
     $post_data = json_encode($post_data_array);
 }
 
-
-
-$client = new Client([]);
-if (isset($JWT_TOKEN) and $JWT_TOKEN != null) {
-    $response = $client->request($request_method, $request_url, [
-        'headers' => [
-            'Content-Type'     => 'application/json',
-            'Authorization'      => $JWT_TOKEN
-        ],
-        'json' => $post_data
-    ]);
+if ($JWT_TOKEN != null && isset($JWT_TOKEN)) {
+    $headers = array(
+        'Content-length: 0',
+        'Accept: application/json',
+        'Content-Type:application/json',
+        'Authorization:' . $JWT_TOKEN
+    );
 } else {
-    $response = $client->request($request_method, $request_url, [
-        'headers' => [
-            'Content-Type'     => 'application/json'
-        ],
-        'json' => $post_data
-    ]);
+    $headers = array(
+        'Content-length: 0',
+        'Accept: application/json',
+        'Content-Type:application/json'
+    );
 }
-$results = $response->getBody();
-echo $results;
+
+switch ($request_method) {
+    case 'POST':
+        $options = array(
+            CURLOPT_URL => $request_url,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_TIMEOUT => 120,
+            CURLOPT_POSTFIELDS => $post_data,
+        );
+        break;
+
+    case 'PUT':
+        $options = array(
+            CURLOPT_URL => $request_url,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_TIMEOUT => 120,
+            CURLOPT_POSTFIELDS => $post_data,
+        );
+        break;
+
+    case 'GET':
+        echo "get";
+        $options = array(
+            CURLOPT_URL => $request_url,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 120,
+            CURLOPT_POSTFIELDS => $post_data,
+        );
+        break;
+}
+
+$curlRequest = curl_init();
+curl_setopt_array($curlRequest, $options);
+
+$result = curl_exec($curlRequest);
+curl_close($curlRequest);
+
+print_r($result);

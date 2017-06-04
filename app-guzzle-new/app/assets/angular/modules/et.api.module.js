@@ -102,31 +102,18 @@
         /* Authentication Login / Sign In
          --------------------------------------------------------------------------- */
         AuthService.Login = function (email, password, callback) {
-            // $http({
-            //     url: '/curl/api.php?function=login',
-            //     method: 'POST',
-            //     headers: {
-            //         'email': email,
-            //         'password': password
-            //     }
-            // }).then(function (success) {
-            //     callback(success.data);
-            // }, function (error) {
-            //     callback(error.data);
-            // });
-
             $http({
-               url: RESOURCE_URL.LOGIN,
-               method: 'POST',
-               headers: {
-                   'Content-type': 'application/x-www-form-urlencoded'
-               },
-               data: "Email=" + email + "&Password=" + password
+                url: RESOURCE_URL.LOGIN,
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded'
+                },
+                data: "Email=" + email + "&Password=" + password
 
             }).then(function (success) {
-               callback(success.data);
+                callback(success.data);
             }, function (error) {
-               callback(error.data);
+                callback(error.data);
             });
         };
 
@@ -185,15 +172,12 @@
                 headers: {
                     "Content-type": 'application/x-www-form-urlencoded'
                 }
-
             }).then(function (success) {
                 callback(success.data);
             }, function (error) {
                 callback(error.data);
             });
-
         };
-
 
 
         /* Clear credentials
@@ -238,15 +222,15 @@
         ServiceEmployee.GetProfileEmployee = function (callback) {
 
             var httpRequest = $http({
-               url: '/curl/index_r.php',
-               method: 'POST',
-               data: {
-                   'request_url': 'https://easytrades.herokuapp.com/employee/my-profile',
-                   'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                   'request_method': 'GET',
-                   'query_data': true,
-                   'post_data': null
-               }
+                url: '/curl/index_r.php',
+                method: 'POST',
+                data: {
+                    'request_url': 'https://easytrades.herokuapp.com/employee/my-profile',
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
+                    'request_method': 'GET',
+                    'query_data': true,
+                    'post_data': null
+                }
             });
 
             httpRequest.then(function (success) {
@@ -283,52 +267,30 @@
          --------------------------------------------------------------------------- */
         ServiceEmployee.UpdateProfile = function (userObj, callback) {
 
-            // var httpRequest = $http({
-            //     url: '/curl/api.php?function=updateProfile',
-            //     method: 'POST',
-            //     headers: {
-            //         'username' : $rootScope.globals.current_user.username,
-            //         'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-            //         'data': angular.toJson({
-            //             'FirstName': userObj.FirstName,
-            //             'LastName': userObj.LastName,
-            //             'IRDNumber': userObj.IRDNumber,
-            //             'GSTNumber': userObj.GSTNumber,
-            //             'Address': {
-            //                 'Street': userObj.Address.Street,
-            //                 'City': userObj.Address.City,
-            //                 'PostalCode': userObj.Address.PostalCode
-            //             },
-            //             'DoBDate': userObj.DoBDate,
-            //             'DoBMonth': userObj.DoBMonth,
-            //             'DoBYear': userObj.DoBYear
-            //         })
-            //     }
-            // });
 
             var httpRequest = $http({
-               url: '/curl/index_r.php',
-               method: 'POST',
-               data: {
-                   'request_url': RESOURCE_URL.EMPLOYEE.UPDATE_PROFILE + $rootScope.globals.current_user.username + '/details',
-                   'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                   'request_method': 'POST',
-                   'query_data': false,
-                   'post_data': {
-                       'FirstName': userObj.FirstName,
-                       'LastName': userObj.LastName,
-                       'IRDNumber': userObj.IRDNumber,
-                       'GSTNumber': userObj.GSTNumber,
-                       'Address': {
-                           'Street': userObj.Address.Street,
-                           'City': userObj.Address.City,
-                           'PostalCode': userObj.Address.PostalCode
-                       },
-                       'DoBDate': userObj.DoBDate,
-                       'DoBMonth': userObj.DoBMonth,
-                       'DoBYear': userObj.DoBYear
-                   }
-               }
+                url: '/curl/index_r.php',
+                method: 'POST',
+                data: {
+                    'request_url': RESOURCE_URL.EMPLOYEE.UPDATE_PROFILE + $rootScope.globals.current_user.username + '/details',
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
+                    'request_method': 'POST',
+                    'query_data': false,
+                    'post_data': {
+                        'FirstName': userObj.FirstName,
+                        'LastName': userObj.LastName,
+                        'IRDNumber': userObj.IRDNumber,
+                        'GSTNumber': userObj.GSTNumber,
+                        'Address': {
+                            'Street': userObj.Address.Street,
+                            'City': userObj.Address.City,
+                            'PostalCode': userObj.Address.PostalCode
+                        },
+                        'DoBDate': userObj.DoBDate,
+                        'DoBMonth': userObj.DoBMonth,
+                        'DoBYear': userObj.DoBYear
+                    }
+                }
             });
 
 
@@ -486,7 +448,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': 'https://easytrades.herokuapp.com/employee/job/'+job_id+'/true',
+                    'request_url': 'https://easytrades.herokuapp.com/employee/job/' + job_id + '/true',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,
