@@ -163,16 +163,16 @@
         AuthService.CreateUser = function (user, callback) {
 
             $http({
-                url: 'https://easytrades.herokuapp.com/signup/',
+                url: '/curl/api.php?function=sign_up',
                 method: 'POST',
-                data: {
-                    "Email": user.Email,
-                    "Password": user.Password,
-                    "UserName": user.UserName,
-                    "Type": user.Type
-                },
                 headers: {
-                    "Content-type": 'application/x-www-form-urlencoded'
+                    'data': angular.toJson({
+                        "Email": user.Email,
+                        "Password": user.Password,
+                        "UserName": user.UserName,
+                        "Type": user.Type
+                    })
+
                 }
 
             }).then(function (success) {
@@ -612,7 +612,7 @@
                 url: '/curl/api.php?function=update_profile_employer',
                 method: 'POST',
                 headers: {
-                    'username':$rootScope.globals.current_user.username,
+                    'username': $rootScope.globals.current_user.username,
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'post_data': angular.toJson(user)
                 }
@@ -725,7 +725,6 @@
                 callback(error.data);
             });
         };
-
 
 
         ServiceEmployer.GetTimeSheets = function (callback) {

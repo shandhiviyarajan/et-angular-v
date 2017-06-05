@@ -198,6 +198,7 @@
             console.log(Register.user);
 
             AuthService.CreateUser(Register.user, function (response) {
+                console.log(Register.user);
                 if (response.status) {
                     MessageService.Success("User created !");
                     $state.go("signInEmployee");

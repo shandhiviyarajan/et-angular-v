@@ -52,6 +52,26 @@ class Pointers
         }
     }
 
+
+    private function sign_up()
+    {
+
+        $this->options['headers'] = [
+            'Content-type' => 'application/json'
+        ];
+
+        $this->options = array_merge($this->options, [
+            'body' => $this->http->headers->get('data')
+        ]);
+
+        $request = $this->client->request('POST', 'https://easytrades.herokuapp.com/signup/', $this->options);
+        if ($request->getStatusCode() === 200) {
+            $request = \GuzzleHttp\json_decode($request->getBody());
+            $this->output($request);
+        }
+
+    }
+
     /*
      * Get employee profile
      */
@@ -303,8 +323,9 @@ class Pointers
             $request = \GuzzleHttp\json_decode($request->getBody());
             $this->output($request);
         }
-        
+
     }
+
     private function view_all_jobs_employer()
     {
         $this->options['headers'] = [
