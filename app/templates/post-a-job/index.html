@@ -98,19 +98,21 @@
         <!--data-ng-model="Job.new.hire"-->
         <!--data-ng-model="Job.new.hire"-->
         <div class="input-field col s12">
-            <input
+            <input data-ng-model="Job.new.hire"
                    data-ng-checked="true"
                    value="Automatic"
                    class="with-gap"
                    id="hire_auto"
                    name="hire"
                    type="radio"
+
                     />
             <label for="hire_auto">Automatically hire the best applicants</label>
         </div>
 
         <div class="input-field col s12">
             <input
+                    data-ng-model="Job.new.hire"
                    class="with-gap"
                    id="hire_manu"
                    name="hire"

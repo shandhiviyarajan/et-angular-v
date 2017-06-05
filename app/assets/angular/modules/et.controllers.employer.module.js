@@ -31,10 +31,10 @@
          ---------------------------------------------------------------------------------------- */
         Register.register = function () {
             Register.user = {
-                username: Register.username,
-                email: Register.email,
-                type: "employer",
-                password: Register.password
+                "Email": Register.email,
+                "UserName": Register.username,
+                "Password": Register.password,
+                "Type": "employer"
             };
             AuthService.CreateUser(Register.user, function (response) {
                 console.log(response);
@@ -196,7 +196,9 @@
 
 
         var Job = this;
-        Job.new = {};
+        Job.new = {
+            'hire':'Automatic'
+        };
 
         Job.skills = [];
         Job.locations = [];
@@ -252,6 +254,7 @@
         };
 
         localStorage.setItem("new_job", Job.new);
+        console.log(Job.new);
         Job.job = function () {
             ServiceEmployer.PostJob(Job.new, function (response) {
                 console.log(response);
