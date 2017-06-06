@@ -968,9 +968,7 @@
                 url: '/curl/api.php?function=billing_step_one',
                 method: 'POST',
                 headers: {
-                    'request_url': 'https://easytrades.herokuapp.com/user/billing/bank',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'POST',
                     'data': angular.toJson(Billing.account)
                 }
 
@@ -1001,9 +999,7 @@
                 url: '/curl/api.php?function=billing_step_two',
                 method: 'POST',
                 headers: {
-                    'request_url': 'https://easytrades.herokuapp.com/user/billing',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'POST',
                     'data': angular.toJson({
                         "stripeToken": token
                     })
@@ -1023,9 +1019,7 @@
                 url: '/curl/api.php?function=billing_step_verify',
                 method: 'POST',
                 headers: {
-                    'request_url': 'https://easytrades.herokuapp.com/user/billing/verify',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'POST',
                     'data': angular.toJson({
                         "file": Billing.filename
                     })
@@ -1064,12 +1058,8 @@
             url: '/curl/api.php?function=search_jobs',
             method: 'POST',
             headers: {
-                'request_url': 'https://easytrades.herokuapp.com/employer/job/search?location=' + $stateParams.location + '&skill=' + $stateParams.skill,
-                'JWT_TOKEN': null,
-                'request_method': 'GET',
                 'location': $stateParams.location,
-                'skill': $stateParams.skill,
-                'data': null
+                'skill': $stateParams.skill
             }
         }).then(function (response) {
             console.log(response);
