@@ -31,6 +31,7 @@ class Pointers
     {
         $this->http = Request::createFromGlobals();
 
+        //Base URL for the API Call
         $this->client = new GuzzleHttp\Client([
             'base_uri' => 'https://easytrades.herokuapp.com'
         ]);
@@ -64,7 +65,7 @@ class Pointers
             'body' => $this->http->headers->get('data')
         ]);
 
-        $request = $this->client->request('POST', 'https://easytrades.herokuapp.com/signup/', $this->options);
+        $request = $this->client->request('POST', '/signup/', $this->options);
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
             $this->output($request);
@@ -210,7 +211,7 @@ class Pointers
             'body' => $this->http->headers->get('data')
         ]);
 
-        $request = $this->client->request('POST', 'https://easytrades.herokuapp.com/user/billing/bank', $this->options);
+        $request = $this->client->request('POST', '/user/billing/bank', $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
@@ -233,7 +234,7 @@ class Pointers
             'body' => $this->http->headers->get('data')
         ]);
 
-        $request = $this->client->request('POST', 'https://easytrades.herokuapp.com/user/billing/', $this->options);
+        $request = $this->client->request('POST', '/user/billing/', $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
@@ -256,7 +257,7 @@ class Pointers
             'body' => $this->http->headers->get('data')
         ]);
 
-        $request = $this->client->request('POST', 'https://easytrades.herokuapp.com/user/billing/verify', $this->options);
+        $request = $this->client->request('POST', '/user/billing/verify', $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
@@ -270,7 +271,7 @@ class Pointers
             'Content-type' => 'application/json'
         ];
 
-        $request = $this->client->request('GET', 'https://easytrades.herokuapp.com/employer/job/search?location=' . $this->http->headers->get('location') . '&skill=' . $this->http->headers->get('skill'), $this->options);
+        $request = $this->client->request('GET', '/employer/job/search?location=' . $this->http->headers->get('location') . '&skill=' . $this->http->headers->get('skill'), $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
@@ -293,7 +294,7 @@ class Pointers
             'body' => $this->http->headers->get('data')
         ]);
 
-        $request = $this->client->request('POST', 'https://easytrades.herokuapp.com/employee/' . $this->http->headers->get('username') . '/timesheet', $this->options);
+        $request = $this->client->request('POST', '/employee/' . $this->http->headers->get('username') . '/timesheet', $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
@@ -317,7 +318,7 @@ class Pointers
             'body' => $this->http->headers->get('data')
         ]);
 
-        $request = $this->client->request('POST', 'https://easytrades.herokuapp.com/employer/' . $this->http->headers->get('username') . '/update', $this->options);
+        $request = $this->client->request('POST', '/employer/' . $this->http->headers->get('username') . '/update', $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
@@ -333,7 +334,7 @@ class Pointers
             'Authorization' => $this->http->headers->get('JWT_TOKEN')
         ];
 
-        $request = $this->client->request('GET', 'https://easytrades.herokuapp.com/employer/job', $this->options);
+        $request = $this->client->request('GET', '/employer/job', $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
@@ -351,7 +352,7 @@ class Pointers
         ];
 
 
-        $request = $this->client->request('GET', 'https://easytrades.herokuapp.com/employer/job?id=' . $this->http->headers->get('job_id'), $this->options);
+        $request = $this->client->request('GET', '/employer/job?id=' . $this->http->headers->get('job_id'), $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
@@ -373,7 +374,7 @@ class Pointers
         ]);
 
 
-        $request = $this->client->request('POST', 'https://easytrades.herokuapp.com/employer/hire/' . $this->http->headers->get('job_id'), $this->options);
+        $request = $this->client->request('POST', '/employer/hire/' . $this->http->headers->get('job_id'), $this->options);
 
 
         if ($request->getStatusCode() === 200) {
@@ -395,7 +396,7 @@ class Pointers
         ]);
 
 
-        $request = $this->client->request('POST', 'https://easytrades.herokuapp.com/employer/timesheet/' . $this->http->headers->get('contract_id') . '/' . $this->http->headers->get('time_sheet_id'), $this->options);
+        $request = $this->client->request('POST', '/employer/timesheet/' . $this->http->headers->get('contract_id') . '/' . $this->http->headers->get('time_sheet_id'), $this->options);
 
 
         if ($request->getStatusCode() === 200) {
@@ -411,7 +412,7 @@ class Pointers
             'Authorization' => $this->http->headers->get('JWT_TOKEN')
         ];
 
-        $request = $this->client->request('POST', 'https://easytrades.herokuapp.com/employer/timesheet/' . $this->http->headers->get('contract_id') . '/' . $this->http->headers->get('time_sheet_id'), $this->options);
+        $request = $this->client->request('POST', '/employer/timesheet/' . $this->http->headers->get('contract_id') . '/' . $this->http->headers->get('time_sheet_id'), $this->options);
 
 
         if ($request->getStatusCode() === 200) {
@@ -427,7 +428,7 @@ class Pointers
             'Authorization' => $this->http->headers->get('JWT_TOKEN')
         ];
 
-        $request = $this->client->request('GET', 'https://easytrades.herokuapp.com/employer/timesheets?CreatedBy=' . $this->http->headers->get('created-by'), $this->options);
+        $request = $this->client->request('GET', '/employer/timesheets?CreatedBy=' . $this->http->headers->get('created-by'), $this->options);
 
 
         if ($request->getStatusCode() === 200) {
@@ -448,7 +449,7 @@ class Pointers
             'body' => $this->http->headers->get('data')
         ]);
 
-        $request = $this->client->request('POST', 'https://easytrades.herokuapp.com/employer/job', $this->options);
+        $request = $this->client->request('POST', '/employer/job', $this->options);
 
 
         if ($request->getStatusCode() === 200) {
@@ -483,7 +484,7 @@ class Pointers
             'body' => $this->http->headers->get('data')
         ]);
 
-        $request = $this->client->request('POST', 'https://easytrades.herokuapp.com/user/billing', $this->options);
+        $request = $this->client->request('POST', '/user/billing', $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());

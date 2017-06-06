@@ -1,7 +1,7 @@
 /**
  * @project - Easy trades
  * @date - April 28 2017
- * @type - Javascript / JQuery/ Angular
+ * @type - Javascript / JQuery/ Angular verson 1.x
  * @file - Application controllers employer
  * @author - Shan Dhiviyajan <prashasoft@gmail.com>
  */
