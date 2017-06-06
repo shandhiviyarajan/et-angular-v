@@ -203,7 +203,7 @@
         Job.skills = [];
         Job.locations = [];
 
-        Job.skills = GetSkills.data.skills;
+        Job.skills = GetSkills.data.Skills;
         Job.locations = GetLocations.data.Locations;
 
 
