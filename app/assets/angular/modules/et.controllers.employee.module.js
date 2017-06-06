@@ -150,7 +150,7 @@
 
         Login.login = function () {
             AuthService.Login(Login.email, Login.password, function (response) {
-                console.log(response);
+
 
                 if (response.status) {
                     MessageService.Success("Login Successful !", 4000);
@@ -253,7 +253,7 @@
             if (AuthService.isAuthenticated()) {
                 ServiceEmployee.GetProfileEmployee(function (response) {
 
-                    console.log(response);
+
                     if (response.status) {
                         Profile.user = response.data;
                         //Manipulate date string
@@ -288,13 +288,13 @@
          --------------------------------------------------------------------------------------- */
         Profile.update = function () {
             ServiceEmployee.UpdateProfile(Profile.user, function (response) {
-                console.log(response);
+
                 if (response.status) {
                     MessageService.Success("Profile updated successfully !");
                     Profile.user = response.data;
                     Profile.user.date_of_birth = Profile.user.DoBDate + "/" + Profile.user.DoBMonth + "/" + Profile.user.DoBYear;
                 } else {
-                    console.log(response);
+
                     MessageService.Error(response.message);
                 }
 
@@ -409,7 +409,7 @@
         /* Get all skills
          ---------------------------------------------------------------------------------------- */
         AppService.GetSkillsLocations(function (response) {
-            console.log(response);
+
             Skill.skills = response.data.Skills;
 
 
@@ -426,7 +426,7 @@
             /* Get user Skills
              ---------------------------------------------------------------------------------------- */
             ServiceEmployee.GetProfileEmployee(function (response) {
-                console.log(response);
+
                 Skill.user_skills = response.data.Skills;
                 angular.forEach(Skill.user_skills, function (U, K) {
                     angular.forEach(Skill.final_skills, function (F, K) {
@@ -455,7 +455,7 @@
 
 
             ServiceEmployee.AddSkills(Skill.selected_skills, function (response) {
-                console.log(response);
+
                 if (response.status) {
                     MessageService.Success("Skills updated successfully !");
                     Skill.user_skills = response.data.Skills
@@ -788,7 +788,6 @@
         if ($scope.JobID) {
             ServiceEmployee.ViewSingleJob($scope.JobID, function (response) {
                 $scope.Job = response.data[0];
-                console.log(response);
             });
         }
 
@@ -979,7 +978,6 @@
                 }
 
             }).then(function (response) {
-                console.log(response);
                 if (response.data.status) {
                     if (response.data.data.Token) {
                         Billing.addAccountStepTwo(response.data.data.Token);
@@ -995,7 +993,6 @@
                 }
 
             }, function (response) {
-                console.log(response);
             });
         };
 
@@ -1068,7 +1065,7 @@
                 'skill': $stateParams.skill
             }
         }).then(function (response) {
-            console.log(response);
+
 
             if (response.data.status) {
 
@@ -1091,7 +1088,6 @@
 
 
         }, function (response) {
-            console.log(response);
             Search.show_results = false;
 
         });
