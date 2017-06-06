@@ -142,7 +142,7 @@ class Pointers
             'body' => $this->http->headers->get('data')
         ]);
 
-        $request = $this->client->request($this->http->headers->get('request_method'), $this->http->headers->get('request_url'), $this->options);
+        $request = $this->client->request('POST', '/employee/' . $this->http->headers->get('username') . '/location'), $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
@@ -165,7 +165,7 @@ class Pointers
             'body' => $this->http->headers->get('data')
         ]);
 
-        $request = $this->client->request($this->http->headers->get('request_method'), $this->http->headers->get('request_url'), $this->options);
+        $request = $this->client->request('POST', '/employee/'.$this->http->headers->get('username').'/skills', $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
@@ -188,7 +188,7 @@ class Pointers
             'body' => $this->http->headers->get('data')
         ]);
 
-        $request = $this->client->request($this->http->headers->get('request_method'), $this->http->headers->get('request_url'), $this->options);
+        $request = $this->client->request('POST', '/employee/' . $this->http->headers->get('username') . '/experience', $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());

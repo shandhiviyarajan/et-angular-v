@@ -322,8 +322,7 @@
                 method: 'POST',
                 headers: {
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_url': 'https://easytrades.herokuapp.com/employee/' + $rootScope.globals.current_user.username + '/location',
-                    'request_method': 'POST',
+                    'username': $rootScope.globals.current_user.username,
                     'data': angular.toJson({
                         'Locations': locations
                     })
@@ -346,10 +345,8 @@
                 url: '/curl/api.php?function=updateExperience',
                 method: 'POST',
                 headers: {
-                    'request_url': 'https://easytrades.herokuapp.com/employee/' + $rootScope.globals.current_user.username + '/experience',
+                    'username': $rootScope.globals.current_user.username,
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'POST',
-                    'query_data': false,
                     'data': angular.toJson(experience)
 
                 }
@@ -369,10 +366,8 @@
                 url: '/curl/api.php?function=updateSkills',
                 method: 'POST',
                 headers: {
-                    'request_url': 'https://easytrades.herokuapp.com/employee/' + $rootScope.globals.current_user.username + '/skills',
+                    'username': $rootScope.globals.current_user.username,
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'POST',
-                    'query_data': false,
                     'data': angular.toJson({"Skills": skills})
                 }
             }).then(function (success) {
@@ -391,7 +386,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': RESOURCE_URL.EMPLOYEE.VIEW_MY_JOBS,
+                    'request_url': 'https://easytrades.herokuapp.com/employee/myjobs',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,

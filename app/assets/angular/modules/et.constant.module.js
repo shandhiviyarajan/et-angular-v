@@ -30,7 +30,7 @@
                 VIEW_JOBS: 'https://easytrades.herokuapp.com/employee/jobs',
                 VIEW_JOB_BY_ID: 'https://easytrades.herokuapp.com/employee/jobs?id=',
                 VIEW_ALL_JOBS:'https://easytrades.herokuapp.com/employee/jobs',
-                VIEW_MY_JOBS:'easytrades.herokuapp.com/employee/myjobs',
+                VIEW_MY_JOBS:'https://easytrades.herokuapp.com/employee/myjobs',
                 ADD_LOCATION:'https://easytrades.herokuapp.com/employee/',
                 ADD_EXPERIENCE:'https://easytrades.herokuapp.com/employee/', //nuwans/experience
                 EDIT_LOCATION:'https://easytrades.herokuapp.com/employee/',
