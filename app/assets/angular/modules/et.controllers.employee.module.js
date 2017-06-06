@@ -72,8 +72,14 @@
 
         $scope.valid = true;
 
+
+        $scope.$watch('selected_skill', function (nv, ov) {
+            $scope.selected_skill = (nv == "" || nv == " ") ? null : nv;
+            $scope.checkValid();
+        });
+
         $scope.checkValid = function () {
-            $scope.valid = ($scope.selected_skill != null && $scope.selected_location != null) ? false : true;
+            $scope.valid = (!($scope.selected_skill != null && $scope.selected_location != null));
         };
 
 
