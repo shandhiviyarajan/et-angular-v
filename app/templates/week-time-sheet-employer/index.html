@@ -95,13 +95,18 @@
                     <td>
                         {{timesheet.ApprovedHours}}
                     </td>
-                    <td>
+                    <td style="text-transform: capitalize;">
                         {{timesheet.Status}}
                     </td>
 
                     <td>
-                        <a data-ng-click ="Timesheet.approveTimesheet(timesheet._id)" class="btn btn-rounded waves-effect waves-green">Approve</a>
-                        <a data-ng-click="Timesheet.addContest(timesheet.Hours,timesheet._id)" href="#contest_modal" et-trigger-modal
+                        <a data-ng-disabled="timesheet.Status == 'contested'" type="buttton"
+                           data-ng-click="Timesheet.approveTimesheet(timesheet._id)"
+                           class="btn btn-rounded waves-effect waves-green">Approve</a>
+                        <a data-ng-disabled="timesheet.Status == 'contested'"
+                           data-ng-click="Timesheet.addContest(timesheet.Hours,timesheet._id)"
+                           href="#contest_modal"
+                           et-trigger-modal
                            class="btn btn-rounded waves-effect waves-green ">Contest</a>
                     </td>
                 </tr>

@@ -291,7 +291,28 @@
         var postJob = {
             name: 'postJob',
             url: '/post-a-job',
-            templateUrl: base + '/templates/post-a-job'
+            controller: 'PostJobController',
+            controllerAs: 'Job',
+            templateUrl: base + '/templates/post-a-job',
+            resolve: {
+                GetSkills: ['$http',function ($http) {
+                    return $http({
+                        url: 'https://easytrades.herokuapp.com/skills',
+                        method: 'GET'
+                    }).then(function (response) {
+                        return response.data;
+                    });
+                }],
+                GetLocations: ['$http',function ($http) {
+                    //Get locations
+                    return $http({
+                        url: 'https://easytrades.herokuapp.com/locations/cities',
+                        method: 'GET'
+                    }).then(function (response) {
+                        return response.data;
+                    });
+                }]
+            }
         };
         $stateProvider.state(postJob);
 
