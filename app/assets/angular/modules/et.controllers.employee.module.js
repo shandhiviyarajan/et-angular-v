@@ -133,8 +133,8 @@
         /* User Login
          ---------------------------------------------------------------------------------------- */
         var Login = this;
-        Login.email = 'nuwansameerait@gmail.com';
-        Login.password = 'test123';
+        Login.email;
+        Login.password;
         Login.type = 'employee';
 
 

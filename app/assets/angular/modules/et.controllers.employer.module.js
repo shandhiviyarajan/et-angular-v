@@ -60,8 +60,8 @@
         /* User login
          ---------------------------------------------------------------------------------------- */
         var Login = this;
-        Login.email = 'nuo.samee@gmail.com';
-        Login.password = 'test123';
+        Login.email;
+        Login.password;
         Login.type = 'employer';
 
         console.log($state);
