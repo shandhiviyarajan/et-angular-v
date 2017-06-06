@@ -142,7 +142,7 @@ class Pointers
             'body' => $this->http->headers->get('data')
         ]);
 
-        $request = $this->client->request('POST', '/employee/' . $this->http->headers->get('username') . '/location'), $this->options);
+        $request = $this->client->request('POST', '/employee/' . $this->http->headers->get('username') . '/location', $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
