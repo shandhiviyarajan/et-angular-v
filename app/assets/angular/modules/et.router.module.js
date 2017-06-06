@@ -227,7 +227,20 @@
             cache: false,
             name: 'addLocation',
             url: '/employee/add-location',
-            templateUrl: base + '/templates/add-location'
+            controller: 'LocationController',
+            controllerAs: 'Location',
+            templateUrl: base + '/templates/add-location',
+            resolve:{
+                GetLocations: ['$http',function ($http) {
+                    //Get locations
+                    return $http({
+                        url: 'https://easytrades.herokuapp.com/locations/cities',
+                        method: 'GET'
+                    }).then(function (response) {
+                        return response.data;
+                    });
+                }]
+            }
         };
         $stateProvider.state(addLocation);
 

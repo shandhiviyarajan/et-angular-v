@@ -56,7 +56,7 @@
         AppService.GetSkillsLocations = function (skills, locations) {
 
             $http({
-                url: 'https://easytrades.herokuapp.com/skills',
+                url: RESOURCE_URL.BASE_URI + '/skills',
                 method: 'GET'
             }).then(function (response) {
                 if (response.data.status) {
@@ -73,7 +73,7 @@
 
             //Get locations
             $http({
-                url: 'https://easytrades.herokuapp.com/locations/cities',
+                url: RESOURCE_URL.BASE_URI + '/locations/cities',
                 method: 'GET'
             }).then(function (response) {
                 if (response.data.status) {
@@ -105,7 +105,7 @@
         AuthService.Login = function (email, password, callback) {
 
             $http({
-                url: RESOURCE_URL.LOGIN,
+                url: RESOURCE_URL.BASE_URI + '/login',
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded'
@@ -189,7 +189,7 @@
         AuthService.ClearCredentials = function () {
 
             $http({
-                url: RESOURCE_URL.SIGN_OUT,
+                url: RESOURCE_URL.BASE_URI + '/logout',
                 method: 'GET',
                 headers: {
                     "Content-type": 'application/x-www-form-urlencoded'
@@ -249,7 +249,7 @@
                 url: '/curl/api.php?function=api_call_employee',
                 method: 'POST',
                 headers: {
-                    'request_url': 'http://easytrades.herokuapp.com/employee/' + username + '/profile',
+                    'request_url': RESOURCE_URL.BASE_URI + '/employee/' + username + '/profile',
                     'request_method': 'GET',
                     'JWT_TOKEN': null,
                     'data': null
@@ -273,8 +273,6 @@
                 headers: {
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'username': $rootScope.globals.current_user.username,
-                    'request_url': 'https://easytrades.herokuapp.com/employee/' + $rootScope.globals.current_user.username,
-                    'request_method': 'POST',
 
                     'data': angular.toJson({
                         'FirstName': userObj.FirstName,
@@ -304,7 +302,7 @@
         ServiceEmployee.GetProfileOthersEmployee = function (username, type, callback) {
 
             $http({
-                url: RESOURCE_URL.EMPLOYEE.MY_PROFILE_OTHERS,
+                url: RESOURCE_URL.BASE_URI + '/employee/' + username + '/profile',
                 method: 'GET'
             }).then(function (success) {
                 callback(success.data);
@@ -386,7 +384,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': 'https://easytrades.herokuapp.com/employee/myjobs',
+                    'request_url': RESOURCE_URL.BASE_URI + '/employee/myjobs',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,
@@ -413,7 +411,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': RESOURCE_URL.EMPLOYEE.VIEW_JOB_BY_ID + job_id,
+                    'request_url': RESOURCE_URL.BASE_URI + '/employee/jobs?id=' + job_id,
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,
@@ -438,7 +436,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': 'https://easytrades.herokuapp.com/employee/job/' + job_id + '/true',
+                    'request_url': RESOURCE_URL.BASE_URI + '/employee/job/' + job_id + '/true',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,
@@ -559,7 +557,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': '/employer/my-profile',
+                    'request_url': RESOURCE_URL.BASE_URI + '/employer/my-profile',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,

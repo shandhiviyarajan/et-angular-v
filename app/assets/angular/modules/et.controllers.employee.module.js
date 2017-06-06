@@ -301,8 +301,8 @@
      * ------------------------------------------------------------------------------------------ */
     angular.module('etControllersEmployee')
         .controller('LocationController', LocationController);
-    LocationController.$inject = ['$scope', '$http', '$state', '$stateParams', '$timeout', 'AuthService', 'ServiceEmployee', 'AppService', 'MessageService'];
-    function LocationController($scope, $http, $state, $stateParams, $timeout, AuthService, ServiceEmployee, AppService, MessageService) {
+    LocationController.$inject = ['$scope', '$http', '$state', '$stateParams', '$timeout', 'AuthService', 'ServiceEmployee', 'AppService', 'MessageService', 'GetLocations'];
+    function LocationController($scope, $http, $state, $stateParams, $timeout, AuthService, ServiceEmployee, AppService, MessageService,GetLocations) {
         console.log("Location controller");
         var Location = this;
         Location.user_locations = {};
@@ -320,28 +320,11 @@
 
         /* Get all locations
          ---------------------------------------------------------------------------------------- */
-        Location.getLocations = function () {
-            var httpRequest = $http({
-                url: 'https://easytrades.herokuapp.com/locations/cities',
-                method: 'GET'
-            });
-            httpRequest.then(function (response) {
-                console.log(response);
-                if (response.data.status) {
-                    Location.all = response.data.data.Locations;
-                } else {
-                    MessageService.Error("Error loading locations !");
-                }
-            }, function (error) {
-                callback(error.data);
-            });
-            $timeout(function () {
-                $('select').material_select();
-            }, 3000);
-        };
 
-
-        Location.getLocations();
+        Location.all = GetLocations.data.Locations;
+        $timeout(function () {
+            $('select').material_select();
+        }, 3000);
 
 
         /* Get user locations

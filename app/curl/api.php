@@ -1,8 +1,8 @@
 <?php
 
-/*
+/**
  * @file : Guzzle API Endpoints & Stripe tokens
- * @author: Vipua / Shan
+ * @author: Vipula / Shan
  * @date : 30 May 2017
  */
 
@@ -27,7 +27,7 @@ class Pointers
         ]
     ];
 
-    public function __construct($type)
+    public function __construct()
     {
         $this->http = Request::createFromGlobals();
 
@@ -528,4 +528,4 @@ class Pointers
 }
 
 
-new Pointers('startApp');
+new Pointers();
