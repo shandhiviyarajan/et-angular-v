@@ -47,13 +47,15 @@ class Pointers
                 call_user_func([$this, $this->http->get('function')]);
             } else {
                 $this->output([
-                    'status' => 'fuck'
+                    'status' => 'false'
                 ]);
             }
         }
     }
 
-
+    /**
+     * Register Profile
+     */
     private function sign_up()
     {
 
@@ -73,8 +75,8 @@ class Pointers
 
     }
 
-    /*
-     * Get employee profile
+    /**
+     * Get profile employee
      */
     private function getProfile()
     {
@@ -95,8 +97,8 @@ class Pointers
         ]);
     }
 
-    /*
-     * Update employee profile
+    /**
+     * Update profile employee
      */
     private function updateProfile()
     {
@@ -127,8 +129,8 @@ class Pointers
         ]);
     }
 
-    /*
-     * Update employee locations
+    /**
+     * Update locations employee
      */
     private function updateLocations()
     {
@@ -150,8 +152,8 @@ class Pointers
         }
     }
 
-    /*
-     * Update employee skills
+    /**
+     * Update skills employee
      */
     private function updateSkills()
     {

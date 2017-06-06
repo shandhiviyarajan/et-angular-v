@@ -460,7 +460,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': 'https://easytrades.herokuapp.com/employee/job/' + job_id + '/false',
+                    'request_url': RESOURCE_URL.BASE_URI + '/employee/job/' + job_id + '/false',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,
@@ -480,7 +480,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': 'https://easytrades.herokuapp.com/employee/timesheets',
+                    'request_url': RESOURCE_URL.BASE_URI + '/timesheets',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,
@@ -503,7 +503,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': 'https://easytrades.herokuapp.com/employee/' + $rootScope.globals.current_user.username + '/timesheets',
+                    'request_url': RESOURCE_URL.BASE_URI + '/employee/' + $rootScope.globals.current_user.username + '/timesheets',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,
@@ -530,9 +530,7 @@
                 method: 'POST',
                 headers: {
                     'username': $rootScope.globals.current_user.username,
-                    'request_url': 'https://easytrades.herokuapp.com/employee/' + $rootScope.globals.current_user.username + '/timesheet',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'POST',
                     'data': angular.toJson(timesheet)
                 }
             }).then(function (success) {
@@ -561,7 +559,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': RESOURCE_URL.EMPLOYER.MY_PROFILE,
+                    'request_url': '/employer/my-profile',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,
@@ -584,7 +582,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': 'https://easytrades.herokuapp.com/employer/user/' + application_id,
+                    'request_url': RESOURCE_URL.BASE_URI + '/employer/user/' + application_id,
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,
@@ -609,7 +607,7 @@
                 headers: {
                     'username': $rootScope.globals.current_user.username,
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'post_data': angular.toJson(user)
+                    'data': angular.toJson(user)
                 }
             });
 
@@ -646,9 +644,7 @@
                 url: '/curl/api.php?function=view_all_jobs_employer',
                 method: 'POST',
                 headers: {
-                    'request_url': 'https://easytrades.herokuapp.com/employer/jobs',
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET'
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
                 }
             });
 
@@ -667,9 +663,7 @@
                 url: '/curl/api.php?function=view_all_jobs_employer',
                 method: 'POST',
                 headers: {
-                    'request_url': 'https://easytrades.herokuapp.com/employer/jobs',
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET'
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
                 }
             });
 
@@ -689,10 +683,8 @@
                 url: '/curl/api.php?function=view_single_job',
                 method: 'POST',
                 headers: {
-                    'request_url': 'https://easytrades.herokuapp.com/employer/job?id=' + job_id,
                     'job_id': job_id,
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET'
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
                 }
             }).then(function (success) {
                 callback(success.data);
@@ -701,14 +693,14 @@
             });
         };
 
-        /* View single job - Employer
+        /* View approve job - Employer
          ------------------------------------------------------------------------------- */
         ServiceEmployer.ApproveJob = function (user_id, status, callback) {
             $http({
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': 'https://easytrades.herokuapp.com/employer/job/' + user_id + "/" + status,
+                    'request_url': RESOURCE_URL.BASE_URI + '/employer/job/' + user_id + "/" + status,
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'PUT',
                     'query_data': true,
@@ -727,7 +719,7 @@
                 url: '/curl/index_r.php',
                 method: 'POST',
                 data: {
-                    'request_url': RESOURCE_URL.EMPLOYER.GET_TIME_SHEETS,
+                    'request_url': RESOURCE_URL.BASE_URI + '/employer/timesheets',
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
                     'request_method': 'GET',
                     'query_data': true,

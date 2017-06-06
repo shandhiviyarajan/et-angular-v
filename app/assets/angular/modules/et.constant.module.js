@@ -17,6 +17,7 @@
     angular.module('etConstant', []);
     angular.module('etConstant')
         .constant('RESOURCE_URL', {
+            BASE_URI:'https://easytrades.herokuapp.com',
             LOGIN: 'https://easytrades.herokuapp.com/login',
             SIGN_UP: 'https://easytrades.herokuapp.com/signup/',
             PROFILE_OTHER_USER: '',
