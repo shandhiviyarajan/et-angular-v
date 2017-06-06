@@ -981,7 +981,38 @@ ul#search_results li a {
     position: relative;
     width: 515px;
     margin: 0 auto;
+
 }
+
+#search_jobs_form .input-field {
+    margin: 0px;
+    position: relative;
+
+}
+
+#search_jobs_form .input-field input {
+    margin: 0px;
+    background: #fff;
+    padding: 0px 0px 0px 15px;
+    box-sizing: border-box;
+}
+
+.autocomplete-content {
+    position: absolute;
+    width: 100%;
+    margin: 0px;
+}
+
+.dropdown-content li:hover,
+.dropdown-content li.active,
+.dropdown-content li.selected {
+    background-color: #1e75ba;
+
+}
+.dropdown-content li:hover span{
+    color: #fff !important;
+}
+
 
 .slider-form {
     position: relative;

@@ -211,4 +211,38 @@
     }
 
 
+    /**
+     * Autocomplete dirctive
+     */
+
+    angular.module('etDirectives')
+        .directive('etAutocomplete', etAutocomplete);
+    function etAutocomplete() {
+
+        var directive = {
+            restrict: 'A',
+            link: link
+        };
+
+        function link(scope, element, attrs) {
+            var skills_data = [];
+            scope.skills.forEach(function (cv, i) {
+                skills_data[cv] = null;
+            });
+
+
+            $(element).autocomplete({
+                data: skills_data,
+                minLength: 1
+            });
+
+
+        }
+
+        return directive;
+
+
+    }
+
+
 })(jQuery, angular);

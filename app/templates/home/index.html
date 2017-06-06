@@ -6,12 +6,19 @@
             <div style="text-align:center;" id="search_jobs_form">
                 <div class="row">
                     <div class="col s5">
-                        <select data-ng-change="checkValid()" data-et-select-box name="" data-ng-model="selected_skill">
-                            <option value="" disabled selected> Select Skill</option>
-                            <option data-ng-repeat="skill in skills" value="{{skill}}"> {{skill}}</option>
-                        </select>
-                    </div>
+                        <!--<select data-ng-change="checkValid()" data-et-select-box name="" data-ng-model="selected_skill">-->
+                        <!--<option value="" disabled selected> Select Skill</option>-->
+                        <!--<option data-ng-repeat="skill in skills" value="{{skill}}"> {{skill}}</option>-->
+                        <!--</select>-->
+                        <div class="input-field">
+                            <input data-et-autocomplete
+                                   data-ng-model="selected_skill"
+                                   type="text"
+                                   placeholder="Skills">
+                        </div>
 
+
+                    </div>
                     <div class="col s5">
                         <select data-ng-change="checkValid()" data-et-select-box
                                 data-ng-model="selected_location">
