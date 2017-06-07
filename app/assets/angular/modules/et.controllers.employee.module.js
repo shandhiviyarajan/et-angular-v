@@ -827,7 +827,7 @@
                 url: '/curl/api.php?function=approve_time_sheet_employee',
                 method: 'POST',
                 headers: {
-                    JWT_TOKEN: $rootScope.globals.current_user.token,
+                    JWT_TOKEN: 'JWT ' +$rootScope.globals.current_user.token,
                     contract_id: $stateParams.ContractID,
                     time_sheet_id: time_sheet_id
                 }
@@ -853,7 +853,7 @@
                 url: '/curl/api.php?function=recontest_time_sheet_employee',
                 method: 'POST',
                 headers: {
-                    JWT_TOKEN: $rootScope.globals.current_user.token,
+                    JWT_TOKEN: 'JWT ' + $rootScope.globals.current_user.token,
                     contract_id: $stateParams.ContractID,
                     time_sheet_id: time_sheet_id
                 }
