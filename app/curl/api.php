@@ -312,7 +312,7 @@ class Pointers
             'Authorization' => $this->http->headers->get('JWT_TOKEN')
         ];
 
-        $request = $this->client->request('PUT', '/employee/timesheet/' . $this->http->headers->get('contract_id') . '/' . $this->http->headers->get('time_sheet_id'), $this->options);
+        $request = $this->client->request('PUT', '/employee/timesheet/' . $this->http->headers->get('contract_id') . '/' . $this->http->headers->get('time_sheet_id').'/true', $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
@@ -327,7 +327,7 @@ class Pointers
             'Authorization' => $this->http->headers->get('JWT_TOKEN')
         ];
 
-        $request = $this->client->request('PUT', '/employee/timesheet/' . $this->http->headers->get('contract_id') . '/' . $this->http->headers->get('time_sheet_id'), $this->options);
+        $request = $this->client->request('PUT', '/employee/timesheet/' . $this->http->headers->get('contract_id') . '/' . $this->http->headers->get('time_sheet_id').'/false', $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());

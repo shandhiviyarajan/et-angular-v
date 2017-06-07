@@ -831,8 +831,9 @@
                     contract_id: $stateParams.ContractID,
                     time_sheet_id: time_sheet_id
                 }
-            }).then(function (success) {
-                if (success.data.status) {
+            }).then(function (response) {
+                console.log(response);
+                if (response.data.status) {
                     MessageService.Success("Time sheet approved successfully !");
                 } else {
                     MessageService.Error("Error on approving time sheet !");
@@ -856,8 +857,9 @@
                     contract_id: $stateParams.ContractID,
                     time_sheet_id: time_sheet_id
                 }
-            }).then(function (success) {
-                if (success.data.status) {
+            }).then(function (response) {
+                console.log(response);
+                if (response.data.status) {
                     MessageService.Success("Time sheet re contested successfully !");
                 } else {
                     MessageService.Error("Error on re contesting time sheet !");
