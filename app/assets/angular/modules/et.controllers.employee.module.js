@@ -798,8 +798,8 @@
      * ------------------------------------------------------------------------------------------ */
     angular.module('etControllersEmployee')
         .controller('EmployeeTimeSheet', EmployeeTimeSheet);
-    EmployeeTimeSheet.$inject = ['$scope', '$state', '$stateParams', 'AuthService', 'ServiceEmployee', 'MessageService'];
-    function EmployeeTimeSheet($scope, $state, $stateParams, AuthService, ServiceEmployee, MessageService) {
+    EmployeeTimeSheet.$inject = ['$scope', '$rootScope', '$http', '$state', '$stateParams', 'AuthService', 'ServiceEmployee', 'MessageService'];
+    function EmployeeTimeSheet($scope, $rootScope, $http, $state, $stateParams, AuthService, ServiceEmployee, MessageService) {
 
         var Timesheet = this;
 
@@ -818,14 +818,60 @@
             "Title": "Time Sheet"
         };
 
-        Timesheet.approveTimesheet = function () {
-            alert('API URL not specified');
+
+        /* Approve time sheet
+         ------------------------------------------------------------------------------------------ */
+        Timesheet.approveTimesheet = function (time_sheet_id) {
+
+            $http({
+                url: '/curl/api.php?function=approve_time_sheet_employee',
+                method: 'POST',
+                headers: {
+                    JWT_TOKEN: $rootScope.globals.current_user.token,
+                    contract_id: $stateParams.ContractID,
+                    time_sheet_id: time_sheet_id
+                }
+            }).then(function (success) {
+                if (success.data.status) {
+                    MessageService.Success("Time sheet approved successfully !");
+                } else {
+                    MessageService.Error("Error on approving time sheet !");
+                }
+
+            }, function (error) {
+                console.log(error);
+                MessageService.Error("Error on approving time sheet !");
+            });
+        };
+
+
+        /* Re contest time sheet
+         ------------------------------------------------------------------------------------------ */
+        Timesheet.recontestTimesheet = function (time_sheet_id) {
+            $http({
+                url: '/curl/api.php?function=recontest_time_sheet_employee',
+                method: 'POST',
+                headers: {
+                    contract_id: $stateParams.ContractID,
+                    time_sheet_id: time_sheet_id
+                }
+            }).then(function (success) {
+                if (success.data.status) {
+                    MessageService.Success("Time sheet re contested successfully !");
+                } else {
+                    MessageService.Error("Error on re contesting time sheet !");
+                }
+
+            }, function (error) {
+                console.log(error);
+                MessageService.Error("Error on re contesting time sheet !");
+            });
         };
 
         /* Get user time sheets
          ------------------------------------------------------------------------------------------ */
         Timesheet.getUserTimeSheets = function () {
-            if (AuthService.isAuthenticated) {
+
                 ServiceEmployee.GetUserTimeSheets(function (response) {
 
                     if (response.status) {
@@ -843,7 +889,9 @@
 
 
                 });
-            }
+
+            console.log(Timesheet.TimeSheets);
+
         };
 
 

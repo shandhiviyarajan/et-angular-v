@@ -107,7 +107,9 @@
                                 <td>{{ TimeSheet.ContestHours }}</td>
                                 <td>{{ TimeSheet.ApprovedHours }}</td>
                                 <td>
-                                    <a data-ng-show="{{ TimeSheet.Status=='contested' || TimeSheet.Status =='recontested'}}" class="btn waves-effect waves-light" data-ng-click="Timesheet.approveTimesheet()">Approve</a>
+                                    <button data-ng-show="{{TimeSheet.Status =='contested'}}" class="btn waves-effect waves-light" data-ng-click="Timesheet.approveTimesheet(TimeSheet._id)">Approve</button>
+
+                                    <button data-ng-show="{{TimeSheet.Status =='contested'}}" class="btn waves-effect waves-light" data-ng-click="Timesheet.recontestTimesheet(TimeSheet._id)">Re contest</button>
                                 </td>
                                 <td style="text-transform:capitalize;">
                                     <span class="new badge blue" data-ng-class="TimeSheet.Status">{{TimeSheet.Status}}</span>

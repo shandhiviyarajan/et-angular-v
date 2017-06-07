@@ -305,6 +305,36 @@ class Pointers
 
     }
 
+    private function approve_time_sheet_employee()
+    {
+        $this->options['headers'] = [
+            'Content-type' => 'application/json',
+            'Authorization' => $this->http->headers->get('JWT_TOKEN')
+        ];
+
+        $request = $this->client->request('PUT', '/employee/timesheet/' . $this->http->headers->get('contract_id') . '/' . $this->http->headers->get('time_sheet_id'), $this->options);
+
+        if ($request->getStatusCode() === 200) {
+            $request = \GuzzleHttp\json_decode($request->getBody());
+            $this->output($request);
+        }
+    }
+
+    private function recontest_time_sheet_employee()
+    {
+        $this->options['headers'] = [
+            'Content-type' => 'application/json',
+            'Authorization' => $this->http->headers->get('JWT_TOKEN')
+        ];
+
+        $request = $this->client->request('PUT', '/employee/timesheet/' . $this->http->headers->get('contract_id') . '/' . $this->http->headers->get('time_sheet_id'), $this->options);
+
+        if ($request->getStatusCode() === 200) {
+            $request = \GuzzleHttp\json_decode($request->getBody());
+            $this->output($request);
+        }
+    }
+
 
     /* EMPLOYER FUNCTION */
 
@@ -414,7 +444,7 @@ class Pointers
             'Authorization' => $this->http->headers->get('JWT_TOKEN')
         ];
 
-        $request = $this->client->request('POST', '/employer/timesheet/' . $this->http->headers->get('contract_id') . '/' . $this->http->headers->get('time_sheet_id'), $this->options);
+        $request = $this->client->request('PUT', '/employer/timesheet/' . $this->http->headers->get('contract_id') . '/' . $this->http->headers->get('time_sheet_id'), $this->options);
 
 
         if ($request->getStatusCode() === 200) {
