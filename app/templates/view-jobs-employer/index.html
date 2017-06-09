@@ -121,22 +121,20 @@
                     <th>
                     </th>
                     <th>Name</th>
-                    <th>Experience</th>
-                    <th>Status</th>
-                    <!--<th>Feedback</th>-->
+                    <th>Ratings</th>
                     <th>Hire</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr data-ng-repeat="applicant in Job.contractors | orderBy:Status:true">
+                <tr data-ng-repeat="applicant in matching_employee">
                     <td>
-                        <a ui-sref="ProfileOthersEmployer({ApplicantID:applicant.EmployeeId})">{{$index+1}}</a>
+                        <a>{{$index+1}}</a>
                     </td>
                     <td style="text-transform: capitalize">
-                        <a ui-sref="ProfileOthersEmployer({ApplicantID:applicant.EmployeeId})">{{applicant.EmployeeId}}</a>
+                        <a>{{applicant.FirstName}}</a>
                     </td>
-                    <td><a href="#">-</a></td>
-                    <td><a href="#">{{applicant.Status}}</a></td>
+                    <td>{{applicant.Ratings.Ratings}}</td>
+
                     <!--<td>-->
                     <!--<i class="ico ico-star active"></i>-->
                     <!--<i class="ico ico-star active"></i>-->

@@ -337,9 +337,25 @@ class Pointers
         }
     }
 
+    /*
+    * Matching employee list
+    */
+    private function matching_employee_list()
+    {
+
+        $this->options['headers'] = [
+            'Content-type' => 'application/json',
+            'Authorization' => $this->http->headers->get('JWT_TOKEN')
+        ];
+        $request = $this->client->request('GET', '/employer/hire/' . $this->http->headers->get('job_id'), $this->options);
+        if ($request->getStatusCode() === 200) {
+            $request = \GuzzleHttp\json_decode($request->getBody());
+            $this->output($request);
+        }
+    }
+
 
     /* EMPLOYER FUNCTION */
-
     private function update_profile_employer()
     {
 

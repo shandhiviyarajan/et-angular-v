@@ -310,6 +310,7 @@
         $scope.JobID = $stateParams.JobID;
         $scope.Job = {};
         $scope.selected_employees = [];
+        $scope.matching_employee = [];
 
 
         /* View single job
@@ -317,12 +318,9 @@
         if ($scope.JobID) {
             ServiceEmployer.ViewSingleJob($scope.JobID, function (response) {
 
-                console.log(response);
-
                 if (response.status) {
                     MessageService.Success("Job information loaded!");
                     $scope.Job = response.data[0];
-                    console.log(response);
                 } else {
                     MessageService.Error(response.message);
                     console.log(response);
@@ -330,11 +328,33 @@
             });
         }
 
+        /*
+         Get matching employee list
+         --------------------------------------------------------------------------------------- */
+        setTimeout(function () {
+            if ($scope.JobID) {
+                $http({
+                    url: '/curl/api.php?function=matching_employee_list',
+                    method: 'POST',
+                    headers: {
+                        JWT_TOKEN: 'JWT ' + $rootScope.globals.current_user.token,
+                        job_id: $stateParams.JobID
+                    }
+                }).then(function (response) {
+                    console.log(response);
+                    $scope.matching_employee = response.data.data;
+                    MessageService.Success("Matching employee list loaded !");
+                }, function (response) {
+                    console.log(response);
+                    MessageService.Error("Error loading matching employee list !");
+                });
+            }
+        }, 1500);
+
         /* send invitations
          --------------------------------------------------------------------------------------- */
 
         $scope.sendInvitations = function (user_id) {
-
 
             $http({
                 url: '/curl/api.php?function=send_invitations',
