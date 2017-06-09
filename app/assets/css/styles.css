@@ -1085,3 +1085,8 @@ span.badge.contested{
 .select-wrapper {
     background: #fff;
 }
+
+.star_ratings::before {
+    content: '\f0e6 \f0e6 \f0e6 \f0e6 \f0e6';
+    color: #2299DD;
+}

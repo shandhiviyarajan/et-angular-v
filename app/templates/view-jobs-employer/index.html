@@ -134,7 +134,11 @@
                     <td style="text-transform: capitalize">
                         <a ui-sref="ProfileOthersEmployer({ApplicantID:applicant.id})">{{applicant.FirstName}}</a>
                     </td>
-                    <td>{{applicant.Ratings.Ratings / 10 *100}}
+                    <td>
+
+                        <div style="width:{{applicant.Ratings.Ratings / 10 *100}}%" class="star_ratings">
+
+                        </div>
 
 
                         <i class="ico ico-star active"></i>
@@ -145,12 +149,11 @@
 
                     </td>
                     <td>
-                        {{applicant.Rate}}
+                        {{applicant.Rate}} NZD
                     </td>
 
                     <td>
                         <a data-ng-click="sendInvitations(applicant.id)"
-                           data-ng-disabled="applicant.Status=='Completed'"
                            class="btn btn-rounded btn-dark">Hire</a>
                     </td>
                 </tr>
