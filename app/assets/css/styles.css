@@ -1137,3 +1137,7 @@ span.badge.contested{
     height: 20px;
     width: 100%;
 }
+
+a {
+    cursor: pointer !important;
+}

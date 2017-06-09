@@ -148,10 +148,10 @@
             $state.go("myBusinessHome");
         }
 
+        /* Employee login function
+         ------------------------------------------------------------------------------------------- */
         Login.login = function () {
             AuthService.Login(Login.email, Login.password, function (response) {
-
-
                 if (response.status) {
                     MessageService.Success("Login Successful !", 4000);
                     var LoggedUser = {
@@ -169,7 +169,18 @@
                 }
 
             });
+        };
+
+        /* Login on key press "enter"
+         ------------------------------------------------------------------------------------------- */
+
+        Login.onKeyUp = function (event) {
+            alert(event);
+            //if (event.keyCode == 13) {
+            //    Login.login();
+            //}
         }
+
     }
 
 

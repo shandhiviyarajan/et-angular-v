@@ -240,9 +240,43 @@
         }
 
         return directive;
-
-
     }
+
+
+    angular.module('etDirectives')
+        .directive('etKeyEvents', etKeyEvents);
+
+    etKeyEvents.$inject = ['$document'];
+    function etKeyEvents($document) {
+
+        var directive = {
+            restrict: 'A',
+            link: link
+        };
+
+        function link(scope) {
+            console.log($document);
+            $document.bind('keyup', function (e) {
+                //Apply Login on press enter key
+                console.log(scope);
+                if (e.keyCode == 13) {
+
+                    if (scope.Login) {
+                        scope.Login.login();
+                    }
+
+                    if (scope.Register) {
+                        scope.Register.register();
+                    }
+
+                }
+            });
+        }
+
+        return directive;
+    }
+
+
 
 
 })(jQuery, angular);
