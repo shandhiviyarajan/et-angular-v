@@ -46,9 +46,8 @@
                     <th>
                     </th>
                     <th>Name</th>
-                    <th>Experience</th>
                     <th>Status</th>
-                    <!--<th>Feedback</th>-->
+                    <th>Rating</th>
                     <th>Hire</th>
                 </tr>
                 </thead>
@@ -60,15 +59,16 @@
                     <td style="text-transform: capitalize">
                         <a ui-sref="ProfileOthersEmployer({ApplicantID:applicant.EmployeeId})">{{applicant.EmployeeId}}</a>
                     </td>
-                    <td><a href="#">-</a></td>
-                    <td><a href="#">{{applicant.Status}}</a></td>
-                    <!--<td>-->
-                        <!--<i class="ico ico-star active"></i>-->
-                        <!--<i class="ico ico-star active"></i>-->
-                        <!--<i class="ico ico-star active"></i>-->
-                        <!--<i class="ico ico-star active"></i>-->
-                        <!--<i class="ico ico-star"></i>-->
-                    <!--</td>-->
+                    <td>
+                        <a href="#">{{applicant.Status}}</a>
+                    </td>
+                    <td>
+
+
+                        <div style="width:{{applicant.Ratings.Ratings / 10 *100}}%" class="star_ratings">
+                        </div>
+                    </td>
+
                     <td>
                         <a data-ng-click="sendInvitations(applicant.EmployeeId)"
                            data-ng-disabled="applicant.Status=='Completed'"
