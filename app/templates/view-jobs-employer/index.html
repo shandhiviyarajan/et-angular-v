@@ -122,6 +122,7 @@
                     </th>
                     <th>Name</th>
                     <th>Ratings</th>
+                    <th>Hourly Rate</th>
                     <th>Hire</th>
                 </tr>
                 </thead>
@@ -133,15 +134,20 @@
                     <td style="text-transform: capitalize">
                         <a ui-sref="ProfileOthersEmployer({ApplicantID:applicant.id})">{{applicant.FirstName}}</a>
                     </td>
-                    <td>{{applicant.Ratings.Ratings}}</td>
+                    <td>{{applicant.Ratings.Ratings / 10 *100}}
 
-                    <!--<td>-->
-                    <!--<i class="ico ico-star active"></i>-->
-                    <!--<i class="ico ico-star active"></i>-->
-                    <!--<i class="ico ico-star active"></i>-->
-                    <!--<i class="ico ico-star active"></i>-->
-                    <!--<i class="ico ico-star"></i>-->
-                    <!--</td>-->
+
+                        <i class="ico ico-star active"></i>
+                        <i class="ico ico-star active"></i>
+                        <i class="ico ico-star active"></i>
+                        <i class="ico ico-star active"></i>
+                        <i class="ico ico-star"></i>
+
+                    </td>
+                    <td>
+                        {{applicant.Rate}}
+                    </td>
+
                     <td>
                         <a data-ng-click="sendInvitations(applicant.id)"
                            data-ng-disabled="applicant.Status=='Completed'"
