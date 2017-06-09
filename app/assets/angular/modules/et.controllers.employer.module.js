@@ -321,7 +321,6 @@
                 if (response.status) {
                     MessageService.Success("Job information loaded!");
                     $scope.Job = response.data[0];
-                    console.log(response.data[0]);
                 } else {
                     MessageService.Error(response.message);
                     console.log(response);
@@ -342,7 +341,6 @@
                         job_id: $stateParams.JobID
                     }
                 }).then(function (response) {
-                    console.log(response);
                     $scope.matching_employee = response.data.data;
                     MessageService.Success("Matching employee list loaded !");
                 }, function (response) {
