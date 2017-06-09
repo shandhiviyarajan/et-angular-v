@@ -1087,34 +1087,40 @@ span.badge.contested{
 }
 
 .star_ratings {
-    width: 100%;
+    width: 75px;
     position: relative;
 
 }
-.star_ratings::before {
+
+.star_ratings div.active_stars {
     position: absolute;
     z-index: 100;
     left: 0px;
     top: 0px;
     display: block;
     height: 20px;
-    width: 40px;
+    width: 0%;
     overflow: hidden;
+
+    color: #2299DD;
+
+}
+
+.star_ratings div.active_stars::before {
     content: '\f0e6 \f0e6 \f0e6 \f0e6 \f0e6';
     font-family: 'IcoFont' !important;
-    speak: none;
     font-style: normal;
     font-weight: normal;
     font-variant: normal;
     text-transform: none;
-    color: #2299DD;
-}
-
-.star_ratings::after {
-    display: block;
+    speak: none;
     height: 20px;
     width: 100%;
-    overflow: hidden;
+
+}
+
+.star_ratings  div.normal_stars::after {
+    display: block;
     content: '\f0e6 \f0e6 \f0e6 \f0e6 \f0e6';
     font-family: 'IcoFont' !important;
     speak: none;
@@ -1123,4 +1129,11 @@ span.badge.contested{
     font-variant: normal;
     text-transform: none;
     color: #d8d8d8;
+}
+
+
+.star_ratings div.normal_stars{
+    overflow: hidden;
+    height: 20px;
+    width: 100%;
 }

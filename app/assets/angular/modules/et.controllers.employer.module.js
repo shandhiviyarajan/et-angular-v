@@ -321,6 +321,7 @@
                 if (response.status) {
                     MessageService.Success("Job information loaded!");
                     $scope.Job = response.data[0];
+                    console.log(response.data[0]);
                 } else {
                     MessageService.Error(response.message);
                     console.log(response);
