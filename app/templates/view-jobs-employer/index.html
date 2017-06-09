@@ -137,19 +137,13 @@
                     <td>
 
                         <div style="width:{{applicant.Ratings.Ratings / 10 *100}}%" class="star_ratings">
-
                         </div>
-
-
-                        <i class="ico ico-star active"></i>
-                        <i class="ico ico-star active"></i>
-                        <i class="ico ico-star active"></i>
-                        <i class="ico ico-star active"></i>
-                        <i class="ico ico-star"></i>
 
                     </td>
                     <td>
-                        {{applicant.Rate}} NZD
+                        <p data-ng-show="applicant.Rate">
+                            {{applicant.Rate}} NZD
+                        </p>
                     </td>
 
                     <td>

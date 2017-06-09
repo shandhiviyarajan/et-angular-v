@@ -1086,7 +1086,41 @@ span.badge.contested{
     background: #fff;
 }
 
+.star_ratings {
+    width: 100%;
+    position: relative;
+
+}
 .star_ratings::before {
+    position: absolute;
+    z-index: 100;
+    left: 0px;
+    top: 0px;
+    display: block;
+    height: 20px;
+    width: 40px;
+    overflow: hidden;
     content: '\f0e6 \f0e6 \f0e6 \f0e6 \f0e6';
+    font-family: 'IcoFont' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
     color: #2299DD;
+}
+
+.star_ratings::after {
+    display: block;
+    height: 20px;
+    width: 100%;
+    overflow: hidden;
+    content: '\f0e6 \f0e6 \f0e6 \f0e6 \f0e6';
+    font-family: 'IcoFont' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    color: #d8d8d8;
 }
