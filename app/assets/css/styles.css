@@ -1141,3 +1141,21 @@ span.badge.contested{
 a {
     cursor: pointer !important;
 }
+
+#toast-container {
+
+    top: 0px;
+    right: 0%;
+    max-width: 100%;
+    width: 100%;
+    height: 48px;
+    margin: 0px;
+    background: transparent;
+    padding: 0px;
+}
+
+.toast {
+    float: none;
+    width: 100%;
+    margin: 0px;
+}
