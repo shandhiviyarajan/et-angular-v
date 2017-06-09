@@ -128,10 +128,10 @@
                 <tbody>
                 <tr data-ng-repeat="applicant in matching_employee">
                     <td>
-                        <a>{{$index+1}}</a>
+                        <a ui-sref="ProfileOthersEmployer({ApplicantID:applicant.id})">{{$index+1}}</a>
                     </td>
                     <td style="text-transform: capitalize">
-                        <a>{{applicant.FirstName}}</a>
+                        <a ui-sref="ProfileOthersEmployer({ApplicantID:applicant.id})">{{applicant.FirstName}}</a>
                     </td>
                     <td>{{applicant.Ratings.Ratings}}</td>
 
@@ -143,7 +143,7 @@
                     <!--<i class="ico ico-star"></i>-->
                     <!--</td>-->
                     <td>
-                        <a data-ng-click="sendInvitations(applicant.EmployeeId)"
+                        <a data-ng-click="sendInvitations(applicant.id)"
                            data-ng-disabled="applicant.Status=='Completed'"
                            class="btn btn-rounded btn-dark">Hire</a>
                     </td>
