@@ -111,6 +111,44 @@
                 <span data-ng-bind="Job.StartingTime"></span></p>
             <br>
 
+            <table class="responsive-table striped">
+                <thead>
+                <tr>
+                    <th>
+                    </th>
+                    <th>Name</th>
+                    <th>Experience</th>
+                    <th>Status</th>
+                    <!--<th>Feedback</th>-->
+                    <th>Hire</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="applicant in Job.contractors | orderBy:Status:true">
+                    <td>
+                        <a ui-sref="ProfileOthersEmployer({ApplicantID:applicant.EmployeeId})">{{$index+1}}</a>
+                    </td>
+                    <td style="text-transform: capitalize">
+                        <a ui-sref="ProfileOthersEmployer({ApplicantID:applicant.EmployeeId})">{{applicant.EmployeeId}}</a>
+                    </td>
+                    <td><a href="#">-</a></td>
+                    <td><a href="#">{{applicant.Status}}</a></td>
+                    <!--<td>-->
+                    <!--<i class="ico ico-star active"></i>-->
+                    <!--<i class="ico ico-star active"></i>-->
+                    <!--<i class="ico ico-star active"></i>-->
+                    <!--<i class="ico ico-star active"></i>-->
+                    <!--<i class="ico ico-star"></i>-->
+                    <!--</td>-->
+                    <td>
+                        <a data-ng-click="sendInvitations(applicant.EmployeeId)"
+                           data-ng-disabled="applicant.Status=='Completed'"
+                           class="btn btn-rounded btn-dark">Hire</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
             <!--<div class="center-align">-->
                 <!--<a class="btn btn-rounded btn-dark">Save Job</a>-->
             <!--</div>-->
