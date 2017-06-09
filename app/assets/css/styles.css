@@ -1159,3 +1159,19 @@ a {
     width: 100%;
     margin: 0px;
 }
+
+.toast.error {
+    background: #ff6751;
+}
+
+.toast.info {
+    background: #2299DD;
+}
+
+.toast.success {
+    background: #48a54e;
+}
+
+.toast.warning {
+    background: #ffb364;
+}
