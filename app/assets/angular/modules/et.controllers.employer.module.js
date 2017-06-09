@@ -317,6 +317,7 @@
          --------------------------------------------------------------------------------------- */
         if ($scope.JobID) {
             ServiceEmployer.ViewSingleJob($scope.JobID, function (response) {
+                console.log(response);
 
                 if (response.status) {
                     MessageService.Success("Job information loaded!");
@@ -350,7 +351,7 @@
             }
         }, 1500);
 
-        /* send invitations
+        /* Send invitations
          --------------------------------------------------------------------------------------- */
 
         $scope.sendInvitations = function (user_id) {

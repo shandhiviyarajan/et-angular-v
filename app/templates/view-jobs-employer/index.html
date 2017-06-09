@@ -50,25 +50,40 @@
                     <th>
                         Hourly Rate
                     </th>
+                    <th>
+                       Status
+                    </th>
                     <th>Hire</th>
                 </tr>
                 </thead>
                 <tbody>
+
+
                 <tr data-ng-repeat="applicant in Job.contractors | orderBy:Status:true">
+
                     <td>
+
                         <a ui-sref="ProfileOthersEmployer({ApplicantID:applicant.EmployeeId})">{{$index+1}}</a>
                     </td>
                     <td style="text-transform: capitalize">
                         <a ui-sref="ProfileOthersEmployer({ApplicantID:applicant.EmployeeId})">{{applicant.EmployeeId}}</a>
                     </td>
 
+                   <td>
+                       <div data-ng-show="applicant.employeedetails.Ratings.Ratings"
+                            class="star_ratings">
+                           <div class="active_stars" ng-style="{'width':(applicant.employeedetails.Ratings.Ratings / 10) *100 + '%'}"></div>
+                           <div class="normal_stars"></div>
+                       </div>
+                   </td>
                     <td>
-                       -
+                        <p data-ng-show="applicant.employeedetails.Rate">
+                            {{applicant.employeedetails.Rate}} NZD
+                        </p>
                     </td>
                     <td>
-                        -
+                        {{applicant.Status}}
                     </td>
-
                     <td>
                         <a data-ng-click="sendInvitations(applicant.EmployeeId)"
                            data-ng-disabled="applicant.Status=='Completed'"
