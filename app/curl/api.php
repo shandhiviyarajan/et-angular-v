@@ -167,7 +167,7 @@ class Pointers
             'body' => $this->http->headers->get('data')
         ]);
 
-        $request = $this->client->request('POST', '/employee/'.$this->http->headers->get('username').'/skills', $this->options);
+        $request = $this->client->request('POST', '/employee/' . $this->http->headers->get('username') . '/skills', $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
@@ -175,7 +175,7 @@ class Pointers
         }
     }
 
-    /*
+    /**
      * Update employee Experience
      */
     private function updateExperience()
@@ -198,7 +198,7 @@ class Pointers
         }
     }
 
-    /*
+    /**
      * Update employee Billing setp 01
      */
     private function billing_step_one()
@@ -221,7 +221,7 @@ class Pointers
         }
     }
 
-    /*
+    /**
      * Update employee Billing step 02
      */
     private function billing_step_two()
@@ -244,7 +244,7 @@ class Pointers
         }
     }
 
-    /*
+    /**
      * Update file information for verify
      */
     private function billing_step_verify()
@@ -312,7 +312,7 @@ class Pointers
             'Authorization' => $this->http->headers->get('JWT_TOKEN')
         ];
 
-        $request = $this->client->request('PUT', '/employee/timesheet/' . $this->http->headers->get('contract_id') . '/' . $this->http->headers->get('time_sheet_id').'/true', $this->options);
+        $request = $this->client->request('PUT', '/employee/timesheet/' . $this->http->headers->get('contract_id') . '/' . $this->http->headers->get('time_sheet_id') . '/true', $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
@@ -337,7 +337,7 @@ class Pointers
         }
     }
 
-    /*
+    /**
     * Matching employee list
     */
     private function matching_employee_list()
