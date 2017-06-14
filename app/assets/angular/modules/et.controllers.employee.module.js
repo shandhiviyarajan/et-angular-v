@@ -1030,6 +1030,15 @@
         Billing.step_1 = true;
         Billing.step_2 = false;
 
+        Billing.card = {
+            'number': 4242424242424242,
+            'exp_month': 12,
+            'exp_year': 2018,
+            'cvc': 123
+        };
+
+
+
 
         if (!AuthService.isAuthenticated()) {
 
@@ -1037,6 +1046,53 @@
 
         }
 
+
+        Billing.saveCard = function () {
+            MessageService.Success("Please wait... adding your card");
+            //Get stripe token
+            $http({
+                url: '/curl/api.php?function=stripe_token',
+                method: 'POST',
+                headers: {
+                    'number': Billing.card.number,
+                    'exp_month': Billing.card.exp_month,
+                    'exp_year': Billing.card.exp_year,
+                    'cvc': Billing.card.cvc
+                }
+            }).then(function (response) {
+
+
+                Billing.stripe_token = response.data.id;
+                console.log(response.data.id);
+
+                //Send stripe token
+                if (Billing.stripe_token != null) {
+                    $http({
+                        url: '/curl/api.php?add_card',
+                        method: 'POST',
+                        headers: {
+                            'data': angular.toJson({
+                                "stripeToken": Billing.stripe_token
+                            })
+                        }
+                    }).then(function (response) {
+                        MessageService.Success("Your card added successfully !");
+                        console.log(response);
+                    }, function (response) {
+                        console.log(response);
+
+                    });
+                } else {
+
+                    MessageService.Error("Error adding your card !");
+
+                }
+
+
+            }, function (error) {
+                console.log(e);
+            });
+        }
 
         Billing.addAccountStepOne = function () {
             $http({
@@ -1048,12 +1104,11 @@
                 }
 
             }).then(function (response) {
+                console.log(response);
                 if (response.data.status) {
                     if (response.data.data.Token) {
                         Billing.addAccountStepTwo(response.data.data.Token);
                     }
-
-
                     Billing.account = {};
                     MessageService.Success("Account information saved successfully !");
                     Billing.step_2 = true;

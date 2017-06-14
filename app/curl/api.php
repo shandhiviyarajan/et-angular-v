@@ -337,6 +337,27 @@ class Pointers
         }
     }
 
+    private function get_user_card()
+    {
+        //https://easytrades.herokuapp.com/user/card
+
+        if ($this->http->headers->has('JWT_TOKEN')) {
+            $this->options['headers'] = [
+                'Content-type' => 'application/json',
+                'Authorization' => $this->http->headers->get('JWT_TOKEN')
+            ];
+
+            $get_profile = $this->client->request('GET', '/user/card', $this->options);
+            if ($get_profile->getStatusCode() === 200) {
+                $get_profile = \GuzzleHttp\json_decode($get_profile->getBody());
+                $this->output($get_profile);
+            }
+        }
+        $this->output([
+            'status' => false
+        ]);
+    }
+
     /**
     * Matching employee list
     */

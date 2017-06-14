@@ -29,61 +29,145 @@
     <div class="container" data-ng-controller="EmployeeBillingController as Billing">
         <div class="gap x"></div>
 
-    <div class="setp_1" data-ng-if="Billing.step_1">
-        <h4>Account Information - Step 01</h4>
-        <div class="input-field col s6">
-            <div class="select-wrapper">
-                <select class="initialized" et-select-box data-ng-model="Billing.account.country">
-                    <option value="" selected disabled>Select your country</option>
-                    <option value="NZ">New Zealand</option>
-                    <option value="US">United States</option>
-                </select>
+        <div class="col s12 m12">
+            <a>
+                <h5>Add a new card</h5>
+            </a>
+            <br>
+            <br>
+            <div class="input-field col s12 m6">
+                <input data-ng-model="Billing.card.number" type="number" class="validate">
+                <label class="active">Credit Card Number</label>
             </div>
-        </div>
-        <div class="input-field col s6">
-            <input type="text" class="validate" data-ng-model="Billing.account.currency">
-            <label class="active">Currency</label>
-        </div>
-        <div class="input-field col s6">
-            <input type="text" class="validate" data-ng-model="Billing.account.account_holder_name">
-            <label class="active">Account Holder Name</label>
-        </div>
-        <div class="input-field col s6">
-            <input type="text" class="validate" data-ng-model="Billing.account.account_holder_type">
-            <label class="active">Account Holder Type</label>
-        </div>
-        <div class="input-field col s6">
-            <input type="text" class="validate" data-ng-model="Billing.account.routing_number">
-            <label class="active">Routing Number</label>
-        </div>
-        <div class="input-field col s6">
-            <input type="text" class="validate" data-ng-model="Billing.account.account_number">
-            <label class="active">Account Number</label>
-        </div>
-        <div class="input-field col s12">
-            <button class="btn btn-dark" data-ng-click="Billing.addAccountStepOne()">Save account information</button>
-        </div>
-        <div class="clearfix"></div>
-    </div>
+            <div class="input-field col s12 m2">
+                <input data-ng-model="Billing.card.cvc" maxlength="3" type="number" class="validate">
+                <label class="active">CVC</label>
+            </div>
+            <div class="input-field col s12 m2">
+                <input data-ng-model="Billing.card.exp_month" maxlength="2" type="number" class="validate">
+                <label class="active">Expiary Date - Month</label>
+            </div>
+            <div class="input-field col s12 m2">
+                <input data-ng-model="Billing.card.exp_year" maxlength="4" type="number" class="validate">
+                <label class="active">Expiary Date - Year</label>
+            </div>
+            <div class="clearfix"></div>
+            <div class="gap x"></div>
+            <div style="text-align:center;">
+                <button data-ng-click="Billing.saveCard()" class="btn btn-rounded">Save Card Details</button>
+            </div>
 
+            <div class="gap x"></div>
+        </div>
+<p>
+    &nbsp;
+</p>
+        <div class="col s12 m12">
+            <a>
+                <h5>Your cards information</h5>
+            </a>
+            <table class="bordered highlighted">
+                <tr>
+                    <th>
+                        No
+                    </th>
+                    <th>
+                        Card Type
+                    </th>
+                    <th>
+                        Card Number
+                    </th>
+                    <th>
+                        Exp Month
+                    </th>
+                    <th>
+                        Exp Year
+                    </th>
+                </tr>
 
-            <div class="setp_2" data-ng-if="Billing.step_2">
-                <h4>Verification document</h4>
-                <label>Please upload a document to verfy your account details</label>
-                <div class="file-field input-field">
-                    <div class="btn">
-                        <span>File</span>
-                        <input type="file" data-ng-model="Billing.filename">
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" data-ng-model="Billing.filename">
-                    </div>
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        VISA
+                    </td>
+                    <td>
+                        xxxx xxxx xxxx 3456
+                    </td>
+                    <td>
+                        7
+                    </td>
+                    <td>
+                        2018
+                    </td>
+                </tr>
+            </table>
+        </div>
 
-                    <div class="input-field col s12">
-                        <button class="btn btn-dark" data-ng-click="Billing.addAccountStepVerify()" >Save File</button>
-                    </div>
+        <p>
+            &nbsp;
+        </p> <p>
+        &nbsp;
+    </p>
+        <div class="setp_1" data-ng-if="Billing.step_1">
+            <a><h5>Bank Account Information (Step 01)</h5></a>
+            <div class="input-field col s6">
+                <div class="select-wrapper">
+                    <select class="initialized" et-select-box data-ng-model="Billing.account.country">
+                        <option value="" selected disabled>Select your country</option>
+                        <option value="NZ">New Zealand</option>
+                        <option value="US">United States</option>
+                    </select>
                 </div>
             </div>
+            <div class="input-field col s6">
+                <input type="text" class="validate" data-ng-model="Billing.account.currency">
+                <label class="active">Currency</label>
+            </div>
+            <div class="input-field col s6">
+                <input type="text" class="validate" data-ng-model="Billing.account.account_holder_name">
+                <label class="active">Account Holder Name</label>
+            </div>
+            <div class="input-field col s6">
+                <input type="text" class="validate" data-ng-model="Billing.account.account_holder_type">
+                <label class="active">Account Holder Type</label>
+            </div>
+            <div class="input-field col s6">
+                <input type="text" class="validate" data-ng-model="Billing.account.routing_number">
+                <label class="active">Routing Number</label>
+            </div>
+            <div class="input-field col s6">
+                <input type="text" class="validate" data-ng-model="Billing.account.account_number">
+                <label class="active">Account Number</label>
+            </div>
+            <div class="input-field col s12">
+                <button class="btn btn-dark" data-ng-click="Billing.addAccountStepOne()">Save account information
+                </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <p>
+            &nbsp;
+        </p>
+        <div class="setp_2" data-ng-if="Billing.step_2">
+            <a href="#"><h5>Verification document</h5></a>
+            <label>Please upload a document to verfy your account details</label>
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>File</span>
+                    <input type="file" data-ng-model="Billing.filename">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" data-ng-model="Billing.filename">
+                </div>
+
+                <div class="input-field col s12">
+                    <button class="btn btn-dark" data-ng-click="Billing.addAccountStepVerify()">Save File</button>
+                </div>
+            </div>
+        </div>
 
         <div class="gap x"></div>
     </div>
