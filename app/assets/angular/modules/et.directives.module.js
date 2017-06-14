@@ -258,7 +258,7 @@
             console.log($document);
             $document.bind('keyup', function (e) {
                 //Apply Login on press enter key
-                console.log(scope);
+               // console.log(scope);
                 if (e.keyCode == 13) {
 
                     if (scope.Login) {
