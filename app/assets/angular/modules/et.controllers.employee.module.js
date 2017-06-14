@@ -618,6 +618,7 @@
         Employee.c_id = "";
         Employee.new_start_time = "";
         Employee.new_end_time = "";
+        Employee.time_sheet_title = "";
 
         /* View Jobs
          ------------------------------------------------------------------------------------------ */
@@ -717,7 +718,6 @@
             }
         }
 
-
         /* Unsuccessful Job
          ------------------------------------------------------------------------------------------ */
         Employee.unsuccessfulJob = function (job_id) {
@@ -780,12 +780,14 @@
             }
         }
 
+        /* Set contract id
+         ------------------------------------------------------------------------------------------ */
         Employee.setCID = function (c_id) {
             Employee.c_id = c_id;
             console.log(c_id);
         };
 
-        /* Add timesheet
+        /* Add time sheet
          ------------------------------------------------------------------------------------------ */
         Employee.addTimeSheet = function () {
 
@@ -855,7 +857,7 @@
                         'Hours': dh + "." + dm
                     }
                 ],
-                "Title": "Time sheet"
+                "Title": Employee.time_sheet_title
             };
 
             console.log(Employee.new_time);
@@ -995,7 +997,7 @@
 
             });
 
-          //  console.log(Timesheet.TimeSheets);
+            //  console.log(Timesheet.TimeSheets);
 
         };
 
