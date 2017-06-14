@@ -319,7 +319,7 @@
     angular.module('etControllersEmployee')
         .controller('LocationController', LocationController);
     LocationController.$inject = ['$scope', '$http', '$state', '$stateParams', '$timeout', 'AuthService', 'ServiceEmployee', 'AppService', 'MessageService', 'GetLocations'];
-    function LocationController($scope, $http, $state, $stateParams, $timeout, AuthService, ServiceEmployee, AppService, MessageService,GetLocations) {
+    function LocationController($scope, $http, $state, $stateParams, $timeout, AuthService, ServiceEmployee, AppService, MessageService, GetLocations) {
         console.log("Location controller");
         var Location = this;
         Location.user_locations = {};
@@ -615,18 +615,22 @@
         Employee.pending = [];
         Employee.declined = [];
         Employee.check = [];
+        Employee.c_id = "";
+        Employee.new_start_time = "";
+        Employee.new_end_time = "";
 
         /* View Jobs
          ------------------------------------------------------------------------------------------ */
         if (!AuthService.isAuthenticated()) {
             $state.go("home");
         }
-
+        /* View jobs
+         ------------------------------------------------------------------------------------------ */
         Employee.viewMyJobs = function () {
             ServiceEmployee.ViewMyJobs(function (response) {
                 if (response.status) {
                     angular.forEach(response.data, function (V, K) {
-                        console.log(V._id);
+                        console.log(V);
 
                         switch (V._id) {
                             case "Pending":
@@ -652,9 +656,6 @@
 
                     });
 
-
-                    console.log(Employee);
-
                     MessageService.Success("Jobs loaded !");
                 } else {
                     MessageService.Error("User jobs not found !");
@@ -664,7 +665,7 @@
 
         Employee.viewMyJobs();
 
-        /* Apply Job
+        /* Accept Job
          ------------------------------------------------------------------------------------------ */
         Employee.acceptJob = function (job_id) {
             if (job_id != null) {
@@ -716,10 +717,6 @@
             }
         }
 
-        /* Unsuccessful Job
-         ------------------------------------------------------------------------------------------ */
-        // http://localhost:3000/employee/job/592966f40038c437b88c7ee8/unsuccessful
-        //http://localhost:3000/employee/job/592968df0038c437b88c7eea/completed
 
         /* Unsuccessful Job
          ------------------------------------------------------------------------------------------ */
@@ -773,13 +770,107 @@
             }
         };
 
-
+        /* Check accepted Job
+         ------------------------------------------------------------------------------------------ */
         Employee.checkAccepted = function (i, id) {
             if (Employee.check[i]) {
                 Employee.unsuccessfulJob(id);
             } else {
                 Employee.completedJob(id);
             }
+        }
+
+        Employee.setCID = function (c_id) {
+            Employee.c_id = c_id;
+            console.log(c_id);
+        };
+
+        /* Add timesheet
+         ------------------------------------------------------------------------------------------ */
+        Employee.addTimeSheet = function () {
+
+            var start = Employee.new_start_time;
+            var end = Employee.new_end_time;
+            var start_h = 0;
+            var start_m = 0;
+
+            var end_h = 0; //7
+            var end_m = 0; //00
+
+            if (start.indexOf("am") > 0) {
+                start = start.substr(0, start.indexOf("am")).split(":");
+
+                start_h = parseInt(start[0]); // 10
+                start_m = parseInt(start[1]); //30
+            }
+            if (start.indexOf("pm") > 0) {
+                start = start.substr(0, start.indexOf("pm")).split(":");
+
+                start_h = parseInt(start[0]) + 12; // 10
+                start_m = parseInt(start[1]); //30
+            }
+
+            if (end.indexOf("am") > 0) {
+                end = end.substr(0, end.indexOf("am")).split(":");
+                end_h = parseInt(end[0]); //7
+                end_m = parseInt(end[1]); //00
+            }
+
+            if (end.indexOf("pm") > 0) {
+                end = end.substr(0, end.indexOf("pm")).split(":");
+                end_h = parseInt(end[0]) + 12; //7
+                end_m = parseInt(end[1]); //00
+            }
+
+
+            var dh = end_h - start_h;
+            var dm = end_m - start_m;
+
+            if (dh < 0) {
+                dh = dh + 12;
+            }
+
+            if (dm < 0) {
+                dh = dh - 1;
+                dm = dm + 60;
+            }
+
+            dm = (100 / 60 * dm) / 10;
+
+
+            //format date//
+
+
+            var new_date = Employee.new_date.split("/");
+            Employee.new_date = new_date[2] + "-" + new_date[1] + "-" + new_date[0];
+
+
+            Employee.new_time = {
+                "ContractID": Employee.c_id,
+                'TimeSheets': [
+                    {
+                        'Date': Employee.new_date,
+                        'StartTime': Employee.new_start_time,
+                        'EndTime': Employee.new_end_time,
+                        'Hours': dh + "." + dm
+                    }
+                ],
+                "Title": "Time sheet"
+            };
+
+            console.log(Employee.new_time);
+
+            ServiceEmployee.AddTimeSheet(Employee.new_time, function (response) {
+                console.log(response);
+
+                if (response.status) {
+                    MessageService.Success("Employee Time sheet added successfully!");
+                    Employee.TimeSheets[0].TimeSheets = response.data.TimeSheets;
+                } else {
+                    MessageService.Error(response.message);
+                }
+
+            });
         }
     }
 
@@ -838,7 +929,7 @@
                 url: '/curl/api.php?function=approve_time_sheet_employee',
                 method: 'POST',
                 headers: {
-                    JWT_TOKEN: 'JWT ' +$rootScope.globals.current_user.token,
+                    JWT_TOKEN: 'JWT ' + $rootScope.globals.current_user.token,
                     contract_id: $stateParams.ContractID,
                     time_sheet_id: time_sheet_id
                 }
@@ -886,23 +977,23 @@
          ------------------------------------------------------------------------------------------ */
         Timesheet.getUserTimeSheets = function () {
 
-                ServiceEmployee.GetUserTimeSheets(function (response) {
+            ServiceEmployee.GetUserTimeSheets(function (response) {
 
-                    if (response.status) {
-                        MessageService.Success("Timesheets loaded !");
+                if (response.status) {
+                    MessageService.Success("Timesheets loaded !");
 
-                        angular.forEach(response.data, function (Obj, K) {
-                            Timesheet.Contracts.push(Obj.Contracts[0]);
-                            if ($stateParams.ContractID == Obj.Contracts[0].ContractID)
-                                Timesheet.TimeSheets.push(Obj.Contracts[0]);
-                        });
+                    angular.forEach(response.data, function (Obj, K) {
+                        Timesheet.Contracts.push(Obj.Contracts[0]);
+                        if ($stateParams.ContractID == Obj.Contracts[0].ContractID)
+                            Timesheet.TimeSheets.push(Obj.Contracts[0]);
+                    });
 
-                    } else {
-                        MessageService.Error("Time sheets not found !");
-                    }
+                } else {
+                    MessageService.Error("Time sheets not found !");
+                }
 
 
-                });
+            });
 
             console.log(Timesheet.TimeSheets);
 
@@ -912,92 +1003,7 @@
         //Call function
         Timesheet.getUserTimeSheets();
 
-        /* Add timesheet
-         ------------------------------------------------------------------------------------------ */
-        Timesheet.addTimeSheet = function () {
 
-            var start = Timesheet.new_start_time;
-            var end = Timesheet.new_end_time;
-
-            var start_h = 0;
-            var start_m = 0;
-
-            var end_h = 0; //7
-            var end_m = 0; //00
-
-            if (start.indexOf("am") > 0) {
-                start = start.substr(0, start.indexOf("am")).split(":");
-
-                start_h = parseInt(start[0]); // 10
-                start_m = parseInt(start[1]); //30
-            }
-            if (start.indexOf("pm") > 0) {
-                start = start.substr(0, start.indexOf("pm")).split(":");
-
-                start_h = parseInt(start[0]) + 12; // 10
-                start_m = parseInt(start[1]); //30
-            }
-
-            if (end.indexOf("am") > 0) {
-                end = end.substr(0, end.indexOf("am")).split(":");
-                end_h = parseInt(end[0]); //7
-                end_m = parseInt(end[1]); //00
-            }
-
-            if (end.indexOf("pm") > 0) {
-                end = end.substr(0, end.indexOf("pm")).split(":");
-                end_h = parseInt(end[0]) + 12; //7
-                end_m = parseInt(end[1]); //00
-            }
-
-
-            var dh = end_h - start_h;
-            var dm = end_m - start_m;
-
-            if (dh < 0) {
-                dh = dh + 12;
-            }
-
-            if (dm < 0) {
-                dh = dh - 1;
-                dm = dm + 60;
-            }
-
-            dm = (100 / 60 * dm) / 10;
-
-
-            //format date//
-
-
-            var new_date = Timesheet.new_date.split("/");
-            Timesheet.new_date = new_date[2] + "-" + new_date[1] + "-" + new_date[0];
-
-
-            Timesheet.new_time = {
-                "ContractID": $stateParams.ContractID,
-                'TimeSheets': [
-                    {
-                        'Date': Timesheet.new_date,
-                        'StartTime': Timesheet.new_start_time,
-                        'EndTime': Timesheet.new_end_time,
-                        'Hours': dh + "." + dm
-                    }
-                ],
-                "Title": "Time sheet"
-            };
-
-
-            ServiceEmployee.AddTimeSheet(Timesheet.new_time, function (response) {
-
-                if (response.status) {
-                    MessageService.Success("Timesheet added successfully!");
-                    Timesheet.TimeSheets[0].TimeSheets = response.data.TimeSheets;
-                } else {
-                    MessageService.Error(response.message);
-                }
-
-            });
-        }
     }
 
 

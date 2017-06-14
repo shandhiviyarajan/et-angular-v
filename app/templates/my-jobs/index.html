@@ -76,7 +76,7 @@
                             <td style="text-transform: capitalize;">
                                 {{Contract.Status}}
                             </td>
-                            <td>{{Contract.JobName}}
+                            <td>{{Contract.Job.JobName}}
                             </td>
 
                             <td style="text-align:right;">
@@ -101,15 +101,21 @@
                     </table>
                 </div>
                 <div id="test-swipe-2" class="col s12">
-
-{{Employee.check}}
                     <table class="responsive-table bordered highlight">
                         <thead>
                         <tr>
                             <th>No</th>
                             <th>Job Id</th>
                             <th>Status</th>
+
                             <th>Job Name</th>
+                            <th>
+                                Add Timesheet
+                            </th>
+                            <th>
+                                Actions
+                            </th>
+
                         </tr>
                         </thead>
                         <tbody>
@@ -126,12 +132,14 @@
                             <td style="text-transform: capitalize;">
                                 {{Contract.Status}}
                             </td>
-                            <td>{{Contract.JobName}}
+                            <td>{{Contract.Job.JobName}}</td>
+                            <td>
+                                <a
+                                        data-ng-click="Employee.setCID(Contract._id)"
+                                        et-trigger-modal href="#modalTimeSheet" class="btn btn-rounded btn-default btn-dar">Add Timesheet</a>
                             </td>
 
                             <td style="text-align:right;">
-
-
                                 <input  id=check{{$index}}" type="checkbox"
                                        data-ng-model="Employee.check[$index]"
                                 data-ng-change="Employee.checkAccepted($index,Contract.JobId)">
@@ -170,7 +178,7 @@
                             <td style="text-transform: capitalize;">
                                 {{Contract.Status}}
                             </td>
-                            <td>{{Contract.JobName}}
+                            <td>{{Contract.Job.JobName}}
                             </td>
 
                             <td style="text-align:right;">
@@ -207,7 +215,7 @@
                             <td style="text-transform: capitalize;">
                                 {{Contract.Status}}
                             </td>
-                            <td>{{Contract.JobName}}
+                            <td>{{Contract.Job.JobName}}
                             </td>
 
                             <td style="text-align:right;">
@@ -244,7 +252,7 @@
                             <td style="text-transform: capitalize;">
                                 {{Contract.Status}}
                             </td>
-                            <td>{{Contract.JobName}}
+                            <td>{{Contract.Job.JobName}}
                             </td>
 
                             <td style="text-align:right;">
@@ -259,4 +267,45 @@
             <div class="gap x"></div>
         </div>
     </div>
+    <div id="modalTimeSheet" class="modal">
+        <div class="modal-content">
+            <h4>Add Time Sheet</h4>
+            <div class="row add-timesheet">
+                <div class="input-field col s12 m3">
+                    <input id="date" data-ng-model="Employee.new_date"
+                           data-et-datepicker type="text"
+                           class="datepicker">
+                    <label for="date">Date</label>
+                </div>
+                <div class="input-field col s12 m3">
+                    <input data-ng-model="Employee.new_start_time"
+                           data-et-time-picker
+                           id="start_time"
+                           name="start_time"
+                           type="text"
+                           class="timepicker">
+                    <label for="start_time">Start Time</label>
+                </div>
+                <div class="input-field col s12 m3">
+                    <input data-ng-model="Employee.new_end_time"
+                           data-et-time-picker
+                           id="end_time"
+                           name="end_time"
+                           type="text"
+                           class="timepicker">
+                    <label for="end_time">End Time</label>
+                    {{Employee.c_id}}
+                </div>
+                <input type="text" data-ng-model="Employee.c_id">
+                <div class="col s12 m3 center-align">
+                    <a data-ng-click="Employee.addTimeSheet()" class="btn waves-effect waves-light">Add Time Sheet</a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
 </div>
+
+
+

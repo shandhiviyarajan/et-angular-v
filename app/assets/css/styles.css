@@ -1009,10 +1009,10 @@ ul#search_results li a {
     background-color: #1e75ba;
 
 }
-.dropdown-content li:hover span{
+
+.dropdown-content li:hover span {
     color: #fff !important;
 }
-
 
 .slider-form {
     position: relative;
@@ -1046,32 +1046,33 @@ ul#search_results li a {
 }
 
 span.badge.new {
-    font-size:12px;
+    font-size: 12px;
     border-radius: 15px;
     min-width: 100px;
-    font-weight:400;
+    font-weight: 400;
 }
 
 span.badge.new:after {
     content: "";
 }
 
-span.badge.new.pending{
+span.badge.new.pending {
     background-color: #ffb252 !important;
 }
+
 span.badge.new.contested,
-span.badge.new.recontested{
-    background-color:indianred !important;
+span.badge.new.recontested {
+    background-color: indianred !important;
 }
 
 span.badge.new.resolved,
 span.badge.new.approved,
-span.badge.new.finalized{
+span.badge.new.finalized {
     background-color: #4dbb9a !important;
 }
 
-span.badge.contested{
-    background-color:indianred !important;
+span.badge.contested {
+    background-color: indianred !important;
 }
 
 .collapsible-header.active {
@@ -1119,7 +1120,7 @@ span.badge.contested{
 
 }
 
-.star_ratings  div.normal_stars::after {
+.star_ratings div.normal_stars::after {
     display: block;
     content: '\f0e6 \f0e6 \f0e6 \f0e6 \f0e6';
     font-family: 'IcoFont' !important;
@@ -1131,8 +1132,7 @@ span.badge.contested{
     color: #d8d8d8;
 }
 
-
-.star_ratings div.normal_stars{
+.star_ratings div.normal_stars {
     overflow: hidden;
     height: 20px;
     width: 100%;
@@ -1174,4 +1174,8 @@ a {
 
 .toast.warning {
     background: #ffb364;
+}
+
+#modalTimeSheet {
+    height: 600px;
 }
