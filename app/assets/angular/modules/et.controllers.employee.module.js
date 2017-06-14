@@ -1055,7 +1055,7 @@
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
                 }
             }).then(function (response) {
-                console.log(response);
+               // console.log(response);
 
                 if (response.data.status) {
                     Billing.cards = response.data.data.external_accounts.data;
@@ -1104,6 +1104,8 @@
                         }
                     }).then(function (response) {
                         MessageService.Success("Your card added successfully !");
+                        //Get all cards
+                        Billing.getCards();
                         console.log(response);
                     }, function (response) {
                         console.log(response);

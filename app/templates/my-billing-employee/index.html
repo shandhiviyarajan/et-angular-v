@@ -75,6 +75,9 @@
                         Card holder name
                     </th>
                     <th>
+                        Bank Information
+                    </th>
+                    <th>
                         Card Number
                     </th>
 
@@ -88,7 +91,10 @@
                         {{card.account_holder_name}}
                     </td>
                     <td>
-                        xxxx xxxx xxxx xxxx {{card.last4}}
+                        {{card.bank_name}}
+                    </td>
+                    <td>
+                        #### #### #### {{card.last4}}
                     </td>
                 </tr>
             </table>
