@@ -337,7 +337,7 @@ class Pointers
         }
     }
 
-    private function get_user_card()
+    private function get_card_info()
     {
         //https://easytrades.herokuapp.com/user/card
 

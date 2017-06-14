@@ -1029,6 +1029,8 @@
         Billing.filename = null;
         Billing.step_1 = true;
         Billing.step_2 = false;
+        Billing.cards = [];
+        Billing.have_card = false;
 
         Billing.card = {
             'number': 4242424242424242,
@@ -1038,14 +1040,39 @@
         };
 
 
-
-
         if (!AuthService.isAuthenticated()) {
 
             $state.go("home");
 
         }
 
+        Billing.getCards = function () {
+
+            $http({
+                url: '/curl/api.php?function=get_card_info',
+                method: 'POST',
+                headers: {
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
+                }
+            }).then(function (response) {
+                console.log(response);
+
+                if (response.data.status) {
+                    Billing.cards = response.data.data.external_accounts.data;
+                    if (Billing.cards.length == 0) {
+                        Billing.have_card = false;
+                    }else{
+                        Billing.have_card = true;
+                    }
+                }
+
+            }, function (response) {
+                console.log(response);
+            });
+        };
+
+        //Get all cards
+        Billing.getCards();
 
         Billing.saveCard = function () {
             MessageService.Success("Please wait... adding your card");
