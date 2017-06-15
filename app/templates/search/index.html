@@ -28,9 +28,11 @@
     <div class="container" data-ng-controller="SearchJobController as Search">
 
 
-        <h3 data-ng-if="Search.show_results">
-            {{Search.count}} {{Search.result_text}}
-        </h3>
+        <a>
+            <h5 data-ng-if="Search.show_results">
+                {{Search.count}} {{Search.result_text}}
+            </h5>
+        </a>
         <p>
             for your search
         </p>
