@@ -51,6 +51,10 @@
                 $state.go("myBusinessHomeEmployer");
             }
         };
+
+
+
+
     }
 
 
@@ -76,7 +80,7 @@
         $scope.$watch('selected_skill', function (nv, ov) {
             $scope.selected_skill = (nv == "" || nv == " ") ? null : nv;
             $scope.checkValid();
-            console.log($scope.valid);
+
         });
 
         $scope.checkValid = function () {
@@ -88,7 +92,7 @@
          ------------------------------------------------------------------------------------------ */
 
         $scope.skills = GetSkills.data.Skills;
-       // $scope.locations = GetLocations.data.Locations;
+        // $scope.locations = GetLocations.data.Locations;
 
 
     }

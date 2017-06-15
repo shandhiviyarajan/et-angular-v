@@ -160,7 +160,7 @@ header nav {
     background: none;
     box-shadow: none;
     position: relative;
-    z-index:10000000;
+    z-index: 10000000;
 }
 
 header nav .brand-logo {
@@ -1147,16 +1147,6 @@ a {
 
 #toast-container {
 
-<<<<<<< HEAD
-    /*top: 0px;*/
-    /*right: 0%;*/
-    /*max-width: 100%;*/
-    /*width: 100%;*/
-    /*height: 48px;*/
-    /*margin: 0px;*/
-    /*background: transparent;*/
-    /*padding: 0px;*/
-=======
     top: 60px;
     right: 0%;
     max-width: 100%;
@@ -1169,7 +1159,7 @@ a {
     left: 50%;
     right: auto;
     transform: translateX(-50%);
->>>>>>> c11f9ab0d55f3428529e6a280aadcf8c74c32baa
+
 }
 
 .toast {
@@ -1196,4 +1186,9 @@ a {
 
 #modalTimeSheet {
     height: 600px;
+}
+
+nav ul a:hover,
+nav ul a.active {
+    background-color: rgba(0, 0, 0, 0.25);
 }
