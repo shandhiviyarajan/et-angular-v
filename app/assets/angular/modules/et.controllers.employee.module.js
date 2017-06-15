@@ -76,10 +76,11 @@
         $scope.$watch('selected_skill', function (nv, ov) {
             $scope.selected_skill = (nv == "" || nv == " ") ? null : nv;
             $scope.checkValid();
+            console.log($scope.valid);
         });
 
         $scope.checkValid = function () {
-            $scope.valid = (!($scope.selected_skill != null && $scope.selected_location != null));
+            $scope.valid = !($scope.selected_skill != null);
         };
 
 
@@ -87,7 +88,7 @@
          ------------------------------------------------------------------------------------------ */
 
         $scope.skills = GetSkills.data.Skills;
-        $scope.locations = GetLocations.data.Locations;
+       // $scope.locations = GetLocations.data.Locations;
 
 
     }
@@ -1055,13 +1056,13 @@
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
                 }
             }).then(function (response) {
-               // console.log(response);
+                // console.log(response);
 
                 if (response.data.status) {
                     Billing.cards = response.data.data.external_accounts.data;
                     if (Billing.cards.length == 0) {
                         Billing.have_card = false;
-                    }else{
+                    } else {
                         Billing.have_card = true;
                     }
                 }
@@ -1207,7 +1208,7 @@
         Search.count = null;
         Search.show_results = true;
         Search.show_form = false;
-        Search.paramLocation = $stateParams.location;
+        Search.paramLocation = null;
         Search.paramSkill = $stateParams.skill;
 
 
@@ -1215,8 +1216,8 @@
             url: '/curl/api.php?function=search_jobs',
             method: 'POST',
             headers: {
-                'location': $stateParams.location,
-                'skill': $stateParams.skill
+                'location': Search.paramLocation,
+                'skill': Search.paramSkill
             }
         }).then(function (response) {
 
