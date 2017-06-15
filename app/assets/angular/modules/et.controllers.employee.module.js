@@ -1216,7 +1216,6 @@
             url: '/curl/api.php?function=search_jobs',
             method: 'POST',
             headers: {
-                'location': Search.paramLocation,
                 'skill': Search.paramSkill
             }
         }).then(function (response) {

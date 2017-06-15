@@ -273,7 +273,7 @@ class Pointers
             'Content-type' => 'application/json'
         ];
 
-        $request = $this->client->request('GET', '/employer/job/search?location=' . $this->http->headers->get('location') . '&skill=' . $this->http->headers->get('skill'), $this->options);
+        $request = $this->client->request('GET', '/employer/job/search?&skill=' . $this->http->headers->get('skill'), $this->options);
 
         if ($request->getStatusCode() === 200) {
             $request = \GuzzleHttp\json_decode($request->getBody());
