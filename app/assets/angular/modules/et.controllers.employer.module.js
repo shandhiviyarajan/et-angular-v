@@ -547,12 +547,39 @@
     function EmployerBillingController($scope, $http, MessageService) {
 
         var Billing = this;
+        Billing.cards = [];
+        Billing.have_card = false;
         Billing.stripe_token = null;
         Billing.card = {
             'number': 4242424242424242,
             'exp_month': 12,
             'exp_year': 2018,
             'cvc': 123
+        };
+
+        Billing.getCards = function () {
+
+            $http({
+                url: '/curl/api.php?function=get_card_info',
+                method: 'POST',
+                headers: {
+                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
+                }
+            }).then(function (response) {
+                // console.log(response);
+
+                if (response.data.status) {
+                    Billing.cards = response.data.data.sources.data;
+                    if (Billing.cards.length == 0) {
+                        Billing.have_card = false;
+                    }else{
+                        Billing.have_card = true;
+                    }
+                }
+
+            }, function (response) {
+                console.log(response);
+            });
         };
         Billing.saveCard = function () {
             MessageService.Success("Please wait... adding your card");

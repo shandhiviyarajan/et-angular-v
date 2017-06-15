@@ -122,6 +122,7 @@ header {
     background-size: cover;
     max-height: 100vh;
     min-height: 550px;
+
 }
 
 header.page {
@@ -158,6 +159,8 @@ header form {
 header nav {
     background: none;
     box-shadow: none;
+    position: relative;
+    z-index:10000000;
 }
 
 header nav .brand-logo {
@@ -1009,10 +1012,10 @@ ul#search_results li a {
     background-color: #1e75ba;
 
 }
-.dropdown-content li:hover span{
+
+.dropdown-content li:hover span {
     color: #fff !important;
 }
-
 
 .slider-form {
     position: relative;
@@ -1046,32 +1049,33 @@ ul#search_results li a {
 }
 
 span.badge.new {
-    font-size:12px;
+    font-size: 12px;
     border-radius: 15px;
     min-width: 100px;
-    font-weight:400;
+    font-weight: 400;
 }
 
 span.badge.new:after {
     content: "";
 }
 
-span.badge.new.pending{
+span.badge.new.pending {
     background-color: #ffb252 !important;
 }
+
 span.badge.new.contested,
-span.badge.new.recontested{
-    background-color:indianred !important;
+span.badge.new.recontested {
+    background-color: indianred !important;
 }
 
 span.badge.new.resolved,
 span.badge.new.approved,
-span.badge.new.finalized{
+span.badge.new.finalized {
     background-color: #4dbb9a !important;
 }
 
-span.badge.contested{
-    background-color:indianred !important;
+span.badge.contested {
+    background-color: indianred !important;
 }
 
 .collapsible-header.active {
@@ -1119,7 +1123,7 @@ span.badge.contested{
 
 }
 
-.star_ratings  div.normal_stars::after {
+.star_ratings div.normal_stars::after {
     display: block;
     content: '\f0e6 \f0e6 \f0e6 \f0e6 \f0e6';
     font-family: 'IcoFont' !important;
@@ -1131,8 +1135,7 @@ span.badge.contested{
     color: #d8d8d8;
 }
 
-
-.star_ratings div.normal_stars{
+.star_ratings div.normal_stars {
     overflow: hidden;
     height: 20px;
     width: 100%;
@@ -1144,6 +1147,7 @@ a {
 
 #toast-container {
 
+<<<<<<< HEAD
     /*top: 0px;*/
     /*right: 0%;*/
     /*max-width: 100%;*/
@@ -1152,6 +1156,20 @@ a {
     /*margin: 0px;*/
     /*background: transparent;*/
     /*padding: 0px;*/
+=======
+    top: 60px;
+    right: 0%;
+    max-width: 100%;
+    width: 50%;
+    height: 48px;
+    margin: 0px;
+    background: transparent;
+    padding: 0px;
+
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+>>>>>>> c11f9ab0d55f3428529e6a280aadcf8c74c32baa
 }
 
 .toast {
@@ -1174,4 +1192,8 @@ a {
 
 .toast.warning {
     background: #ffb364;
+}
+
+#modalTimeSheet {
+    height: 600px;
 }
