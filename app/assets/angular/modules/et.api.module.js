@@ -102,7 +102,7 @@
 
         /* Authentication Login / Sign In
          --------------------------------------------------------------------------- */
-        AuthService.Login = function (email, password, callback) {
+        AuthService.Login = function (email, password, type, callback) {
 
             $http({
                 url: RESOURCE_URL.BASE_URI + '/login',
@@ -110,7 +110,7 @@
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded'
                 },
-                data: "Email=" + email + "&Password=" + password
+                data: "Email=" + email + "&Password=" + password + "&type="+type
 
             }).then(function (success) {
                 callback(success.data);

@@ -81,7 +81,7 @@
         /* User login employer
          ---------------------------------------------------------------------------------------- */
         Login.login = function () {
-            AuthService.Login(Login.email, Login.password, function (response) {
+            AuthService.Login(Login.email, Login.password, Login.type, function (response) {
                 console.log(response);
 
                 if (response.status) {
@@ -197,7 +197,7 @@
 
         var Job = this;
         Job.new = {
-            'hire':'Automatic'
+            'hire': 'Automatic'
         };
 
         Job.skills = [];
@@ -205,7 +205,6 @@
 
         Job.skills = GetSkills.data.Skills;
         Job.locations = GetLocations.data.Locations;
-
 
 
         /* Post Job - employer
@@ -543,8 +542,8 @@
 
     angular.module("etControllersEmployer")
         .controller("EmployerBillingController", EmployerBillingController);
-    EmployerBillingController.$inject = ['$scope', '$http', 'MessageService'];
-    function EmployerBillingController($scope, $http, MessageService) {
+    EmployerBillingController.$inject = ['$scope', '$rootScope', '$http', 'MessageService'];
+    function EmployerBillingController($scope, $rootScope, $http, MessageService) {
 
         var Billing = this;
         Billing.cards = [];
@@ -572,7 +571,7 @@
                     Billing.cards = response.data.data.sources.data;
                     if (Billing.cards.length == 0) {
                         Billing.have_card = false;
-                    }else{
+                    } else {
                         Billing.have_card = true;
                     }
                 }
@@ -580,7 +579,8 @@
             }, function (response) {
                 console.log(response);
             });
-        };
+        }
+        Billing.getCards();
         Billing.saveCard = function () {
             MessageService.Success("Please wait... adding your card");
             //Get stripe token

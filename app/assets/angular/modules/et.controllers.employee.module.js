@@ -151,7 +151,7 @@
         /* Employee login function
          ------------------------------------------------------------------------------------------- */
         Login.login = function () {
-            AuthService.Login(Login.email, Login.password, function (response) {
+            AuthService.Login(Login.email, Login.password, Login.type, function (response) {
                 if (response.status) {
                     MessageService.Success("Login Successful !", 4000);
                     var LoggedUser = {
