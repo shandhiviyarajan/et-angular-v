@@ -110,7 +110,7 @@
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded'
                 },
-                data: "Email=" + email + "&Password=" + password + "&type="+type
+                data: "Email=" + email + "&Password=" + password + "&Type="+type
 
             }).then(function (success) {
                 callback(success.data);
