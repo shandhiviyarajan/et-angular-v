@@ -9,27 +9,36 @@
                 <div style="text-align:center;" id="search_jobs_form">
 
                     <div class="row">
+                        <div class="col s8 offset-s2">
+
+                            <div class="row">
+                                <div class="col s10">
+                                    <div class="input-field">
+                                        <input data-et-autocomplete
+                                               data-ng-change="checkValid()"
+                                               data-ng-model="selected_skill"
+                                               type="text"
+                                               placeholder="Skills">
+                                    </div>
+                                </div>
+                                <div class="col s2">
+                                    <a ui-sref="searchJobs({skill:selected_skill})"
+                                       data-ng-disabled="valid" class="btn btn-rounded">Search</a>
+                                </div>
+                            </div>
 
 
-                        <div class="col s5">
-                            <select data-ng-change="checkValid()" data-et-select-box name="" data-ng-model="selected_skill">
-                                <option value="" disabled selected> Select Skill</option>
-                                <option data-ng-repeat="skill in skills" value="{{skill}}"> {{skill}}</option>
-                            </select>
+
+
                         </div>
+                        <!--<div class="col s5">-->
+                        <!--<select data-ng-change="checkValid()" data-et-select-box-->
+                        <!--data-ng-model="selected_location">-->
+                        <!--<option value="" disabled selected> Select Location</option>-->
+                        <!--<option data-ng-repeat="location in locations" value="{{location}}"> {{location}}</option>-->
+                        <!--</select>-->
+                        <!--</div>-->
 
-                        <div class="col s5">
-                            <select data-ng-change="checkValid()" data-et-select-box
-                                    data-ng-model="selected_location">
-                                <option value="" disabled selected> Select Location</option>
-                                <option data-ng-repeat="location in locations" value="{{location}}"> {{location}}</option>
-                            </select>
-                        </div>
-
-                        <div class="col s2">
-                            <a ui-sref="searchJobs({skill:selected_skill, location:selected_location})"
-                               data-ng-disabled="valid" class="btn btn-rounded">Search</a>
-                        </div>
                     </div>
                 </div>
 

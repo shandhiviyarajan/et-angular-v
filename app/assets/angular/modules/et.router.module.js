@@ -42,12 +42,12 @@
                 }],
                 GetLocations: ['$http',function ($http) {
                     //Get locations
-                    return $http({
-                        url: 'https://easytrades.herokuapp.com/locations/cities',
-                        method: 'GET'
-                    }).then(function (response) {
-                        return response.data;
-                    });
+                    // return $http({
+                    //     url: 'https://easytrades.herokuapp.com/locations/cities',
+                    //     method: 'GET'
+                    // }).then(function (response) {
+                    //     return response.data;
+                    // });
                 }]
             }
         };
@@ -56,7 +56,7 @@
 
         var searchJobs = {
             name: 'searchJobs',
-            url: '/search?skill&location',
+            url: '/search?skill',
             templateUrl: base + '/templates/search'
         };
         $stateProvider.state(searchJobs);
@@ -150,6 +150,12 @@
         };
         $stateProvider.state(all);
 
+        var verification_failed = {
+            name: 'verification_failed',
+            url: '/verification_failed',
+            templateUrl: base + '/templates/verification_failed'
+        };
+        $stateProvider.state(verification_failed);
 
         /* Employee Routs
          -----------------------------------------------------------------------------------------------------*/

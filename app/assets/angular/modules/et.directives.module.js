@@ -22,11 +22,24 @@
      --------------------------------------------------------------------------------------------------------- */
     angular.module('etDirectives')
         .directive('etNav', etNav);
-    function etNav() {
+
+    etNav.$inject = ['$state'];
+    function etNav($state) {
         return {
             restrict: "E",
             templateUrl: '/templates/nav',
             link: function (scope, element, attrs) {
+                setTimeout(function () {
+                    $(element).find("li a").removeClass("active");
+                    $(element).find("li").each(function () {
+
+                        if ($(this).find("a").attr("ui-sref") == $state.$current.self.name) {
+                            $(this).find("a").addClass("active");
+                        }
+
+                    });
+                }, 700);
+
 
             }
         }
@@ -52,7 +65,6 @@
         }
 
         return directive;
-
     }
 
     /* Testimonial slider directive
@@ -258,7 +270,7 @@
             console.log($document);
             $document.bind('keyup', function (e) {
                 //Apply Login on press enter key
-               // console.log(scope);
+                // console.log(scope);
                 if (e.keyCode == 13) {
 
                     if (scope.Login) {
@@ -275,8 +287,6 @@
 
         return directive;
     }
-
-
 
 
 })(jQuery, angular);

@@ -51,6 +51,10 @@
                 $state.go("myBusinessHomeEmployer");
             }
         };
+
+
+
+
     }
 
 
@@ -76,10 +80,11 @@
         $scope.$watch('selected_skill', function (nv, ov) {
             $scope.selected_skill = (nv == "" || nv == " ") ? null : nv;
             $scope.checkValid();
+
         });
 
         $scope.checkValid = function () {
-            $scope.valid = (!($scope.selected_skill != null && $scope.selected_location != null));
+            $scope.valid = !($scope.selected_skill != null);
         };
 
 
@@ -87,7 +92,7 @@
          ------------------------------------------------------------------------------------------ */
 
         $scope.skills = GetSkills.data.Skills;
-        $scope.locations = GetLocations.data.Locations;
+        // $scope.locations = GetLocations.data.Locations;
 
 
     }
@@ -151,7 +156,7 @@
         /* Employee login function
          ------------------------------------------------------------------------------------------- */
         Login.login = function () {
-            AuthService.Login(Login.email, Login.password, function (response) {
+            AuthService.Login(Login.email, Login.password, Login.type, function (response) {
                 if (response.status) {
                     MessageService.Success("Login Successful !", 4000);
                     var LoggedUser = {
@@ -1055,13 +1060,13 @@
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
                 }
             }).then(function (response) {
-               // console.log(response);
+                // console.log(response);
 
                 if (response.data.status) {
                     Billing.cards = response.data.data.external_accounts.data;
                     if (Billing.cards.length == 0) {
                         Billing.have_card = false;
-                    }else{
+                    } else {
                         Billing.have_card = true;
                     }
                 }
@@ -1207,7 +1212,7 @@
         Search.count = null;
         Search.show_results = true;
         Search.show_form = false;
-        Search.paramLocation = $stateParams.location;
+        Search.paramLocation = null;
         Search.paramSkill = $stateParams.skill;
 
 
@@ -1215,8 +1220,7 @@
             url: '/curl/api.php?function=search_jobs',
             method: 'POST',
             headers: {
-                'location': $stateParams.location,
-                'skill': $stateParams.skill
+                'skill': Search.paramSkill
             }
         }).then(function (response) {
 
