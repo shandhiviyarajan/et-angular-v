@@ -29,6 +29,15 @@
     <div class="gap x"></div>
     <div class="row">
         <div class="col s12 m12">
+            <nav class="page-breadcrumb">
+                <div class="nav-wrapper">
+                    <div class="col s12">
+                        <a ui-sref="myBusinessHome" class="breadcrumb">My Profile</a>
+                        <a ui-sref="#" class="breadcrumb">My Skills</a>
+                    </div>
+                </div>
+            </nav>
+
             <table class="highlight bordered" class="skill_table">
                 <tr data-ng-repeat="skill in Skill.final_skills | orderBy: Status">
                     <td >

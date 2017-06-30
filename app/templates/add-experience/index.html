@@ -28,8 +28,18 @@
     <div class="gap x"></div>
     <div class="row">
 
-        <h5>Work Experience</h5>
+        <nav class="page-breadcrumb">
+            <div class="nav-wrapper">
+                <div class="col s12">
+                    <a ui-sref="myBusinessHome" class="breadcrumb">My Profile</a>
+                    <a class="breadcrumb">My Experience</a>
+                </div>
+            </div>
+        </nav>
         <div class="col s12 m12" data-ng-init="Experience.getExperience()">
+
+
+            <a><h5>Work Experience</h5></a>
             <table class="highlight bordered">
                 <thead>
                 <tr>
@@ -77,7 +87,7 @@
 
         <div class="col s12 m12">
 
-            <h5>Add new work experience</h5>
+           <a> <h5>Add new work experience</h5></a>
                 <div class="col s12 repeater">
                     <div data-repeater-list="group-a">
                         <div data-ng-repeat="form in Experience.forms">

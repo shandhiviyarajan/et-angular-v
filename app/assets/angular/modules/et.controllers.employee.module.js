@@ -24,9 +24,9 @@
      * ------------------------------------------------------------------------------------------ */
     angular.module('etControllersEmployee')
         .controller('ngMainController', ngMainController);
-    ngMainController.$inject = ['$scope', '$rootScope', 'AuthService', '$cookieStore', '$state'];
+    ngMainController.$inject = ['$scope', '$http', '$rootScope', 'AuthService', '$cookieStore', '$state'];
 
-    function ngMainController($scope, $rootScope, AuthService, $cookieStore, $state) {
+    function ngMainController($scope, $http, $rootScope, AuthService, $cookieStore, $state) {
         var Main = this;
         console.log("Main Controller");
         $rootScope.$watch('isAuthenticated', function (nv, ov) {
@@ -52,7 +52,9 @@
             }
         };
 
-
+        $http.get("/test").then(function (s) {
+            console.log(s);
+        });
 
 
     }

@@ -1,0 +1,79 @@
+<header class="std page">
+    <div class="container">
+        <et-nav></et-nav>
+        <div class="slider-form">
+            <h2>Where would you <br>like to <strong>work?</strong></h2>
+        </div>
+    </div>
+    <div class="header-bottom-pattern">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             preserveAspectRatio="xMidYMid" viewBox="0 0 1870 104.656">
+            <path d="M0.018,33.143 C0.018,33.143 0.126,33.124 0.180,33.115 C93.363,16.751 231.338,-0.679 393.913,0.013 C697.872,1.305 705.871,49.136 1081.820,81.455 C1457.769,113.773 1749.729,31.038 1849.715,38.794 C1870.722,40.424 1886.873,44.222 1899.283,49.205 C1899.546,49.310 1900.067,49.523 1900.067,49.523 L1900.000,103.456 C1900.000,103.456 392.728,104.404 0.125,104.651 C0.073,104.651 -0.031,104.651 -0.031,104.651 L0.018,33.143 Z"
+                  class="layer-1"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg"
+             preserveAspectRatio="xMidYMid" viewBox="0 0 1870 110.156">
+            <path d="M1900.000,45.156 C1900.000,45.156 1719.733,-2.485 1539.758,0.100 C1359.782,2.686 1231.799,46.638 1009.830,81.543 C787.860,116.446 571.169,85.740 421.910,51.809 C283.631,20.375 119.949,10.588 1.058,16.208 C0.923,16.214 0.741,16.223 0.562,16.232 C0.391,16.240 0.221,16.248 0.094,16.254 C-0.035,16.260 -0.120,16.264 -0.120,16.264 L-0.000,110.156 L1900.000,110.156 L1900.000,45.156 Z"
+                  class="layer-2"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg"
+             preserveAspectRatio="xMidYMid" viewBox="0 0 1870 142">
+            <path d="M0.069,23.725 C0.069,23.725 0.654,23.641 0.947,23.600 C100.728,9.420 231.714,-4.219 340.921,1.212 C548.892,11.553 783.300,89.546 1031.827,98.167 C1292.791,107.218 1417.774,99.459 1601.749,45.164 C1723.257,9.305 1819.469,3.050 1899.025,8.151 C1899.351,8.171 1900.003,8.214 1900.003,8.214 L1899.000,142.000 L-0.000,142.000 L0.069,23.725 Z"
+                  class="layer-2"/>
+        </svg>
+    </div>
+</header>
+<div class="container add-location">
+    <div class="gap x"></div>
+    <div class="row">
+        <div class="col s12 m12">
+
+            <nav class="page-breadcrumb">
+                <div class="nav-wrapper">
+                    <div class="col s12">
+                        <a ui-sref="myBusinessHome" class="breadcrumb">My Profile</a>
+                        <a ui-sref="myLocations" class="breadcrumb">My Locations</a>
+                    </div>
+                </div>
+            </nav>
+
+            <table class="highlight bordered">
+                <tr data-ng-repeat="location in Location.locations | orderBy:'asc'">
+                    <td>
+                        <div class="switch-field">
+                            <span>{{location.Location}}</span>
+                            <div class="switch">
+                                <label>
+                                    <input type="checkbox" data-ng-model="location.Status">
+                                    <span class="lever"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="input-field">
+                <!--<select multiple et-select-box data-ng-model="Location.select" data-ng-change="Location.addNewLocation()">-->
+                    <!--<option value="0" disabled selected>Add your preferred location</option>-->
+                    <!--<option value="{{option}}" data-ng-repeat="option in Location.all">-->
+                        <!--{{option}}-->
+                    <!--</option>-->
+                <!--</select>-->
+            </div>
+
+
+
+
+
+
+
+            <div class="gap x"></div>
+            <div class="center-align">
+                <input type="submit" data-ng-click="Location.addLocation()" class="btn btn-dark btn-rounded"
+                       value="Save locations">
+            </div>
+            <div class="gap x"></div>
+        </div>
+    </div>
+</div>

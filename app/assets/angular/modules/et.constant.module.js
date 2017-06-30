@@ -1,15 +1,13 @@
 /**
  * @project - Easy trades
  * @date - April 28 2017
- * @type - Javacrit / JQuery/ Angular
+ * @type - Javascript / JQuery/ Angular
  * @author - Shan Dhiviyajan <prashasoft@gmail.com>
  */
 
 /*
  Angular Constant - Resource URLs
  ----------------------------------------------------------------------------------------------------------------- */
-
-
 
 (function ($, angular) {
     'use strict';

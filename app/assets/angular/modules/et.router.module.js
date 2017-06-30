@@ -91,12 +91,12 @@
                 }],
                 GetLocations: ['$http',function ($http) {
                     //Get locations
-                    return $http({
-                        url: 'https://easytrades.herokuapp.com/locations/cities',
-                        method: 'GET'
-                    }).then(function (response) {
-                        return response.data;
-                    });
+                    //return $http({
+                    //    url: 'https://easytrades.herokuapp.com/locations/cities',
+                    //    method: 'GET'
+                    //}).then(function (response) {
+                    //    return response.data;
+                    //});
                 }]
             }
         };
