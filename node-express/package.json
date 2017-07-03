@@ -12,8 +12,11 @@
     "express": "~4.15.2",
     "jade": "~1.11.0",
     "morgan": "~1.8.1",
-    "serve-favicon": "~2.4.2",
+    "serve-favicon": "~2.4.2"
+  },
+  "devDependencies": {
     "consolidate": "^0.14.5",
+    "request": "^2.81.0",
     "swig": "^1.4.2"
   }
 }
