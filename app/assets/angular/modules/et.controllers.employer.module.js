@@ -37,7 +37,7 @@
                 "Type": "employer"
             };
             AuthService.CreateUser(Register.user, function (response) {
-                console.log(response);
+
                 if (response.status) {
                     MessageService.Success("Employer user created successfully!");
                     $state.go("signInEmployer");
@@ -56,7 +56,7 @@
         .controller('EmployerLoginController', EmployerLoginController);
     EmployerLoginController.$inject = ['$scope', '$rootScope', '$transitions', '$state', 'AuthService', 'MessageService'];
     function EmployerLoginController($scope, $rootScope, $transitions, $state, AuthService, MessageService) {
-        console.log("Employer login controller");
+
         /* User login
          ---------------------------------------------------------------------------------------- */
         var Login = this;
@@ -64,12 +64,11 @@
         Login.password;
         Login.type = 'employer';
 
-        console.log($state);
+        ($state);console.log
 
         $rootScope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams, options) {
 
-                console.log(fromState);
 
             });
 
@@ -82,7 +81,7 @@
          ---------------------------------------------------------------------------------------- */
         Login.login = function () {
             AuthService.Login(Login.email, Login.password, Login.type, function (response) {
-                console.log(response);
+
 
                 if (response.status) {
 
@@ -119,7 +118,7 @@
     MyProfileEmployerController.$inject = ['$scope', '$state', '$stateParams', 'AuthService', 'ServiceEmployer', 'MessageService'];
 
     function MyProfileEmployerController($scope, $state, $stateParams, AuthService, ServiceEmployer, MessageService) {
-        console.log("My profile employer controller");
+
         var Profile = this;
         Profile.user = {};
         Profile.ApplicantID = $stateParams.ApplicantID;
@@ -139,7 +138,7 @@
                     if (user.status) {
                         MessageService.Success("User information loaded !");
                         Profile.user = user.data;
-                        console.log(user);
+
                     } else {
 
                         MessageService.Error("User not found!");
@@ -151,7 +150,7 @@
                     if (response.status && response.data.length > 0) {
                         MessageService.Success("User information loaded !");
                         Profile.user = response.data[0];
-                        console.log(response);
+
                     } else {
                         MessageService.Error("User not found!");
                     }
@@ -168,17 +167,17 @@
             delete Profile.user.id;
             delete Profile.user.__v;
 
-            console.log(Profile.user);
+
 
             ServiceEmployer.UpdateProfileEmployer(Profile.user, function (response) {
 
                 if (response.status) {
                     Profile.user = response.data;
                     MessageService.Success(Profile.user.FirstName + "'s profile updated !", 4000);
-                    console.log(response);
+
                 } else {
                     MessageService.Error(response.message);
-                    console.log(response);
+
                 }
             });
         }
@@ -192,7 +191,7 @@
     PostJobController.$inject = ['$scope', '$rootScope', '$state', 'GetSkills', 'GetLocations', '$http', '$timeout', '$stateParams', 'AuthService', 'ServiceEmployer', 'MessageService', 'AppService'];
     function PostJobController($scope, $rootScope, $state, GetSkills, GetLocations, $http, $timeout, $stateParams, AuthService, ServiceEmployer, MessageService, AppService) {
 
-        console.log("Post job controller");
+
 
 
         var Job = this;
@@ -248,10 +247,9 @@
         };
 
         localStorage.setItem("new_job", angular.toString(Job.new));
-        console.log(Job.new);
+
         Job.job = function () {
             ServiceEmployer.PostJob(Job.new, function (response) {
-                console.log(response);
 
                 if (response.status) {
                     MessageService.Success("Job posted successfully !");
@@ -274,7 +272,7 @@
         .controller('EmployerJobsController', EmployerJobsController);
     EmployerJobsController.$inject = ['$scope', '$rootScope', '$state', '$http', '$stateParams', 'AuthService', 'ServiceEmployer', 'MessageService'];
     function EmployerJobsController($scope, $rootScope, $state, $http, $stateParams, AuthService, ServiceEmployer, MessageService) {
-        console.log("Employer Jobs Controller");
+
         var Employer = this;
         Employer.jobs = null;
 
@@ -285,7 +283,6 @@
                 if (response.status) {
                     MessageService.Success("Jobs information loaded !");
                     Employer.jobs = response.data;
-                    console.log(response);
                 } else {
                     MessageService.Error(response.message);
                     $state.go("myBusinessHomeEmployer");
@@ -316,14 +313,13 @@
          --------------------------------------------------------------------------------------- */
         if ($scope.JobID) {
             ServiceEmployer.ViewSingleJob($scope.JobID, function (response) {
-                console.log(response);
 
                 if (response.status) {
                     MessageService.Success("Job information loaded!");
                     $scope.Job = response.data[0];
                 } else {
                     MessageService.Error(response.message);
-                    console.log(response);
+
                 }
             });
         }
@@ -344,7 +340,7 @@
                     $scope.matching_employee = response.data.data;
                     MessageService.Success("Matching employee list loaded !");
                 }, function (response) {
-                    console.log(response);
+
                     MessageService.Error("Error loading matching employee list !");
                 });
             }
@@ -366,7 +362,7 @@
                     })
                 }
             }).then(function (response) {
-                console.log(response);
+
                 if (response.data.status) {
                     MessageService.Success('Job invitations sent successfully !');
                 } else {
@@ -374,7 +370,7 @@
                     MessageService.Error(response.data.message);
                 }
             }, function (response) {
-                console.log(response);
+
             });
 
 
@@ -404,7 +400,7 @@
 
         ServiceEmployer.ViewSingleJob($stateParams.JobID, function (response) {
             Edit.Job = response.data[0];
-            console.log(response);
+
         });
 
         Edit.edit = function () {
@@ -458,13 +454,13 @@
                 MessageService.Success("Contested successfully !");
                 Timesheet.single_timesheet.TimeSheets = response.data.data.TimeSheets;
             }, function (response) {
-                console.log(response);
+
             });
 
         };
         Timesheet.approveTimesheet = function (timesheet_id) {
             Timesheet.timesheet_id = timesheet_id;
-            console.log(timesheet_id);
+
 
             $http({
                 url: '/curl/api.php?function=approve_time_sheet',
@@ -480,7 +476,7 @@
                 MessageService.Success("Approved successfully !");
                 Timesheet.single_timesheet.TimeSheets = response.data.data.TimeSheets;
             }, function (response) {
-                console.log(response);
+
             });
         };
 
@@ -496,9 +492,9 @@
                 }
             });
             httpRequest.then(function (success) {
-                console.log(success);
+
             }, function (error) {
-                console.log(error);
+
             });
 
         } else {
@@ -529,7 +525,7 @@
                 } else {
                     MessageService.Error("No time sheets found !");
                     $state.go("myBusinessHomeEmployer");
-                    console.log(response);
+
                 }
             });
         }
@@ -565,7 +561,7 @@
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
                 }
             }).then(function (response) {
-                // console.log(response);
+
 
                 if (response.data.status) {
                     Billing.cards = response.data.data.sources.data;
@@ -577,7 +573,7 @@
                 }
 
             }, function (response) {
-                console.log(response);
+
             });
         }
         Billing.getCards();
@@ -597,7 +593,7 @@
 
 
                 Billing.stripe_token = response.data.id;
-                console.log(response.data.id);
+
 
                 //Send stripe token
                 if (Billing.stripe_token != null) {
@@ -611,9 +607,9 @@
                         }
                     }).then(function (response) {
                         MessageService.Success("Your card added successfully !");
-                        console.log(response);
+
                     }, function (response) {
-                        console.log(response);
+
 
                     });
                 } else {
@@ -624,7 +620,7 @@
 
 
             }, function (error) {
-                console.log(e);
+               
             });
         }
     }

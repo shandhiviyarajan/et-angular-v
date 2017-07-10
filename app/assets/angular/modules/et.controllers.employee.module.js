@@ -28,9 +28,9 @@
 
     function ngMainController($scope, $http, $rootScope, AuthService, $cookieStore, $state) {
         var Main = this;
-        console.log("Main Controller");
+
         $rootScope.$watch('isAuthenticated', function (nv, ov) {
-            console.log("Authenticated - " + nv);
+
         }, true);
 
         /* User Logout
@@ -53,7 +53,7 @@
         };
 
         $http.get("/test").then(function (s) {
-            console.log(s);
+           // console.log(s);
         });
 
 
@@ -142,7 +142,7 @@
         .controller('LoginController', LoginController);
     LoginController.$inject = ['$scope', '$rootScope', 'AuthService', '$state', 'MessageService'];
     function LoginController($scope, $rootScope, AuthService, $state, MessageService) {
-        console.log("Employee login controller");
+       // console.log("Employee login controller");
         /* User Login
          ---------------------------------------------------------------------------------------- */
         var Login = this;
@@ -199,7 +199,7 @@
         .controller('RegisterEmployeeController', RegisterEmployeeController);
     RegisterEmployeeController.$inject = ['$scope', '$rootScope', '$state', 'AuthService', 'MessageService'];
     function RegisterEmployeeController($scope, $rootScope, $state, AuthService, MessageService) {
-        console.log("Employee Sign Up Controller");
+       // console.log("Employee Sign Up Controller");
         var Register = this;
         Register.error_message = "";
         Register.success_message = "";
@@ -219,7 +219,6 @@
                 "Type": "employee"
             };
 
-            console.log(Register.user);
 
             AuthService.CreateUser(Register.user, function (response) {
                 console.log(Register.user);
@@ -241,7 +240,6 @@
     MyProfileEmployeeController.$inject = ['$scope', '$rootScope', '$filter', '$state', '$stateParams', 'AuthService', 'ServiceEmployee', 'MessageService'];
 
     function MyProfileEmployeeController($scope, $rootScope, $filter, $state, $stateParams, AuthService, ServiceEmployee, MessageService) {
-        console.log("My profile controller");
         var Profile = this;
         Profile.user = {};
         //Get the ApplicantID from the router path
@@ -293,7 +291,8 @@
             if (AuthService.isAuthenticated()) {
                 if (Profile.ApplicantID != null && Profile.ApplicantID != undefined) {
                     ServiceEmployee.GetProfileSingleEmployee(Profile.ApplicantID, function (result) {
-                        console.log(result);
+                       // console.log(result);
+                        //Do nothing
                     });
                 }
             }
@@ -327,7 +326,7 @@
         .controller('LocationController', LocationController);
     LocationController.$inject = ['$scope', '$http', '$state', '$stateParams', '$timeout', 'AuthService', 'ServiceEmployee', 'AppService', 'MessageService', 'GetLocations'];
     function LocationController($scope, $http, $state, $stateParams, $timeout, AuthService, ServiceEmployee, AppService, MessageService, GetLocations) {
-        console.log("Location controller");
+       // console.log("Location controller");
         var Location = this;
         Location.user_locations = {};
         Location.all = {};
@@ -368,7 +367,6 @@
             });
 
             Location.user_locations.forEach(function (cv) {
-                //console.log(c.Location);
                 Location.locations.forEach(function (CV, i) {
                     if (cv.Location == CV.Location) {
                         CV.Status = true;
@@ -390,7 +388,6 @@
 
             });
 
-            console.log(Location.new_locations);
 
             ServiceEmployee.AddLocation(Location.new_locations, function (response) {
                 if (response.status) {
@@ -497,7 +494,6 @@
         .controller('ExperienceController', ExperienceController);
     ExperienceController.$inject = ['$scope', '$state', '$stateParams', 'AuthService', 'ServiceEmployee', 'MessageService', '$http', '$rootScope'];
     function ExperienceController($scope, $state, $stateParams, AuthService, ServiceEmployee, MessageService, $http, $rootScope) {
-        console.log("Experience controller");
         var Experience = this;
         Experience.forms = [0];
 
@@ -532,13 +528,11 @@
                 }
             });
             httpRequest.then(function (success) {
-                console.log(success.data);
                 angular.forEach(success.data.data.Experience, function (v, k) {
                     Experience.work_experience.Experience.push(v);
                 });
 
             }, function (error) {
-                console.log(error);
             });
         };
 
@@ -638,7 +632,6 @@
             ServiceEmployee.ViewMyJobs(function (response) {
                 if (response.status) {
                     angular.forEach(response.data, function (V, K) {
-                        console.log(V);
 
                         switch (V._id) {
                             case "Pending":
@@ -688,11 +681,11 @@
                         'post_data': null
                     }
                 }).then(function (success) {
-                    console.log(success.data);
+
                     MessageService.Success("Job Accepted!");
                     Employee.viewMyJobs();
                 }, function (error) {
-                    console.log(error.data);
+
                 });
             } else {
                 MessageService.Error("Invitation ID is not set!");
@@ -714,11 +707,11 @@
                         'post_data': null
                     }
                 }).then(function (success) {
-                    console.log(success.data);
+
                     MessageService.Success("Job declined!");
                     Employee.viewMyJobs();
                 }, function (error) {
-                    console.log(error.data);
+
                 });
             } else {
                 MessageService.Error("Invitations ID is not set");
@@ -742,9 +735,9 @@
                 }).then(function (success) {
                     MessageService.Success("Jobs updated!");
                     Employee.viewMyJobs();
-                    console.log(success.data);
+
                 }, function (error) {
-                    console.log(error.data);
+
                 });
             } else {
                 MessageService.Error("Invitations ID is not set");
@@ -768,9 +761,9 @@
                 }).then(function (success) {
                     MessageService.Success("Jobs updated!");
                     Employee.viewMyJobs();
-                    console.log(success.data);
+
                 }, function (error) {
-                    console.log(error.data);
+
                 });
             } else {
                 MessageService.Error("Invitations ID is not set");
@@ -867,10 +860,10 @@
                 "Title": Employee.time_sheet_title
             };
 
-            console.log(Employee.new_time);
+
 
             ServiceEmployee.AddTimeSheet(Employee.new_time, function (response) {
-                console.log(response);
+
 
                 if (response.status) {
                     MessageService.Success("Employee Time sheet added successfully!");
@@ -943,7 +936,7 @@
                     time_sheet_id: time_sheet_id
                 }
             }).then(function (response) {
-                console.log(response);
+
                 if (response.data.status) {
                     MessageService.Success("Time sheet approved successfully !");
                 } else {
@@ -951,7 +944,7 @@
                 }
 
             }, function (error) {
-                console.log(error);
+
                 MessageService.Error("Error on approving time sheet !");
             });
         };
@@ -969,7 +962,7 @@
                     time_sheet_id: time_sheet_id
                 }
             }).then(function (response) {
-                console.log(response);
+
                 if (response.data.status) {
                     MessageService.Success("Time sheet re contested successfully !");
                 } else {
@@ -977,7 +970,7 @@
                 }
 
             }, function (error) {
-                console.log(error);
+
                 MessageService.Error("Error on re contesting time sheet !");
             });
         };
@@ -1004,7 +997,7 @@
 
             });
 
-            //  console.log(Timesheet.TimeSheets);
+
 
         };
 
@@ -1023,7 +1016,7 @@
     EmployeeBillingController.$inject = ['$scope', '$rootScope', '$http', '$state', 'AuthService', 'MessageService'];
 
     function EmployeeBillingController($scope, $rootScope, $http, $state, AuthService, MessageService) {
-        console.log("Billing controller employee");
+
         var Billing = this;
         Billing.account = {
             "country": "NZ",
@@ -1062,7 +1055,6 @@
                     'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
                 }
             }).then(function (response) {
-                // console.log(response);
 
                 if (response.data.status) {
                     Billing.cards = response.data.data.external_accounts.data;
@@ -1074,7 +1066,7 @@
                 }
 
             }, function (response) {
-                console.log(response);
+
             });
         };
 
@@ -1097,7 +1089,7 @@
 
 
                 Billing.stripe_token = response.data.id;
-                console.log(response.data.id);
+               // console.log(response.data.id);
 
                 //Send stripe token
                 if (Billing.stripe_token != null) {
@@ -1113,9 +1105,9 @@
                         MessageService.Success("Your card added successfully !");
                         //Get all cards
                         Billing.getCards();
-                        console.log(response);
+
                     }, function (response) {
-                        console.log(response);
+
 
                     });
                 } else {
@@ -1126,7 +1118,7 @@
 
 
             }, function (error) {
-                console.log(e);
+
             });
         }
 
@@ -1140,7 +1132,7 @@
                 }
 
             }).then(function (response) {
-                console.log(response);
+
                 if (response.data.status) {
                     if (response.data.data.Token) {
                         Billing.addAccountStepTwo(response.data.data.Token);
