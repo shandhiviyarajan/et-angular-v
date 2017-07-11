@@ -1006,7 +1006,6 @@
 
     }
 
-
     //employee billing
 
     angular.module('etControllersEmployee')
@@ -1250,10 +1249,8 @@
         .controller("ContactController", ContactController);
     ContactController.$injet = ['$scope', '$http', 'MessageService'];
     function ContactController($scope, $http, MessageService) {
-
-
-        console.log("contact contorlere");
-
+        var Contact = this;
+        console.log("contact controller");
     }
 
 
