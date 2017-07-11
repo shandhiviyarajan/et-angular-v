@@ -25,8 +25,6 @@
 </header>
 <div class="container"
      data-ng-controller="MyProfileEmployeeController as Profile">
-
-
     <div class="gap x" data-ng-init="Profile.getProfile()"></div>
     <div class="row">
         <div class="col s12 m12">
@@ -61,18 +59,6 @@
                 <input id="postal_code"  type="text" class="validate" data-ng-model="Profile.user.Address.PostalCode">
                 <label class="active" for="postal_code">Postal Code</label>
             </div>
-            <!--<div class="input-field col s12">-->
-                <!--<input id="language_spoken"  type="text" class="validate" data-ng-model="Profile.user.language">-->
-                <!--<label class="active" for="language_spoken">Language Spoken</label>-->
-            <!--</div>-->
-            <!--<div class="input-field col s6">-->
-                <!--<input type="checkbox" id="test5" data-ng-model="Profile.user.car"/>-->
-                <!--<label class="active" for="test5">Do you have your own car?</label>-->
-            <!--</div>-->
-            <!--<div class="input-field col s6">-->
-                <!--<input id="license"  type="text" class="validate" data-ng-model="Profile.user.license">-->
-                <!--<label class="active" for="license">Drivers License</label>-->
-            <!--</div>-->
             <div class="input-field col s6">
                 <input id="ird"  type="text" class="validate" data-ng-model="Profile.user.IRDNumber">
                 <label class="active" for="ird">IRD #</label>
@@ -144,10 +130,7 @@
                 <input type="submit" class="btn btn-dark btn-rounded" value="Save my details"
                        data-ng-click="Profile.update()">
             </div>
-
             </form>
-
-
         </div>
     </div>
     <div class="gap x"></div>

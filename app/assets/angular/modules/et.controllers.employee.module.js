@@ -53,7 +53,7 @@
         };
 
         $http.get("/test").then(function (s) {
-           // console.log(s);
+            // console.log(s);
         });
 
 
@@ -142,7 +142,7 @@
         .controller('LoginController', LoginController);
     LoginController.$inject = ['$scope', '$rootScope', 'AuthService', '$state', 'MessageService'];
     function LoginController($scope, $rootScope, AuthService, $state, MessageService) {
-       // console.log("Employee login controller");
+        // console.log("Employee login controller");
         /* User Login
          ---------------------------------------------------------------------------------------- */
         var Login = this;
@@ -199,7 +199,7 @@
         .controller('RegisterEmployeeController', RegisterEmployeeController);
     RegisterEmployeeController.$inject = ['$scope', '$rootScope', '$state', 'AuthService', 'MessageService'];
     function RegisterEmployeeController($scope, $rootScope, $state, AuthService, MessageService) {
-       // console.log("Employee Sign Up Controller");
+        // console.log("Employee Sign Up Controller");
         var Register = this;
         Register.error_message = "";
         Register.success_message = "";
@@ -291,7 +291,7 @@
             if (AuthService.isAuthenticated()) {
                 if (Profile.ApplicantID != null && Profile.ApplicantID != undefined) {
                     ServiceEmployee.GetProfileSingleEmployee(Profile.ApplicantID, function (result) {
-                       // console.log(result);
+                        // console.log(result);
                         //Do nothing
                     });
                 }
@@ -326,7 +326,7 @@
         .controller('LocationController', LocationController);
     LocationController.$inject = ['$scope', '$http', '$state', '$stateParams', '$timeout', 'AuthService', 'ServiceEmployee', 'AppService', 'MessageService', 'GetLocations'];
     function LocationController($scope, $http, $state, $stateParams, $timeout, AuthService, ServiceEmployee, AppService, MessageService, GetLocations) {
-       // console.log("Location controller");
+        // console.log("Location controller");
         var Location = this;
         Location.user_locations = {};
         Location.all = {};
@@ -861,7 +861,6 @@
             };
 
 
-
             ServiceEmployee.AddTimeSheet(Employee.new_time, function (response) {
 
 
@@ -998,7 +997,6 @@
             });
 
 
-
         };
 
 
@@ -1089,7 +1087,7 @@
 
 
                 Billing.stripe_token = response.data.id;
-               // console.log(response.data.id);
+                // console.log(response.data.id);
 
                 //Send stripe token
                 if (Billing.stripe_token != null) {
@@ -1246,5 +1244,17 @@
 
 
     }
+
+
+    angular.module("etControllersEmployee")
+        .controller("ContactController", ContactController);
+    ContactController.$injet = ['$scope', '$http', 'MessageService'];
+    function ContactController($scope, $http, MessageService) {
+
+
+        console.log("contact contorlere");
+
+    }
+
 
 })(jQuery, angular);
