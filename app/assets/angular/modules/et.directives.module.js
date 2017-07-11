@@ -267,7 +267,7 @@
         };
 
         function link(scope) {
-            console.log($document);
+
             $document.bind('keyup', function (e) {
                 //Apply Login on press enter key
                 // console.log(scope);
