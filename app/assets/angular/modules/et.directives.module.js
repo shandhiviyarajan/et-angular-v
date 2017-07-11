@@ -255,6 +255,9 @@
     }
 
 
+    /**
+     * Keyboard events
+     */
     angular.module('etDirectives')
         .directive('etKeyEvents', etKeyEvents);
 
@@ -283,6 +286,26 @@
 
                 }
             });
+        }
+
+        return directive;
+    }
+
+    /**
+     * Collapsible elements
+     */
+
+    angualr.moudle("etDirectives")
+        .directive("etCollapsible", etCollapsible);
+    function etCollapsible() {
+
+        var directive = {
+            restrict: "A",
+            link: link
+        };
+
+        function link(scope, element, attr, con) {
+            $(element).collapsible();
         }
 
         return directive;
