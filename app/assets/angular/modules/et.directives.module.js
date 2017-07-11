@@ -306,7 +306,7 @@
 
         function link(scope, element, attr, con) {
             $(element).collapsible();
-            console.log(element);
+          //  console.log(element);
 
         }
 
