@@ -1216,3 +1216,14 @@ nav ul a.active {
     background-color: #1e75ba;
     color: #fff;
 }
+
+ul.terms_list li {
+    display: block;
+    padding: 7px 15px;
+    background: #fff;
+}
+
+ul.terms_list li:nth-child(odd) {
+    background: #eee;
+}
+
