@@ -295,7 +295,7 @@
      * Collapsible elements
      */
 
-    angualr.moudle("etDirectives")
+    angular.module("etDirectives")
         .directive("etCollapsible", etCollapsible);
     function etCollapsible() {
 
@@ -306,6 +306,8 @@
 
         function link(scope, element, attr, con) {
             $(element).collapsible();
+            console.log(element);
+
         }
 
         return directive;

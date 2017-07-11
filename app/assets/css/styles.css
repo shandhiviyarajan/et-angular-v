@@ -1207,3 +1207,12 @@ nav ul a.active {
 .about-us .left-align p {
     text-align: left;
 }
+
+#faq .collapsible-header {
+    font-weight: normal;
+}
+
+#faq .collapsible-header.active {
+    background-color: #1e75ba;
+    color: #fff;
+}
