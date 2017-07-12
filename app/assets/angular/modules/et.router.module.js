@@ -11,14 +11,8 @@
     //Angular strict DI Mode enabled
 
     //Angular router module
-    angular.module('etRouter',
-        ['etConstant',
-            'etAPI',
-            'ui.router',
-            'ngCookies'
-
-        ]
-    ).config(config);
+    angular.module('etRouter', ['etAPI', 'ui.router', 'ngCookies'])
+        .config(config);
     config.$inject = ['$urlRouterProvider', '$stateProvider', '$locationProvider'];
 
     /**
@@ -36,24 +30,24 @@
             name: 'home',
             url: '/',
             templateUrl: base + '/templates/home',
-            controller: 'HomeController',
+            controller:'HomeController',
             resolve: {
-                GetSkills: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
+                GetSkills: ['$http',function ($http) {
                     return $http({
-                        url: RESOURCE_URL.BASE_URI + '/skills',
+                        url: 'https://easytrades.herokuapp.com/skills',
                         method: 'GET'
                     }).then(function (response) {
                         return response.data;
                     });
                 }],
-                GetLocations: ['$http','RESOURCE_URL', function ($http,RESOURCE_URL) {
+                GetLocations: ['$http',function ($http) {
                     //Get locations
-                    return $http({
-                        url: RESOURCE_URL.BASE_URI + '/locations/cities',
-                        method: 'GET'
-                    }).then(function (response) {
-                        return response.data;
-                    });
+                    // return $http({
+                    //     url: 'https://easytrades.herokuapp.com/locations/cities',
+                    //     method: 'GET'
+                    // }).then(function (response) {
+                    //     return response.data;
+                    // });
                 }]
             }
         };
@@ -84,27 +78,25 @@
         var findStaff = {
             name: 'findStaff',
             url: '/find-staff',
-            controller: 'HomeController',
+            controller:'HomeController',
             templateUrl: base + '/templates/find-staff',
             resolve: {
-                GetSkills: ['$http', '$rootScope', 'RESOURCE_URL', function ($http, $rootScope, RESOURCE_URL) {
+                GetSkills: ['$http',function ($http) {
                     return $http({
-                        url: RESOURCE_URL.BASE_URI + '/skills',
+                        url: 'https://easytrades.herokuapp.com/skills',
                         method: 'GET'
                     }).then(function (response) {
-                        $rootScope.GetSkills = response.data;
                         return response.data;
                     });
                 }],
-                GetLocations: ['$http', '$$rootScope', 'RESOURCE_URL', function ($http, $rootScope, RESOURCE_URL) {
-                    // Get locations
-                    return $http({
-                        url: RESOURCE_URL.BASE_URI + '/locations/cities',
-                        method: 'GET'
-                    }).then(function (response) {
-                        $rootScope.GetLocations = response.data;
-                        return response.data;
-                    });
+                GetLocations: ['$http',function ($http) {
+                    //Get locations
+                    //return $http({
+                    //    url: 'https://easytrades.herokuapp.com/locations/cities',
+                    //    method: 'GET'
+                    //}).then(function (response) {
+                    //    return response.data;
+                    //});
                 }]
             }
         };
@@ -244,11 +236,11 @@
             controller: 'LocationController',
             controllerAs: 'Location',
             templateUrl: base + '/templates/add-location',
-            resolve: {
-                GetLocations: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
+            resolve:{
+                GetLocations: ['$http',function ($http) {
                     //Get locations
                     return $http({
-                        url: RESOURCE_URL.BASE_URI + '/locations/cities',
+                        url: 'https://easytrades.herokuapp.com/locations/cities',
                         method: 'GET'
                     }).then(function (response) {
                         return response.data;
@@ -322,18 +314,18 @@
             controllerAs: 'Job',
             templateUrl: base + '/templates/post-a-job',
             resolve: {
-                GetSkills: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
+                GetSkills: ['$http',function ($http) {
                     return $http({
-                        url: RESOURCE_URL.BASE_URI + '/skills',
+                        url: 'https://easytrades.herokuapp.com/skills',
                         method: 'GET'
                     }).then(function (response) {
                         return response.data;
                     });
                 }],
-                GetLocations: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
+                GetLocations: ['$http',function ($http) {
                     //Get locations
                     return $http({
-                        url: RESOURCE_URL.BASE_URI + '/locations/cities',
+                        url: 'https://easytrades.herokuapp.com/locations/cities',
                         method: 'GET'
                     }).then(function (response) {
                         return response.data;

@@ -30,14 +30,14 @@
             <div class="row">
                 <div class="col l6 offset-l3">
                     <div class="input-field col s12">
-                        <input data-ng-model="Job.new.JobName"
+                        <input data-ng-model="Contact.name"
                                id="contact_first_name"
                                type="text"
                                class="validate">
                         <label for="contact_first_name">First name</label>
                     </div>
                     <div class="input-field col s12">
-                        <input data-ng-model="Job.new.JobName"
+                        <input data-ng-model="Contact.email"
                                id="contact_email"
                                type="email"
                                class="validate">
@@ -47,13 +47,14 @@
                     <div class="input-field textarea-block extended col s12">
                 <textarea data-ng-model="Contact.message"
                           id="contact_message"
+
                           class="materialize-textarea">
                 </textarea>
                         <label for="contact_message">Message / Inquiry</label>
                     </div>
 
                     <div class="input-field col s12">
-                        <button class="btn">Send Message</button>
+                        <button class="btn" data-ng-click="Contact.sendMessage()">Send Message</button>
                     </div>
                 </div>
 

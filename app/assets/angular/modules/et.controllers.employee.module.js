@@ -28,7 +28,7 @@
 
     function ngMainController($scope, $http, $rootScope, AuthService, $cookieStore, $state) {
         var Main = this;
-
+                                                                 console.log($cookieStore);
         $rootScope.$watch('isAuthenticated', function (nv, ov) {
 
         }, true);
@@ -1191,8 +1191,8 @@
     //search job
     angular.module('etControllersEmployee')
         .controller("SearchJobController", SearchJobController);
-    SearchJobController.$inject = ['$scope', '$rootScope', '$http', '$state', '$stateParams', 'MessageService', 'AuthService', 'RESOURCE_URL'];
-    function SearchJobController($scope, $rootScope, $http, $state, $stateParams, MessageService, AuthService, RESOURCE_URL) {
+    SearchJobController.$inject = ['$scope', '$rootScope', '$http', '$state', '$stateParams', 'MessageService', 'AuthService', 'RESOURCE_URL','ServiceEmployer'];
+    function SearchJobController($scope, $rootScope, $http, $state, $stateParams, MessageService, AuthService, RESOURCE_URL,ServiceEmployer) {
 
         var Search = this;
         Search.result_text = "Please wait...";
@@ -1277,7 +1277,7 @@
             }
         };
 
-       // localStorage.setItem("new_job", angular.toString(Job.new));
+        // localStorage.setItem("new_job", angular.toString(Job.new));
 
         Search.job = function () {
             ServiceEmployer.PostJob(Search.new, function (response) {
@@ -1298,13 +1298,24 @@
 
     }
 
-
+    //Contact controller
     angular.module("etControllersEmployee")
         .controller("ContactController", ContactController);
-    ContactController.$injet = ['$scope', '$http', 'MessageService'];
+    ContactController.$inject = ['$scope', '$http', 'MessageService'];
     function ContactController($scope, $http, MessageService) {
         var Contact = this;
         console.log("contact controller");
+
+        Contact.name = "";
+        Contact.email = "";
+        Contact.message = "";
+
+        Contact.sendMessage = function () {
+
+            MessageService.Success("Your message sent successfully !");
+
+
+        }
     }
 
 

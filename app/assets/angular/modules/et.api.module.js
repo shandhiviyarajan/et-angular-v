@@ -64,7 +64,7 @@
 
 
                 } else {
-                  //  console.log("Empty Skills");
+                    console.log("Empty Skills");
                 }
             }, function (error) {
 
@@ -80,7 +80,7 @@
                     locations(response.data);
 
                 } else {
-                 //   console.log("Empty Locations");
+                   // console.log("Empty Locations");
                 }
             }, function (error) {
 
@@ -130,7 +130,7 @@
                     type: user.type
                 }
             };
-          //  console.log($rootScope);
+            console.log($rootScope);
 
             //Set cookie
             $cookieStore.put('globals', $rootScope.globals);
@@ -349,7 +349,7 @@
 
                 }
             }).then(function (success) {
-             //   console.log(success);
+                console.log(success);
                 callback(success.data);
             }, function (error) {
                 callback(error.data);
