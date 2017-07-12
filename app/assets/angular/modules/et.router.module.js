@@ -12,10 +12,11 @@
 
     //Angular router module
     angular.module('etRouter',
-        ['etAPI',
+        ['etConstant',
+            'etAPI',
             'ui.router',
-            'ngCookies',
-            'etConstant'
+            'ngCookies'
+
         ]
     ).config(config);
     config.$inject = ['$urlRouterProvider', '$stateProvider', '$locationProvider'];
@@ -47,12 +48,12 @@
                 }],
                 GetLocations: ['$http', function ($http) {
                     //Get locations
-                    // return $http({
-                    //     url: 'https://easytrades.herokuapp.com/locations/cities',
-                    //     method: 'GET'
-                    // }).then(function (response) {
-                    //     return response.data;
-                    // });
+                    return $http({
+                        url: RESOURCE_URL.BASE_URI + '/locations/cities',
+                        method: 'GET'
+                    }).then(function (response) {
+                        return response.data;
+                    });
                 }]
             }
         };
@@ -63,6 +64,7 @@
             name: 'searchJobs',
             url: '/search?skill',
             controller: 'SearchJobController',
+            controllerAs: 'Search',
             templateUrl: base + '/templates/search',
             resolve: {
                 GetSkills: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {

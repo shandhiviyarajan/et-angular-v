@@ -17,7 +17,7 @@
 
 
     //Employee module
-    angular.module('etControllersEmployee', ['etAPI', 'ngCookies']);
+    angular.module('etControllersEmployee', ['etConstant', 'etAPI', 'ngCookies']);
 
     /**
      * Main Controller
@@ -1191,8 +1191,8 @@
     //search job
     angular.module('etControllersEmployee')
         .controller("SearchJobController", SearchJobController);
-    SearchJobController.$inject = ['$scope', '$rootScope', '$http', '$state', '$stateParams', 'MessageService', 'AuthService', 'GetSkills', 'GetLocations'];
-    function SearchJobController($scope, $rootScope, $http, $state, $stateParams, MessageService, AuthService, GetSkills, GetLocations) {
+    SearchJobController.$inject = ['$scope', '$rootScope', '$http', '$state', '$stateParams', 'MessageService', 'AuthService', 'RESOURCE_UR'];
+    function SearchJobController($scope, $rootScope, $http, $state, $stateParams, MessageService, AuthService, RESOURCE_URL) {
 
         var Search = this;
         Search.result_text = "Please wait...";
@@ -1206,7 +1206,23 @@
             'hire': 'Automatic'
         };
 
-        console.log(Search.new);
+        //Get skills
+        $http({
+            url: RESOURCE_URL.BASE_URI + '/skills',
+            method: 'GET'
+        }).then(function (response) {
+            return response.data;
+        });
+
+
+        //Get locations
+        $http({
+            url: RESOURCE_URL.BASE_URI + '/locations/cities',
+            method: 'GET'
+        }).then(function (response) {
+            return response.data;
+        });
+
 
         $http({
             url: '/curl/api.php?function=search_jobs',
@@ -1216,9 +1232,7 @@
             }
         }).then(function (response) {
 
-
             if (response.data.status) {
-
                 if (response.data.data.count > 0) {
                     Search.result_text = "result found !";
                     Search.count = response.data.data.count;
