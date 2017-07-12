@@ -188,8 +188,8 @@
      * ------------------------------------------------------------------------------------------ */
     angular.module("etControllersEmployer")
         .controller('PostJobController', PostJobController);
-    PostJobController.$inject = ['$scope', '$rootScope', '$state', 'GetSkills', 'GetLocations', '$http', '$timeout', '$stateParams', 'AuthService', 'ServiceEmployer', 'MessageService', 'AppService'];
-    function PostJobController($scope, $rootScope, $state, GetSkills, GetLocations, $http, $timeout, $stateParams, AuthService, ServiceEmployer, MessageService, AppService) {
+    PostJobController.$inject = ['$scope', '$rootScope', '$state','AuthService', 'ServiceEmployer', 'MessageService'];
+    function PostJobController($scope, $rootScope, $state,AuthService, ServiceEmployer, MessageService) {
 
 
         var Job = this;
@@ -200,9 +200,9 @@
         Job.skills = [];
         Job.locations = [];
 
-        Job.skills = GetSkills.data.Skills;
-        console.log(GetSkills.data);
-        Job.locations = GetLocations.data.Locations;
+        // Job.skills = GetSkills.data.Skills;
+        // console.log(GetSkills.data);
+       // Job.locations = GetLocations.data.Locations;
 
 
         /* Post Job - employer
