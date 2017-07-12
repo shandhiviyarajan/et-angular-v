@@ -62,7 +62,26 @@
         var searchJobs = {
             name: 'searchJobs',
             url: '/search?skill',
-            templateUrl: base + '/templates/search'
+            templateUrl: base + '/templates/search',
+            resolve: {
+                GetSkills: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
+                    return $http({
+                        url: RESOURCE_URL.BASE_URI + '/skills',
+                        method: 'GET'
+                    }).then(function (response) {
+                        return response.data;
+                    });
+                }],
+                GetLocations: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
+                    //Get locations
+                    return $http({
+                        url: RESOURCE_URL.BASE_URI + '/locations/cities',
+                        method: 'GET'
+                    }).then(function (response) {
+                        return response.data;
+                    });
+                }]
+            }
         };
         $stateProvider.state(searchJobs);
 
@@ -319,23 +338,23 @@
             controllerAs: 'Job',
             templateUrl: base + '/templates/post-a-job',
             resolve: {
-                // GetSkills: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
-                //     return $http({
-                //         url: RESOURCE_URL.BASE_URI + '/skills',
-                //         method: 'GET'
-                //     }).then(function (response) {
-                //         return response.data;
-                //     });
-                // }],
-                // GetLocations: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
-                //     //Get locations
-                //     return $http({
-                //         url: RESOURCE_URL.BASE_URI + '/locations/cities',
-                //         method: 'GET'
-                //     }).then(function (response) {
-                //         return response.data;
-                //     });
-                // }]
+                GetSkills: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
+                    return $http({
+                        url: RESOURCE_URL.BASE_URI + '/skills',
+                        method: 'GET'
+                    }).then(function (response) {
+                        return response.data;
+                    });
+                }],
+                GetLocations: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
+                    //Get locations
+                    return $http({
+                        url: RESOURCE_URL.BASE_URI + '/locations/cities',
+                        method: 'GET'
+                    }).then(function (response) {
+                        return response.data;
+                    });
+                }]
             }
         };
         $stateProvider.state(postJob);
