@@ -52,11 +52,6 @@
             }
         };
 
-        $http.get("/test").then(function (s) {
-            // console.log(s);
-        });
-
-
     }
 
 
