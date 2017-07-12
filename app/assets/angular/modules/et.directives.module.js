@@ -270,7 +270,7 @@
         };
 
         function link(scope) {
-            console.log($document);
+
             $document.bind('keyup', function (e) {
                 //Apply Login on press enter key
                 // console.log(scope);
@@ -306,7 +306,7 @@
 
         function link(scope, element, attr, con) {
             $(element).collapsible();
-            console.log(element);
+          //  console.log(element);
 
         }
 
