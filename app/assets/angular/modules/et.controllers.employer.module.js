@@ -201,6 +201,7 @@
         Job.locations = [];
 
         Job.skills = GetSkills.data.Skills;
+        console.log(GetSkills.data);
         Job.locations = GetLocations.data.Locations;
 
 
