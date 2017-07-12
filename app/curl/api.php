@@ -267,6 +267,9 @@ class Pointers
         }
     }
 
+    /**
+     * Search jobs 
+     */
     private function search_jobs()
     {
         $this->options['headers'] = [
@@ -283,6 +286,9 @@ class Pointers
 
     }
 
+    /**
+     * Add timesheets
+     */
     private function add_time_sheet()
 
     {
@@ -305,6 +311,9 @@ class Pointers
 
     }
 
+    /**
+     * Approve timesheets
+     */
     private function approve_time_sheet_employee()
     {
         $this->options['headers'] = [
@@ -320,6 +329,9 @@ class Pointers
         }
     }
 
+    /**
+     * Recontest timesheet
+     */
     private function recontest_time_sheet_employee()
     {
         $this->options['headers'] = [
@@ -337,9 +349,11 @@ class Pointers
         }
     }
 
+    /**
+     * Get card information
+     */
     private function get_card_info()
     {
-        //https://easytrades.herokuapp.com/user/card
 
         if ($this->http->headers->has('JWT_TOKEN')) {
             $this->options['headers'] = [
