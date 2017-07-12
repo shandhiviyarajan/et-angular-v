@@ -11,7 +11,7 @@
     //Angular strict DI Mode enabled
 
     //Angular router module
-    angular.module('etRouter', ['etAPI', 'ui.router', 'ngCookies'])
+    angular.module('etRouter', ['etAPI', 'ui.router', 'ngCookies','etConstant'])
         .config(config);
     config.$inject = ['$urlRouterProvider', '$stateProvider', '$locationProvider'];
 
@@ -34,7 +34,7 @@
             resolve: {
                 GetSkills: ['$http',function ($http) {
                     return $http({
-                        url: 'https://easytrades.herokuapp.com/skills',
+                        url: RESOURCE_URL.BASE_URI + '/skills',
                         method: 'GET'
                     }).then(function (response) {
                         return response.data;
@@ -83,7 +83,7 @@
             resolve: {
                 GetSkills: ['$http',function ($http) {
                     return $http({
-                        url: 'https://easytrades.herokuapp.com/skills',
+                        url: RESOURCE_URL.BASE_URI + '/skills',
                         method: 'GET'
                     }).then(function (response) {
                         return response.data;

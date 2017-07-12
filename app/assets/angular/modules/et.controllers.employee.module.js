@@ -1233,7 +1233,6 @@
 
         }, function (response) {
             Search.show_results = false;
-
         });
 
 
