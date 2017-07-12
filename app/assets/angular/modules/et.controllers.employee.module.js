@@ -1191,7 +1191,7 @@
     //search job
     angular.module('etControllersEmployee')
         .controller("SearchJobController", SearchJobController);
-    SearchJobController.$inject = ['$scope', '$rootScope', '$http', '$state', '$stateParams', 'MessageService', 'AuthService', 'RESOURCE_UR'];
+    SearchJobController.$inject = ['$scope', '$rootScope', '$http', '$state', '$stateParams', 'MessageService', 'AuthService', 'RESOURCE_URL'];
     function SearchJobController($scope, $rootScope, $http, $state, $stateParams, MessageService, AuthService, RESOURCE_URL) {
 
         var Search = this;
@@ -1203,7 +1203,8 @@
         Search.paramSkill = $stateParams.skill;
 
         Search.new = {
-            'hire': 'Automatic'
+            'hire': 'Automatic',
+            'Proffesion': $stateParams.skill
         };
 
         //Get skills
@@ -1211,7 +1212,7 @@
             url: RESOURCE_URL.BASE_URI + '/skills',
             method: 'GET'
         }).then(function (response) {
-            return response.data;
+            Search.skills = response.data.data.Skills;
         });
 
 
@@ -1220,7 +1221,7 @@
             url: RESOURCE_URL.BASE_URI + '/locations/cities',
             method: 'GET'
         }).then(function (response) {
-            return response.data;
+            Search.locations = response.data.data.Locations;
         });
 
 
@@ -1254,6 +1255,45 @@
         }, function (response) {
             Search.show_results = false;
         });
+
+        Search.postJob = function () {
+
+            Search.prepareJob();
+            Search.job();
+        };
+
+        //Edit start date and time
+        Search.prepareJob = function () {
+            if (Search.new.StartingDate != "" && Search.new.StartingDate != undefined && Search.new.StartingDate != null) {
+                Search.new.StartingDate = Search.new.StartingDate.split("/").reverse().join("-");
+            } else {
+                Search.new.StartingDate = {};
+            }
+
+            if (Search.new.EndingDate != "" && Search.new.EndingDate != undefined && Search.new.EndingDate != null) {
+                Search.new.EndingDate = Search.new.EndingDate.split("/").reverse().join("-");
+            } else {
+                Search.new.EndingDate = {};
+            }
+        };
+
+       // localStorage.setItem("new_job", angular.toString(Job.new));
+
+        Search.job = function () {
+            ServiceEmployer.PostJob(Search.new, function (response) {
+
+                if (response.status) {
+                    MessageService.Success("Job posted successfully !");
+                    Search.new = {};
+                    $state.go("myJobsEmployer");
+
+                } else {
+                    MessageService.Error("Error on posting a new job !");
+                    MessageService.Error(response.message);
+                }
+
+            });
+        }
 
 
     }

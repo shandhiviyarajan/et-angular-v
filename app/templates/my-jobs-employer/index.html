@@ -76,11 +76,12 @@
                         </td>
                         <td>{{Job.JobName}}
                         </td>
-                        <td>
-                            <span class="new badge"> {{Job.NmuberOfEmployees}}</span>
+                        <td style="text-align:left;">
+                            <span class="new badge" style="float: left;"> {{Job.NmuberOfEmployees}}</span>
                         </td>
-                        <td style="text-align:right;">
-                            <a ui-sref="editJob({JobID:Job._id})" class="btn btn-small">Edit</a> &nbsp;
+                        <td>
+                            <!--<a ui-sref="editJob({JobID:Job._id})" class="btn btn-small">Edit</a> &nbsp;-->
+                            &nbsp;
                         </td>
                         <td>
                             <a class="btn btn-small" ui-sref="viewJobEmployer({JobID:Job._id})">View Job</a>

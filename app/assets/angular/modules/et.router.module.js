@@ -46,7 +46,7 @@
                         return response.data;
                     });
                 }],
-                GetLocations: ['$http', function ($http) {
+                GetLocations: ['$http','RESOURCE_URL', function ($http,RESOURCE_URL) {
                     //Get locations
                     return $http({
                         url: RESOURCE_URL.BASE_URI + '/locations/cities',
@@ -63,28 +63,7 @@
         var searchJobs = {
             name: 'searchJobs',
             url: '/search?skill',
-            controller: 'SearchJobController',
-            controllerAs: 'Search',
-            templateUrl: base + '/templates/search',
-            resolve: {
-                GetSkills: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
-                    return $http({
-                        url: RESOURCE_URL.BASE_URI + '/skills',
-                        method: 'GET'
-                    }).then(function (response) {
-                        return response.data;
-                    });
-                }],
-                GetLocations: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
-                    //Get locations
-                    return $http({
-                        url: RESOURCE_URL.BASE_URI + '/locations/cities',
-                        method: 'GET'
-                    }).then(function (response) {
-                        return response.data;
-                    });
-                }]
-            }
+            templateUrl: base + '/templates/search'
         };
         $stateProvider.state(searchJobs);
 

@@ -46,8 +46,8 @@
                 <div class="gap x"></div>
                 <div class="input-field col s12">
                     <select et-select-box data-ng-model="Search.new.Proffesion">
-                        <option value="" selected>{{Search.paramSkill}}</option>
-                        <option data-ng-repeat="skill in Search.skills" data-ng-if="skill != Search.paramSkill">{{skill}}</option>
+                        <option ng-value="{{Search.paramSkill}}" selected>{{Search.paramSkill}}</option>
+                        <option data-ng-repeat="skill in Search.skills" data-ng-if="skill != Search.paramSkill" value="{{skill}}">{{skill}}</option>
                     </select>
                 </div>
                 <div class="input-field textarea-block extended col s12">
@@ -66,7 +66,7 @@
                 </div>
                 <div class="input-field col s12">
                     <select et-select-box data-ng-model="Search.new.Location">
-                        <option value="" selected>{{Search.paramLocation}}</option>
+                        <option value="" selected disabled>Select a location</option>
                         <option data-ng-repeat="location in Search.locations">{{location}}</option>
                     </select>
                 </div>
@@ -114,7 +114,9 @@
                 <!--data-ng-model="Job.new.hire"-->
                 <div class="input-field col s12">
                     <input
+                            data-ng-model="Search.new.hire"
                             data-ng-checked="true"
+
                             value="Automatic"
                             class="with-gap"
                             id="hire_auto"
@@ -125,7 +127,7 @@
                 </div>
 
                 <div class="input-field col s12">
-                    <input
+                    <input        data-ng-model="Search.new.hire"
                             class="with-gap"
                             id="hire_manu"
                             name="hire"
@@ -145,8 +147,7 @@
                 <div class="gap x"></div>
             </div>
         </div>
-
-        {{Search.new}}
+                     {{Search.new}}
         <div class="gap x"></div>
 
     </div>
