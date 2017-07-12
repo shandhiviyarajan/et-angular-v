@@ -64,7 +64,8 @@
         Login.password;
         Login.type = 'employer';
 
-        ($state);console.log
+        ($state);
+        console.log
 
         $rootScope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams, options) {
@@ -168,7 +169,6 @@
             delete Profile.user.__v;
 
 
-
             ServiceEmployer.UpdateProfileEmployer(Profile.user, function (response) {
 
                 if (response.status) {
@@ -190,8 +190,6 @@
         .controller('PostJobController', PostJobController);
     PostJobController.$inject = ['$scope', '$rootScope', '$state', 'GetSkills', 'GetLocations', '$http', '$timeout', '$stateParams', 'AuthService', 'ServiceEmployer', 'MessageService', 'AppService'];
     function PostJobController($scope, $rootScope, $state, GetSkills, GetLocations, $http, $timeout, $stateParams, AuthService, ServiceEmployer, MessageService, AppService) {
-
-
 
 
         var Job = this;
@@ -275,14 +273,24 @@
 
         var Employer = this;
         Employer.jobs = null;
+        Employer.jobs_length = true;
 
         /* View jobs
          ---------------------------------------------------------------------------------------- */
         if (AuthService.isAuthenticated()) {
             ServiceEmployer.ViewJobsByState(function (response) {
                 if (response.status) {
-                    MessageService.Success("Jobs information loaded !");
+
                     Employer.jobs = response.data;
+
+                    if (response.data.length > 0) {
+                        Employer.jobs_length = true;
+                        MessageService.Success("Jobs information loaded !");
+                    } else {
+                        Employer.jobs_length = false;
+                        MessageService.Error("No Jobs found !");
+                    }
+
                 } else {
                     MessageService.Error(response.message);
                     $state.go("myBusinessHomeEmployer");
