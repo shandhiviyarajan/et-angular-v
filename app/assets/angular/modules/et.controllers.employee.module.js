@@ -90,7 +90,7 @@
 
         $scope.skills = GetSkills.data.Skills;
 
-       // console.log(GetSkills.data);
+        // console.log(GetSkills.data);
         // $scope.locations = GetLocations.data.Locations;
 
 
@@ -1191,8 +1191,8 @@
     //search job
     angular.module('etControllersEmployee')
         .controller("SearchJobController", SearchJobController);
-    SearchJobController.$inject = ['$scope', '$rootScope', '$http', '$state', '$stateParams', 'MessageService', 'AuthService'];
-    function SearchJobController($scope, $rootScope, $http, $state, $stateParams, MessageService, AuthService) {
+    SearchJobController.$inject = ['GetSkills', 'GetLocations', '$scope', '$rootScope', '$http', '$state', '$stateParams', 'MessageService', 'AuthService'];
+    function SearchJobController(GetSkills, GetLocations, $scope, $rootScope, $http, $state, $stateParams, MessageService, AuthService) {
 
         var Search = this;
 
@@ -1202,6 +1202,10 @@
         Search.show_form = false;
         Search.paramLocation = null;
         Search.paramSkill = $stateParams.skill;
+
+        Search.skills = GetSkills.data.Skills;
+        // console.log(GetSkills.data);
+        Search.locations = GetLocations.data.Locations;
 
 
         $http({

@@ -62,6 +62,7 @@
         var searchJobs = {
             name: 'searchJobs',
             url: '/search?skill',
+            controller:'SearchJobController',
             templateUrl: base + '/templates/search',
             resolve: {
                 GetSkills: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {

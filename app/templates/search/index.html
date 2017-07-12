@@ -46,7 +46,7 @@
                 <div class="input-field col s12">
                     <select et-select-box data-ng-model="Job.new.Proffesion">
                         <option value="" selected>{{Search.paramSkill}}</option>
-                        <option data-ng-repeat="skill in Job.skills" data-ng-if="skill != Search.paramSkill">{{skill}}</option>
+                        <option data-ng-repeat="skill in Search.skills" data-ng-if="skill != Search.paramSkill">{{skill}}</option>
                     </select>
                 </div>
                 <div class="input-field textarea-block extended col s12">
@@ -66,7 +66,7 @@
                 <div class="input-field col s12">
                     <select et-select-box data-ng-model="Job.new.Location">
                         <option value="" selected>{{Search.paramLocation}}</option>
-                        <option data-ng-repeat="location in Job.locations" data-ng-if="location != Search.paramLocation">{{location}}</option>
+                        <option data-ng-repeat="location in Search.locations">{{location}}</option>
                     </select>
                 </div>
                 <div class="input-field col s6">
