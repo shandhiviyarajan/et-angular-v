@@ -1227,3 +1227,9 @@ ul.terms_list li:nth-child(odd) {
     background: #eee;
 }
 
+.home_search_btn {
+    border-radius: 2px;
+    height: 45px;
+    padding: 5px 30px;
+}
+
