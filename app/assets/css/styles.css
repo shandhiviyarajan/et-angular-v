@@ -1228,9 +1228,9 @@ ul.terms_list li:nth-child(odd) {
 }
 
 .home_search_btn {
-    border-radius: 2px;
-    height: 45px;
-    padding: 5px 30px;
+    border-radius: 2px !important;
+    height: 45px !important;
+    padding: 5px 30px !important;
     width: 100%;
 }
 
