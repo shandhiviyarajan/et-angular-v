@@ -546,10 +546,10 @@
         Billing.have_card = false;
         Billing.stripe_token = null;
         Billing.card = {
-            'number': 4242424242424242,
-            'exp_month': 12,
-            'exp_year': 2018,
-            'cvc': 123
+            'number': "",
+            'exp_month': "",
+            'exp_year': "",
+            'cvc': ""
         };
 
         Billing.getCards = function () {

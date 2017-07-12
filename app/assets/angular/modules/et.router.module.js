@@ -11,8 +11,13 @@
     //Angular strict DI Mode enabled
 
     //Angular router module
-    angular.module('etRouter', ['etAPI', 'ui.router', 'ngCookies','etConstant'])
-        .config(config);
+    angular.module('etRouter',
+        ['etAPI',
+            'ui.router',
+            'ngCookies',
+            'etConstant'
+        ]
+    ).config(config);
     config.$inject = ['$urlRouterProvider', '$stateProvider', '$locationProvider'];
 
     /**
@@ -30,9 +35,9 @@
             name: 'home',
             url: '/',
             templateUrl: base + '/templates/home',
-            controller:'HomeController',
+            controller: 'HomeController',
             resolve: {
-                GetSkills: ['$http',function ($http) {
+                GetSkills: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
                     return $http({
                         url: RESOURCE_URL.BASE_URI + '/skills',
                         method: 'GET'
@@ -40,7 +45,7 @@
                         return response.data;
                     });
                 }],
-                GetLocations: ['$http',function ($http) {
+                GetLocations: ['$http', function ($http) {
                     //Get locations
                     // return $http({
                     //     url: 'https://easytrades.herokuapp.com/locations/cities',
@@ -78,10 +83,10 @@
         var findStaff = {
             name: 'findStaff',
             url: '/find-staff',
-            controller:'HomeController',
+            controller: 'HomeController',
             templateUrl: base + '/templates/find-staff',
             resolve: {
-                GetSkills: ['$http',function ($http) {
+                GetSkills: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
                     return $http({
                         url: RESOURCE_URL.BASE_URI + '/skills',
                         method: 'GET'
@@ -89,7 +94,7 @@
                         return response.data;
                     });
                 }],
-                GetLocations: ['$http',function ($http) {
+                GetLocations: ['$http', function ($http) {
                     //Get locations
                     //return $http({
                     //    url: 'https://easytrades.herokuapp.com/locations/cities',
@@ -236,11 +241,11 @@
             controller: 'LocationController',
             controllerAs: 'Location',
             templateUrl: base + '/templates/add-location',
-            resolve:{
-                GetLocations: ['$http',function ($http) {
+            resolve: {
+                GetLocations: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
                     //Get locations
                     return $http({
-                        url: 'https://easytrades.herokuapp.com/locations/cities',
+                        url: RESOURCE_URL.BASE_URI + '/locations/cities',
                         method: 'GET'
                     }).then(function (response) {
                         return response.data;
@@ -314,18 +319,18 @@
             controllerAs: 'Job',
             templateUrl: base + '/templates/post-a-job',
             resolve: {
-                GetSkills: ['$http',function ($http) {
+                GetSkills: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
                     return $http({
-                        url: 'https://easytrades.herokuapp.com/skills',
+                        url: RESOURCE_URL.BASE_URI + '/skills',
                         method: 'GET'
                     }).then(function (response) {
                         return response.data;
                     });
                 }],
-                GetLocations: ['$http',function ($http) {
+                GetLocations: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
                     //Get locations
                     return $http({
-                        url: 'https://easytrades.herokuapp.com/locations/cities',
+                        url: RESOURCE_URL.BASE_URI + '/locations/cities',
                         method: 'GET'
                     }).then(function (response) {
                         return response.data;
