@@ -41,37 +41,37 @@
 
         <div class="gap x"></div>
         <div class="row" data-ng-if="Search.show_form">
-            <div data-ng-controller="PostJobController as Job">
+            <div>
                 <div class="gap x"></div>
                 <div class="input-field col s12">
-                    <select et-select-box data-ng-model="Job.new.Proffesion">
+                    <select et-select-box data-ng-model="Search.new.Proffesion">
                         <option value="" selected>{{Search.paramSkill}}</option>
                         <option data-ng-repeat="skill in Search.skills" data-ng-if="skill != Search.paramSkill">{{skill}}</option>
                     </select>
                 </div>
                 <div class="input-field textarea-block extended col s12">
-                <textarea data-ng-model="Job.new.JobDiscription"
+                <textarea data-ng-model="Search.new.JobDiscription"
                           id="desc_of_work"
                           class="materialize-textarea">
                 </textarea>
                     <label for="desc_of_work">Description of work and what employee need to bring / Dress code / osh requirements</label>
                 </div>
                 <div class="input-field col s12">
-                    <input data-ng-model="Job.new.JobName"
+                    <input data-ng-model="Search.new.JobName"
                            id="job_name"
                            type="text"
                            class="validate">
                     <label for="job_name">Job Name</label>
                 </div>
                 <div class="input-field col s12">
-                    <select et-select-box data-ng-model="Job.new.Location">
+                    <select et-select-box data-ng-model="Search.new.Location">
                         <option value="" selected>{{Search.paramLocation}}</option>
                         <option data-ng-repeat="location in Search.locations">{{location}}</option>
                     </select>
                 </div>
                 <div class="input-field col s6">
                     <i class="ico ico-calendar prefix"></i>
-                    <input data-ng-model="Job.new.StartingDate"
+                    <input data-ng-model="Search.new.StartingDate"
                            data-et-datepicker
                            id="start_date"
                            type="text"
@@ -80,7 +80,7 @@
                 </div>
                 <div class="input-field col s6">
                     <i class="ico ico-calendar prefix"></i>
-                    <input data-ng-model="Job.new.EndingDate"
+                    <input data-ng-model="Search.new.EndingDate"
                            data-et-datepicker
                            id="end_date"
                            type="text">
@@ -88,14 +88,14 @@
                 </div>
                 <div class="input-field col s12">
                     <input et-time-picker
-                           data-ng-model="Job.new.StartingTime"
+                           data-ng-model="Search.new.StartingTime"
                            id="start_time"
                            type="text"
                            class="validate">
                     <label for="start_time">Start Time</label>
                 </div>
                 <div class="input-field col s12">
-                    <select et-select-box  data-ng-model="Job.new.NmuberOfEmployees">
+                    <select et-select-box  data-ng-model="Search.new.NmuberOfEmployees">
                         <option value="" disabled selected>Number of employees</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -138,7 +138,7 @@
                     <input type="submit"
                            class="btn btn-rounded btn-default btn-dark"
                            value="Post a Job"
-                           data-ng-click="Job.postJob()">
+                           data-ng-click="Search.postJob()">
                 </div>
 
                 <div class="gap x"></div>

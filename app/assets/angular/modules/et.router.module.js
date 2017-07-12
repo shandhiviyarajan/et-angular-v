@@ -62,7 +62,7 @@
         var searchJobs = {
             name: 'searchJobs',
             url: '/search?skill',
-            controller:'SearchJobController',
+            controller: 'SearchJobController',
             templateUrl: base + '/templates/search',
             resolve: {
                 GetSkills: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
@@ -106,22 +106,24 @@
             controller: 'HomeController',
             templateUrl: base + '/templates/find-staff',
             resolve: {
-                GetSkills: ['$http', 'RESOURCE_URL', function ($http, RESOURCE_URL) {
+                GetSkills: ['$http', '$rootScope', 'RESOURCE_URL', function ($http, $rootScope, RESOURCE_URL) {
                     return $http({
                         url: RESOURCE_URL.BASE_URI + '/skills',
                         method: 'GET'
                     }).then(function (response) {
+                        $rootScope.GetSkills = response.data;
                         return response.data;
                     });
                 }],
-                GetLocations: ['$http', function ($http) {
-                    //Get locations
-                    //return $http({
-                    //    url: 'https://easytrades.herokuapp.com/locations/cities',
-                    //    method: 'GET'
-                    //}).then(function (response) {
-                    //    return response.data;
-                    //});
+                GetLocations: ['$http', '$$rootScope', 'RESOURCE_URL', function ($http, $rootScope, RESOURCE_URL) {
+                    // Get locations
+                    return $http({
+                        url: RESOURCE_URL.BASE_URI + '/locations/cities',
+                        method: 'GET'
+                    }).then(function (response) {
+                        $rootScope.GetLocations = response.data;
+                        return response.data;
+                    });
                 }]
             }
         };

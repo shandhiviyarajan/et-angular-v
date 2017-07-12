@@ -1191,11 +1191,10 @@
     //search job
     angular.module('etControllersEmployee')
         .controller("SearchJobController", SearchJobController);
-    SearchJobController.$inject = ['GetSkills', 'GetLocations', '$scope', '$rootScope', '$http', '$state', '$stateParams', 'MessageService', 'AuthService'];
-    function SearchJobController(GetSkills, GetLocations, $scope, $rootScope, $http, $state, $stateParams, MessageService, AuthService) {
+    SearchJobController.$inject = ['$scope', '$rootScope', '$http', '$state', '$stateParams', 'MessageService', 'AuthService', 'GetSkills', 'GetLocations'];
+    function SearchJobController($scope, $rootScope, $http, $state, $stateParams, MessageService, AuthService, GetSkills, GetLocations) {
 
         var Search = this;
-
         Search.result_text = "Please wait...";
         Search.count = null;
         Search.show_results = true;
@@ -1203,10 +1202,11 @@
         Search.paramLocation = null;
         Search.paramSkill = $stateParams.skill;
 
-        Search.skills = GetSkills.data.Skills;
-        // console.log(GetSkills.data);
-        Search.locations = GetLocations.data.Locations;
+        Search.new = {
+            'hire': 'Automatic'
+        };
 
+        console.log(Search.new);
 
         $http({
             url: '/curl/api.php?function=search_jobs',
