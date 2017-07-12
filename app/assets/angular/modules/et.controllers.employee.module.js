@@ -89,6 +89,8 @@
          ------------------------------------------------------------------------------------------ */
 
         $scope.skills = GetSkills.data.Skills;
+
+        console.log(GetSkills.data);
         // $scope.locations = GetLocations.data.Locations;
 
 
