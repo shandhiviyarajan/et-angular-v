@@ -309,8 +309,8 @@
      * ------------------------------------------------------------------------------------------ */
     angular.module('etControllersEmployer')
         .controller('EmployerViewJobsController', EmployerViewJobsController);
-    EmployerViewJobsController.$inject = ['$scope', '$rootScope', '$state', '$http', '$stateParams', 'AuthService', 'ServiceEmployer', 'MessageService'];
-    function EmployerViewJobsController($scope, $rootScope, $state, $http, $stateParams, AuthService, ServiceEmployer, MessageService) {
+    EmployerViewJobsController.$inject = ['$scope', '$rootScope', '$state', '$http', '$stateParams', 'AuthService', 'ServiceEmployer', 'MessageService','RESOURCE_URL'];
+    function EmployerViewJobsController($scope, $rootScope, $state, $http, $stateParams, AuthService, ServiceEmployer, MessageService,RESOURCE_URL) {
 
         $scope.JobID = $stateParams.JobID;
         $scope.Job = {};
@@ -339,17 +339,16 @@
         setTimeout(function () {
             if ($scope.JobID) {
                 $http({
-                    url: '/curl/api.php?function=matching_employee_list',
-                    method: 'POST',
+                    url: RESOURCE_URL.BASE_URI+'/employer/hire/'+$stateParams.JobID,
+                    method: 'GET',
                     headers: {
-                        JWT_TOKEN: 'JWT ' + $rootScope.globals.current_user.token,
-                        job_id: $stateParams.JobID
+                        'Content-type' : 'application/json',
+                        'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                     }
                 }).then(function (response) {
                     $scope.matching_employee = response.data.data;
                     MessageService.Success("Matching employee list loaded !");
                 }, function (response) {
-
                     MessageService.Error("Error loading matching employee list !");
                 });
             }
@@ -361,14 +360,39 @@
         $scope.sendInvitations = function (user_id) {
 
             $http({
-                url: '/curl/api.php?function=send_invitations',
+                url: RESOURCE_URL.BASE_URI+'/employer/hire/'+$scope.JobID,
                 method: 'POST',
                 headers: {
-                    'job_id': $scope.JobID,
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'data': angular.toJson({
+                    'Content-type' : 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
+                },
+                data: angular.toJson({
                         "Employees": [user_id]
                     })
+
+            }).then(function (response) {
+
+                if (response.data.status) {
+                    MessageService.Success('Job invitations sent successfully !');
+                } else {
+                    MessageService.Error('Invitations failed !');
+                    MessageService.Error(response.data.message);
+                }
+            }, function (response) {
+
+            });
+
+
+        };
+
+        $scope.acceptInvitation = function (user_id,contract_id) {
+
+            $http({
+                url: RESOURCE_URL.BASE_URI+'/employer/job/'+contract_id+'/true',
+                method: 'GET',
+                headers: {
+                    'Content-type' : 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                 }
             }).then(function (response) {
 
@@ -425,8 +449,8 @@
 
     angular.module('etControllersEmployer')
         .controller('EmployerTimeSheetController', EmployerTimeSheetController);
-    EmployerTimeSheetController.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'AuthService', 'ServiceEmployer', 'MessageService'];
-    function EmployerTimeSheetController($scope, $rootScope, $state, $stateParams, $http, AuthService, ServiceEmployer, MessageService) {
+    EmployerTimeSheetController.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'AuthService', 'ServiceEmployer', 'MessageService','RESOURCE_URL'];
+    function EmployerTimeSheetController($scope, $rootScope, $state, $stateParams, $http, AuthService, ServiceEmployer, MessageService,RESOURCE_URL) {
 
         var Timesheet = this;
         Timesheet.weekly_timesheets = [];
@@ -447,18 +471,16 @@
         };
         Timesheet.contestHours = function () {
             $http({
-                url: '/curl/api.php?function=contest_time_sheet',
+                url: RESOURCE_URL.BASE_URI+'/employer/timesheet/' + $stateParams.ContractID + '/' + Timesheet.timesheet_id,
                 method: 'POST',
                 headers: {
-                    'contract_id': $stateParams.ContractID,
-                    'time_sheet_id': Timesheet.timesheet_id,
-                    'request_url': 'https://easytrades.herokuapp.com/employer/timesheet/' + $stateParams.ContractID + '/' + Timesheet.timesheet_id,
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'data': angular.toJson({
+                    'Content-Type': 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
+                },
+                data: angular.toJson({
                         "ContestHours": Timesheet.contested_hours,
                         "Reason": Timesheet.reason
                     })
-                }
             }).then(function (response) {
                 MessageService.Success("Contested successfully !");
                 Timesheet.single_timesheet.TimeSheets = response.data.data.TimeSheets;
@@ -472,14 +494,11 @@
 
 
             $http({
-                url: '/curl/api.php?function=approve_time_sheet',
-                method: 'POST',
-
+                url: RESOURCE_URL.BASE_URI+'/employer/timesheet/' + $stateParams.ContractID + '/' + Timesheet.timesheet_id,
+                method: 'PUT',
                 headers: {
-                    'contract_id': $stateParams.ContractID,
-                    'time_sheet_id': Timesheet.timesheet_id,
-                    'request_url': 'https://easytrades.herokuapp.com/employer/timesheet/' + $stateParams.ContractID + '/' + Timesheet.timesheet_id,
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
+                    'Content-Type': 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                 }
             }).then(function (response) {
                 MessageService.Success("Approved successfully !");
@@ -492,12 +511,11 @@
 
         if ($stateParams.CreatedBy != null) {
             var httpRequest = $http({
-                url: '/curl/api.php?function=created_by',
-                method: 'POST',
-                data: {
-                    'created_by': $stateParams.CreatedBy,
-                    'request_url': 'https://easytrades.herokuapp.com/employer/timesheets?CreatedBy=' + $stateParams.CreatedBy,
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
+                url: RESOURCE_URL.BASE_URI + '/employer/timesheets?CreatedBy=' + $stateParams.CreatedBy,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                 }
             });
             httpRequest.then(function (success) {
@@ -547,27 +565,22 @@
 
     angular.module("etControllersEmployer")
         .controller("EmployerBillingController", EmployerBillingController);
-    EmployerBillingController.$inject = ['$scope', '$rootScope', '$http', 'MessageService'];
-    function EmployerBillingController($scope, $rootScope, $http, MessageService) {
+    EmployerBillingController.$inject = ['$scope', '$rootScope', '$http', 'MessageService','RESOURCE_URL','$httpParamSerializerJQLike'];
+    function EmployerBillingController($scope, $rootScope, $http, MessageService,RESOURCE_URL,$httpParamSerializerJQLike) {
 
         var Billing = this;
         Billing.cards = [];
         Billing.have_card = false;
         Billing.stripe_token = null;
-        Billing.card = {
-            'number': "",
-            'exp_month': "",
-            'exp_year': "",
-            'cvc': ""
-        };
 
         Billing.getCards = function () {
 
             $http({
-                url: '/curl/api.php?function=get_card_info',
-                method: 'POST',
+                url: RESOURCE_URL.BASE_URI+'/user/card',
+                method: 'GET',
                 headers: {
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
+                    'Content-type' : 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                 }
             }).then(function (response) {
 
@@ -589,15 +602,22 @@
         Billing.saveCard = function () {
             MessageService.Success("Please wait... adding your card");
             //Get stripe token
+            var card_details = {
+                    card : {
+                        'number': Billing.card.number,
+                        'exp_month': Billing.card.exp_month,
+                        'exp_year': Billing.card.exp_year,
+                        'cvc': Billing.card.cvc
+                    }
+                };
             $http({
-                url: '/curl/api.php?function=stripe_token',
+                url: 'https://api.stripe.com/v1/tokens',
                 method: 'POST',
                 headers: {
-                    'number': Billing.card.number,
-                    'exp_month': Billing.card.exp_month,
-                    'exp_year': Billing.card.exp_year,
-                    'cvc': Billing.card.cvc
-                }
+                    'Authorization': 'Bearer '+RESOURCE_URL.STRIPE_API,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: $httpParamSerializerJQLike(card_details)
             }).then(function (response) {
 
 
@@ -607,13 +627,15 @@
                 //Send stripe token
                 if (Billing.stripe_token != null) {
                     $http({
-                        url: '/curl/api.php?add_card',
+                        url: RESOURCE_URL.BASE_URI + '/user/billing',
                         method: 'POST',
                         headers: {
-                            'data': angular.toJson({
+                            'Content-type' : 'application/json',
+                            'Authorization': 'JWT '+$rootScope.globals.current_user.token,
+                        },
+                        data: angular.toJson({
                                 "stripeToken": Billing.stripe_token
                             })
-                        }
                     }).then(function (response) {
                         MessageService.Success("Your card added successfully !");
 

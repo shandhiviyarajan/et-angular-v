@@ -63,7 +63,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr data-ng-repeat="Contract in Employee.pending[0].Contracts">
+                            <tr data-ng-repeat="Contract in Employee.selected[0].Contracts">
                             <td>
                                 {{$index+1}}
                             </td>
@@ -84,11 +84,45 @@
                                         data-ng-click="Employee.acceptJob(Contract._id)"
                                         class="btn btn-rounded btn-default btn-dark">
                                     <strong>
-                                        Accept
+                                        Accept Offer
                                     </strong>
                                 </button>
                                 <button
                                         data-ng-click="Employee.declineJob(Contract._id)"
+                                        class="btn btn-rounded btn-default btn-dark">
+                                    <strong>
+                                        Decline Offer
+                                    </strong>
+                                </button>
+
+                            </td>
+                        </tr>
+                        <tr data-ng-repeat="Contract in Employee.pending[0].Contracts">
+                            <td>
+                                {{$index+1}}
+                            </td>
+                            <td>
+                                <a ui-sref="viewJob({JobID:Contract.JobId})"
+                                   data-ng-bind="'#' + Contract.JobId">
+                                    View Job
+                                </a>
+                            </td>
+                            <td style="text-transform: capitalize;">
+                                {{Contract.Status}}
+                            </td>
+                            <td>{{Contract.Job.JobName}}
+                            </td>
+
+                            <td style="text-align:right;">
+                                <button
+                                        data-ng-click="Employee.acceptJobInvitation(Contract._id)"
+                                        class="btn btn-rounded btn-default btn-dark">
+                                    <strong>
+                                        Accept
+                                    </strong>
+                                </button>
+                                <button
+                                        data-ng-click="Employee.declineJobInvitation(Contract._id)"
                                         class="btn btn-rounded btn-default btn-dark">
                                     <strong>
                                         Decline
@@ -119,7 +153,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr data-ng-repeat="Contract in Employee.accepted[0].Contracts">
+                        <tr data-ng-repeat="Contract in Employee.hired[0].Contracts">
                             <td>
                                 {{$index+1}}
                             </td>

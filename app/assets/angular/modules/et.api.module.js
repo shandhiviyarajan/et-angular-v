@@ -41,8 +41,8 @@
      --------------------------------------------------------------------------- */
     angular.module("etAPI")
         .factory("AppService", AppService);
-    AppService.$inject = ['$rootScope', '$http', '$timeout', '$cookieStore'];
-    function AppService($rootScope, $http, $timeout, $cookieStore) {
+    AppService.$inject = ['$rootScope', '$http', '$timeout', '$cookieStore','RESOURCE_URL'];
+    function AppService($rootScope, $http, $timeout, $cookieStore,RESOURCE_URL) {
 
         var AppService = {};
 
@@ -61,8 +61,6 @@
             }).then(function (response) {
                 if (response.data.status) {
                     skills(response.data);
-
-
                 } else {
                     console.log("Empty Skills");
                 }
@@ -163,18 +161,12 @@
         AuthService.CreateUser = function (user, callback) {
 
             $http({
-                url: '/curl/api.php?function=sign_up',
+                url: RESOURCE_URL.BASE_URI+'/signup',
                 method: 'POST',
                 headers: {
-                    'data': angular.toJson({
-                        "Email": user.Email,
-                        "Password": user.Password,
-                        "UserName": user.UserName,
-                        "Type": user.Type
-                    })
-
-                }
-
+                    'Content-type': 'application/x-www-form-urlencoded'
+                },
+                data: "Email="+user.Email+"&Password="+user.Password+"&UserName="+user.UserName+"&Type="+user.Type
             }).then(function (success) {
                 callback(success.data);
             }, function (error) {
@@ -227,11 +219,11 @@
 
 
             var httpRequest = $http({
-                url: '/curl/api.php?function=getProfile',
-                method: 'POST',
+                url: RESOURCE_URL.BASE_URI + '/employee/my-profile',
+                method: 'GET',
                 headers: {
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'username': $rootScope.globals.current_user.username
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                 }
             }).then(function (success) {
                 callback(success.data);
@@ -246,13 +238,11 @@
         ServiceEmployee.GetProfileSingleEmployee = function (username, callback) {
 
             var httpRequest = $http({
-                url: '/curl/api.php?function=api_call_employee',
-                method: 'POST',
+                url: RESOURCE_URL.BASE_URI + '/employee/' + username + '/profile',
+                method: 'GET',
                 headers: {
-                    'request_url': RESOURCE_URL.BASE_URI + '/employee/' + username + '/profile',
-                    'request_method': 'GET',
-                    'JWT_TOKEN': null,
-                    'data': null
+                    'Content-Type': 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                 }
             });
 
@@ -268,26 +258,25 @@
         ServiceEmployee.UpdateProfile = function (userObj, callback) {
 
             var httpRequest = $http({
-                url: '/curl/api.php?function=updateProfile',
+                url: RESOURCE_URL.BASE_URI + '/employee/' + $rootScope.globals.current_user.username + '/details',
                 method: 'POST',
                 headers: {
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'username': $rootScope.globals.current_user.username,
-
-                    'data': angular.toJson({
-                        'FirstName': userObj.FirstName,
-                        'LastName': userObj.LastName,
-                        'IRDNumber': userObj.IRDNumber,
-                        'GSTNumber': userObj.GSTNumber,
-                        'Address': {
-                            'Street': userObj.Address.Street,
-                            'City': userObj.Address.City,
-                            'PostalCode': userObj.Address.PostalCode
-                        },
-                        'DoBDate': userObj.DoBDate,
-                        'DoBMonth': userObj.DoBMonth,
-                        'DoBYear': userObj.DoBYear
-                    })
+                    'Content-Type': 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
+                },
+                data: {
+                    'FirstName': userObj.FirstName,
+                    'LastName': userObj.LastName,
+                    'IRDNumber': userObj.IRDNumber,
+                    'GSTNumber': userObj.GSTNumber,
+                    'Address': {
+                        'Street': userObj.Address.Street,
+                        'City': userObj.Address.City,
+                        'PostalCode': userObj.Address.PostalCode
+                    },
+                    'DoBDate': userObj.DoBDate,
+                    'DoBMonth': userObj.DoBMonth,
+                    'DoBYear': userObj.DoBYear
                 }
             });
             httpRequest.then(function (success) {
@@ -316,14 +305,14 @@
         ServiceEmployee.AddLocation = function (locations, callback) {
 
             var httpRequest = $http({
-                url: '/curl/api.php?function=updateLocations',
+                url: RESOURCE_URL.BASE_URI + '/employee/' + $rootScope.globals.current_user.username + '/location',
                 method: 'POST',
                 headers: {
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'username': $rootScope.globals.current_user.username,
-                    'data': angular.toJson({
-                        'Locations': locations
-                    })
+                    'Content-Type': 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
+                },
+                data: {
+                    'Locations': locations
                 }
             });
             httpRequest.then(function (success) {
@@ -340,14 +329,13 @@
         ServiceEmployee.AddExperience = function (experience, callback) {
 
             $http({
-                url: '/curl/api.php?function=updateExperience',
+                url: RESOURCE_URL.BASE_URI + '/employee/' + $rootScope.globals.current_user.username + '/experience',
                 method: 'POST',
                 headers: {
-                    'username': $rootScope.globals.current_user.username,
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'data': angular.toJson(experience)
-
-                }
+                    'Content-type' : 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
+                },
+                data: angular.toJson(experience)
             }).then(function (success) {
                 console.log(success);
                 callback(success.data);
@@ -361,13 +349,13 @@
         ServiceEmployee.AddSkills = function (skills, callback) {
 
             $http({
-                url: '/curl/api.php?function=updateSkills',
+                url: RESOURCE_URL.BASE_URI + '/employee/' + $rootScope.globals.current_user.username + '/skills',
                 method: 'POST',
                 headers: {
-                    'username': $rootScope.globals.current_user.username,
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'data': angular.toJson({"Skills": skills})
-                }
+                    'Content-type' : 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
+                },
+                data: {"Skills": skills}
             }).then(function (success) {
                 callback(success.data);
             }, function (error) {
@@ -381,18 +369,11 @@
         ServiceEmployee.ViewMyJobs = function (callback) {
 
             var httpRequest = $http({
-                url: '/curl/index_r.php',
-                method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.BASE_URI + '/employee/myjobs',
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET',
-                    'query_data': true,
-                    'post_data': null
-                },
+                method: 'GET',
+                url: RESOURCE_URL.BASE_URI+'/employee/myjobs',
                 headers: {
-                    'Content-Type': "text/json",
-                    'Authentication': 'JWT ' + $rootScope.globals.current_user.token
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                    'Authorization': 'JWT '+ $rootScope.globals.current_user.token,
                 }
             });
 
@@ -408,15 +389,8 @@
 
         ServiceEmployee.ViewSingleJob = function (job_id, callback) {
             $http({
-                url: '/curl/index_r.php',
-                method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.BASE_URI + '/employee/jobs?id=' + job_id,
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET',
-                    'query_data': true,
-                    'post_data': null
-                },
+                url: RESOURCE_URL.BASE_URI + '/employee/jobs?id=' + job_id,
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authentication': 'JWT ' + $rootScope.globals.current_user.token
@@ -433,14 +407,11 @@
         ServiceEmployee.ApplyJob = function (job_id, callback) {
 
             $http({
-                url: '/curl/index_r.php',
-                method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.BASE_URI + '/employee/job/' + job_id + '/true',
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET',
-                    'query_data': true,
-                    'post_data': null
+                url: RESOURCE_URL.BASE_URI + '/employee/job/' + job_id + '/true',
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authentication': 'JWT ' + $rootScope.globals.current_user.token
                 }
             }).then(function (success) {
                 callback(success.data);
@@ -455,14 +426,11 @@
         ServiceEmployee.CancelJob = function (job_id, callback) {
 
             $http({
-                url: '/curl/index_r.php',
-                method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.BASE_URI + '/employee/job/' + job_id + '/false',
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET',
-                    'query_data': true,
-                    'post_data': null
+                url: RESOURCE_URL.BASE_URI + '/employee/job/' + job_id + '/false',
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authentication': 'JWT ' + $rootScope.globals.current_user.token
                 }
             }).then(function (success) {
                 callback(success.data);
@@ -475,17 +443,11 @@
          ------------------------------------------------------------------------------- */
         ServiceEmployee.GetTimeSheets = function (callback) {
             $http({
-                url: '/curl/index_r.php',
-                method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.BASE_URI + '/timesheets',
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET',
-                    'query_data': true,
-                    'post_data': null
-                },
+                url: RESOURCE_URL.BASE_URI + '/timesheets',
+                method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                 }
             }).then(function (success) {
                 callback(success.data);
@@ -498,18 +460,11 @@
          ------------------------------------------------------------------------------- */
         ServiceEmployee.GetUserTimeSheets = function (callback) {
             $http({
-                url: '/curl/index_r.php',
-                method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.BASE_URI + '/employee/' + $rootScope.globals.current_user.username + '/timesheets',
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET',
-                    'query_data': true,
-                    'post_data': null
-
-                },
+                url: RESOURCE_URL.BASE_URI + '/employee/' + $rootScope.globals.current_user.username + '/timesheets',
+                method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                 }
             }).then(function (success) {
                 callback(success.data);
@@ -524,13 +479,13 @@
         ServiceEmployee.AddTimeSheet = function (timesheet, callback) {
 
             $http({
-                url: '/curl/api.php?function=add_time_sheet',
+                url: RESOURCE_URL.BASE_URI+'/employee/'+$rootScope.globals.current_user.username+'/timesheet',
                 method: 'POST',
                 headers: {
-                    'username': $rootScope.globals.current_user.username,
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'data': angular.toJson(timesheet)
-                }
+                    'Content-type' : 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
+                },
+                data: angular.toJson(timesheet)
             }).then(function (success) {
                 callback(success.data);
             }, function (error) {
@@ -554,14 +509,11 @@
          --------------------------------------------------------------------------- */
         ServiceEmployer.GetProfileEmployer = function (callback) {
             var httpRequest = $http({
-                url: '/curl/index_r.php',
-                method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.BASE_URI + '/employer/my-profile',
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET',
-                    'query_data': true,
-                    'post_data': null
+                url: RESOURCE_URL.BASE_URI + '/employer/my-profile',
+                method: 'GET',
+                headers: {
+                    'Content-type' : 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                 }
             });
 
@@ -577,14 +529,11 @@
         ServiceEmployer.GetApplicantProfile = function (application_id, callback) {
 
             var httpRequest = $http({
-                url: '/curl/index_r.php',
-                method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.BASE_URI + '/employer/user/' + application_id,
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET',
-                    'query_data': true,
-                    'post_data': null
+                url: RESOURCE_URL.BASE_URI + '/employer/user/' + application_id,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authentication': 'JWT ' + $rootScope.globals.current_user.token
                 }
             });
 
@@ -600,13 +549,13 @@
          ------------------------------------------------------------------------------- */
         ServiceEmployer.UpdateProfileEmployer = function (user, callback) {
             var httpRequest = $http({
-                url: '/curl/api.php?function=update_profile_employer',
+                url: RESOURCE_URL.BASE_URI + '/employer/'+$rootScope.globals.current_user.username+'/update',
                 method: 'POST',
                 headers: {
-                    'username': $rootScope.globals.current_user.username,
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'data': angular.toJson(user)
-                }
+                    'Content-type' : 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
+                },
+                data: angular.toJson(user)
             });
 
             httpRequest.then(function (success) {
@@ -620,12 +569,13 @@
          ------------------------------------------------------------------------------- */
         ServiceEmployer.PostJob = function (job, callback) {
             var httpRequest = $http({
-                url: '/curl/api.php?function=post_job_employer',
+                url: RESOURCE_URL.BASE_URI +'/employer/job',
                 method: 'POST',
                 headers: {
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'data': angular.toJson(job)
-                }
+                    'Content-Type':'application/json',
+                    'Authorization': 'JWT ' + $rootScope.globals.current_user.token,
+                },
+                data: angular.toJson(job)
             });
 
             httpRequest.then(function (success) {
@@ -639,10 +589,11 @@
          ------------------------------------------------------------------------------- */
         ServiceEmployer.ViewJobs = function (callback) {
             var httpRequest = $http({
-                url: '/curl/api.php?function=view_all_jobs_employer',
-                method: 'POST',
+                url: RESOURCE_URL.BASE_URI +'/employer/job',
+                method: 'GET',
                 headers: {
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
+                    'Content-Type':'application/json',
+                    'Authorization': 'JWT ' + $rootScope.globals.current_user.token,
                 }
             });
 
@@ -658,31 +609,30 @@
          ------------------------------------------------------------------------------- */
         ServiceEmployer.ViewJobsByState = function (callback) {
             var httpRequest = $http({
-                url: '/curl/api.php?function=view_all_jobs_employer',
-                method: 'POST',
+                url: RESOURCE_URL.BASE_URI +'/employer/job',
+                method: 'GET',
                 headers: {
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
+                    'Content-Type':'application/json',
+                    'Authorization': 'JWT ' + $rootScope.globals.current_user.token,
                 }
             });
-
 
             httpRequest.then(function (success) {
                 callback(success.data);
             }, function (error) {
                 callback(error.data);
             });
-            //http://easytrades.herokuapp.com/employer/job
         };
 
         /* View single job - Employer
          ------------------------------------------------------------------------------- */
         ServiceEmployer.ViewSingleJob = function (job_id, callback) {
             $http({
-                url: '/curl/api.php?function=view_single_job',
-                method: 'POST',
+                url: RESOURCE_URL.BASE_URI +'/employer/job?id='+job_id,
+                method: 'GET',
                 headers: {
-                    'job_id': job_id,
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
+                    'Content-Type':'application/json',
+                    'Authorization': 'JWT ' + $rootScope.globals.current_user.token,
                 }
             }).then(function (success) {
                 callback(success.data);
@@ -695,14 +645,11 @@
          ------------------------------------------------------------------------------- */
         ServiceEmployer.ApproveJob = function (user_id, status, callback) {
             $http({
-                url: '/curl/index_r.php',
-                method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.BASE_URI + '/employer/job/' + user_id + "/" + status,
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'PUT',
-                    'query_data': true,
-                    'post_data': null
+                url: RESOURCE_URL.BASE_URI + '/employer/job/' + user_id + "/" + status,
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authentication': 'JWT ' + $rootScope.globals.current_user.token
                 }
             }).then(function (success) {
                 callback(success.data);
@@ -714,14 +661,11 @@
 
         ServiceEmployer.GetTimeSheets = function (callback) {
             $http({
-                url: '/curl/index_r.php',
-                method: 'POST',
-                data: {
-                    'request_url': RESOURCE_URL.BASE_URI + '/employer/timesheets',
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET',
-                    'query_data': true,
-                    'post_data': null
+                url: RESOURCE_URL.BASE_URI + '/employer/timesheets',
+                method: 'GET',
+                headers: {
+                    'Content-type' : 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                 }
             }).then(function (success) {
                 callback(success.data);

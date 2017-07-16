@@ -15,7 +15,8 @@
     angular.module('etConstant', []);
     angular.module('etConstant')
         .constant('RESOURCE_URL', {
-            BASE_URI: 'https://easytrades.herokuapp.com'
+            BASE_URI: 'https://easytrades.herokuapp.com',
+            STRIPE_API: 'pk_test_yXPpKwBVBAq0ahapihNDDLns'
         });
 
 })(jQuery, angular);

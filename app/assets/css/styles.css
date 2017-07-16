@@ -1008,11 +1008,14 @@ ul#search_results li a {
 
 .dropdown-content li:hover,
 .dropdown-content li.active,
+.dropdown-content li.active.selected,
 .dropdown-content li.selected {
     background-color: #1e75ba;
 
 }
-
+.dropdown-content li.selected span{
+    color: #fff
+}
 .dropdown-content li:hover span {
     color: #fff !important;
 }

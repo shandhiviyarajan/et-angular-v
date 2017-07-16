@@ -100,10 +100,10 @@
                     </td>
 
                     <td>
-                        <a data-ng-disabled="timesheet.Status == 'contested'" type="buttton"
+                        <a data-ng-if="timesheet.Status == 'pending'" type="buttton"
                            data-ng-click="Timesheet.approveTimesheet(timesheet._id)"
                            class="btn btn-rounded waves-effect waves-green">Approve</a>
-                        <a data-ng-disabled="timesheet.Status == 'contested'"
+                        <a data-ng-if="timesheet.Status == 'pending'"
                            data-ng-click="Timesheet.addContest(timesheet.Hours,timesheet._id)"
                            href="#contest_modal"
                            et-trigger-modal

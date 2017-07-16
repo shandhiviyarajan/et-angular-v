@@ -521,14 +521,11 @@
          -------------------------------------------------------------------------------------- */
         Experience.getExperience = function () {
             httpRequest = $http({
-                url: '/curl/index_r.php',
-                method: 'POST',
-                data: {
-                    'request_url': 'https://easytrades.herokuapp.com/employee/my-profile/experience',
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET',
-                    'query_data': true,
-                    'post_data': null
+                url: RESOURCE_URL.BASE_URI + '/employee/my-profile/experience',
+                method: 'GET',
+                headers: {
+                    'Content-type' : 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                 }
             });
             httpRequest.then(function (success) {

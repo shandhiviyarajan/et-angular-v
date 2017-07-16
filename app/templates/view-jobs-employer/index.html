@@ -66,7 +66,7 @@
                         <a ui-sref="ProfileOthersEmployer({ApplicantID:applicant.EmployeeId})">{{$index+1}}</a>
                     </td>
                     <td style="text-transform: capitalize">
-                        <a ui-sref="ProfileOthersEmployer({ApplicantID:applicant.EmployeeId})">{{applicant.EmployeeId}}</a>
+                        <a ui-sref="ProfileOthersEmployer({ApplicantID:applicant.EmployeeId})">{{applicant.employeedetails.FirstName}}</a>
                     </td>
 
                    <td>
@@ -85,8 +85,8 @@
                         {{applicant.Status}}
                     </td>
                     <td>
-                        <a data-ng-click="sendInvitations(applicant.EmployeeId)"
-                           data-ng-disabled="applicant.Status=='Completed'"
+                        <a data-ng-click="acceptInvitation(applicant.EmployeeId,applicant._id)"
+                           data-ng-if="applicant.Status=='Accepted'"
                            class="btn btn-rounded btn-dark">Hire</a>
                     </td>
                 </tr>

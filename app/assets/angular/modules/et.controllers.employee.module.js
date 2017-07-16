@@ -24,9 +24,9 @@
      * ------------------------------------------------------------------------------------------ */
     angular.module('etControllersEmployee')
         .controller('ngMainController', ngMainController);
-    ngMainController.$inject = ['$scope', '$http', '$rootScope', 'AuthService', '$cookieStore', '$state'];
+    ngMainController.$inject = ['$scope', '$http', '$rootScope', 'AuthService', '$cookieStore', '$state','RESOURCE_URL'];
 
-    function ngMainController($scope, $http, $rootScope, AuthService, $cookieStore, $state) {
+    function ngMainController($scope, $http, $rootScope, AuthService, $cookieStore, $state,RESOURCE_URL) {
         var Main = this;
                                                                  console.log($cookieStore);
         $rootScope.$watch('isAuthenticated', function (nv, ov) {
@@ -489,8 +489,8 @@
      * ------------------------------------------------------------------------------------------ */
     angular.module('etControllersEmployee')
         .controller('ExperienceController', ExperienceController);
-    ExperienceController.$inject = ['$scope', '$state', '$stateParams', 'AuthService', 'ServiceEmployee', 'MessageService', '$http', '$rootScope'];
-    function ExperienceController($scope, $state, $stateParams, AuthService, ServiceEmployee, MessageService, $http, $rootScope) {
+    ExperienceController.$inject = ['$scope', '$state', '$stateParams', 'AuthService', 'ServiceEmployee', 'MessageService', '$http', '$rootScope','RESOURCE_URL'];
+    function ExperienceController($scope, $state, $stateParams, AuthService, ServiceEmployee, MessageService, $http, $rootScope,RESOURCE_URL) {
         var Experience = this;
         Experience.forms = [0];
 
@@ -514,14 +514,11 @@
          -------------------------------------------------------------------------------------- */
         Experience.getExperience = function () {
             httpRequest = $http({
-                url: '/curl/index_r.php',
-                method: 'POST',
-                data: {
-                    'request_url': 'https://easytrades.herokuapp.com/employee/my-profile/experience',
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'request_method': 'GET',
-                    'query_data': true,
-                    'post_data': null
+                url: RESOURCE_URL.BASE_URI + '/employee/my-profile/experience',
+                method: 'GET',
+                headers: {
+                    'Content-type' : 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                 }
             });
             httpRequest.then(function (success) {
@@ -602,8 +599,8 @@
      * ------------------------------------------------------------------------------------------ */
     angular.module('etControllersEmployee')
         .controller('EmployeeJobsController', EmployeeJobsController);
-    EmployeeJobsController.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'AuthService', 'ServiceEmployee', 'MessageService'];
-    function EmployeeJobsController($scope, $rootScope, $state, $stateParams, $http, AuthService, ServiceEmployee, MessageService) {
+    EmployeeJobsController.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'AuthService', 'ServiceEmployee', 'MessageService','RESOURCE_URL'];
+    function EmployeeJobsController($scope, $rootScope, $state, $stateParams, $http, AuthService, ServiceEmployee, MessageService,RESOURCE_URL) {
 
         var Employee = this;
         Employee.jobs = [];
@@ -611,7 +608,9 @@
         Employee.completed = [];
         Employee.accepted = [];
         Employee.pending = [];
+        Employee.selected = [];
         Employee.declined = [];
+        Employee.hired = [];
         Employee.check = [];
         Employee.c_id = "";
         Employee.new_start_time = "";
@@ -650,6 +649,14 @@
                             case "Declined":
                                 Employee.declined.push(V);
                                 break;
+
+                            case "Selected":
+                                Employee.selected.push(V);
+                                break;
+
+                            case "Hired":
+                                Employee.hired.push(V);
+                                break;
                         }
 
                     });
@@ -663,20 +670,17 @@
 
         Employee.viewMyJobs();
 
-        /* Accept Job
+        /* Accept Job Invitation
          ------------------------------------------------------------------------------------------ */
-        Employee.acceptJob = function (job_id) {
+        Employee.acceptJobInvitation = function (job_id) {
             if (job_id != null) {
                 $http({
-                    url: '/curl/index_r.php',
-                    method: 'POST',
-                    data: {
-                        'request_url': 'https://easytrades.herokuapp.com/employee/job/' + job_id + '/true',
-                        'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                        'request_method': 'GET',
-                        'query_data': true,
-                        'post_data': null
-                    }
+                    url: RESOURCE_URL.BASE_URI + '/employee/job/' + job_id + '/true',
+                    headers: {
+                        'Content-type' : 'application/json',
+                        'Authorization': 'JWT '+$rootScope.globals.current_user.token
+                    },
+                    method: 'GET'
                 }).then(function (success) {
 
                     MessageService.Success("Job Accepted!");
@@ -689,22 +693,64 @@
             }
         };
 
+        /* Decline Job Invitation
+         ------------------------------------------------------------------------------------------ */
+        Employee.declineJobInvitation = function (job_id) {
+            if (job_id != null) {
+                $http({
+                    url: RESOURCE_URL.BASE_URI + '/employee/job/' + job_id + '/false',
+                    headers: {
+                        'Content-type' : 'application/json',
+                        'Authorization': 'JWT '+$rootScope.globals.current_user.token
+                    },
+                    method: 'GET'
+                }).then(function (success) {
+
+                    MessageService.Success("Job declined!");
+                    Employee.viewMyJobs();
+                }, function (error) {
+
+                });
+            } else {
+                MessageService.Error("Invitations ID is not set");
+            }
+        }
+
+        /* Accept Job
+         ------------------------------------------------------------------------------------------ */
+        Employee.acceptJob = function (job_id) {
+            if (job_id != null) {
+                $http({
+                    url: RESOURCE_URL.BASE_URI + '/employee/offer/' + job_id + '/true',
+                    headers: {
+                        'Content-type' : 'application/json',
+                        'Authorization': 'JWT '+$rootScope.globals.current_user.token
+                    },
+                    method: 'GET'
+                }).then(function (success) {
+
+                    MessageService.Success("Job Accepted!");
+                    Employee.viewMyJobs();
+                }, function (error) {
+                    MessageService.Error(error);
+                });
+            } else {
+                MessageService.Error("Invitation ID is not set!");
+            }
+        };
+
         /* Decline Job
          ------------------------------------------------------------------------------------------ */
         Employee.declineJob = function (job_id) {
             if (job_id != null) {
                 $http({
-                    url: '/curl/index_r.php',
-                    method: 'POST',
-                    data: {
-                        'request_url': 'https://easytrades.herokuapp.com/employee/job/' + job_id + '/false',
-                        'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                        'request_method': 'GET',
-                        'query_data': true,
-                        'post_data': null
-                    }
+                    url: RESOURCE_URL.BASE_URI + '/employee/offer/' + job_id + '/false',
+                    headers: {
+                        'Content-type' : 'application/json',
+                        'Authorization': 'JWT '+$rootScope.globals.current_user.token
+                    },
+                    method: 'GET'
                 }).then(function (success) {
-
                     MessageService.Success("Job declined!");
                     Employee.viewMyJobs();
                 }, function (error) {
@@ -720,15 +766,12 @@
         Employee.unsuccessfulJob = function (job_id) {
             if (job_id != null) {
                 $http({
-                    url: '/curl/index_r.php',
-                    method: 'POST',
-                    data: {
-                        'request_url': 'https://easytrades.herokuapp.com/employee/job/' + job_id + '/unsuccessful',
-                        'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                        'request_method': 'GET',
-                        'query_data': true,
-                        'post_data': null
-                    }
+                    url: RESOURCE_URL.BASE_URI + '/employee/job/' + job_id + '/unsuccessful',
+                    headers: {
+                        'Content-type' : 'application/json',
+                        'Authorization': 'JWT '+$rootScope.globals.current_user.token
+                    },
+                    method: 'GET'
                 }).then(function (success) {
                     MessageService.Success("Jobs updated!");
                     Employee.viewMyJobs();
@@ -746,15 +789,12 @@
         Employee.completedJob = function (job_id) {
             if (job_id != null) {
                 $http({
-                    url: '/curl/index_r.php',
-                    method: 'POST',
-                    data: {
-                        'request_url': 'https://easytrades.herokuapp.com/employee/job/' + job_id + '/completed',
-                        'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                        'request_method': 'GET',
-                        'query_data': true,
-                        'post_data': null
-                    }
+                    url: RESOURCE_URL.BASE_URI + '/employee/job/' + job_id + '/completed',
+                    headers: {
+                        'Content-type' : 'application/json',
+                        'Authorization': 'JWT '+$rootScope.globals.current_user.token
+                    },
+                    method: 'GET'
                 }).then(function (success) {
                     MessageService.Success("Jobs updated!");
                     Employee.viewMyJobs();
@@ -790,85 +830,53 @@
 
             var start = Employee.new_start_time;
             var end = Employee.new_end_time;
-            var start_h = 0;
-            var start_m = 0;
-
-            var end_h = 0; //7
-            var end_m = 0; //00
-
-            if (start.indexOf("am") > 0) {
-                start = start.substr(0, start.indexOf("am")).split(":");
-
-                start_h = parseInt(start[0]); // 10
-                start_m = parseInt(start[1]); //30
-            }
-            if (start.indexOf("pm") > 0) {
-                start = start.substr(0, start.indexOf("pm")).split(":");
-
-                start_h = parseInt(start[0]) + 12; // 10
-                start_m = parseInt(start[1]); //30
-            }
-
-            if (end.indexOf("am") > 0) {
-                end = end.substr(0, end.indexOf("am")).split(":");
-                end_h = parseInt(end[0]); //7
-                end_m = parseInt(end[1]); //00
-            }
-
-            if (end.indexOf("pm") > 0) {
-                end = end.substr(0, end.indexOf("pm")).split(":");
-                end_h = parseInt(end[0]) + 12; //7
-                end_m = parseInt(end[1]); //00
-            }
+            
+            var timeStart = new Date(Employee.new_date+" "+Employee.new_start_time).getTime();
+            var timeEnd = new Date(Employee.new_date+" "+Employee.new_end_time).getTime();
 
 
-            var dh = end_h - start_h;
-            var dm = end_m - start_m;
+            var diff = {};
 
-            if (dh < 0) {
-                dh = dh + 12;
-            }
+            diff.milliseconds = timeEnd % timeStart;
+            diff.seconds = diff.milliseconds / 1000;
+            diff.minutes = diff.seconds / 60;
+            diff.hours = diff.minutes / 60;
+            console.log('timeStart '+timeStart);
+            console.log('timeEnd '+timeEnd);
+            if(timeStart > timeEnd){
+                MessageService.Error('End time should be greater than start time.');
+            }else{
+                var diff_hours = parseFloat(diff.hours).toFixed(2);
 
-            if (dm < 0) {
-                dh = dh - 1;
-                dm = dm + 60;
-            }
-
-            dm = (100 / 60 * dm) / 10;
-
-
-            //format date//
-
-
-            var new_date = Employee.new_date.split("/");
-            Employee.new_date = new_date[2] + "-" + new_date[1] + "-" + new_date[0];
+                var new_date = Employee.new_date.split("/");
+                Employee.new_date = new_date[2] + "-" + new_date[1] + "-" + new_date[0];
 
 
-            Employee.new_time = {
-                "ContractID": Employee.c_id,
-                'TimeSheets': [
-                    {
-                        'Date': Employee.new_date,
-                        'StartTime': Employee.new_start_time,
-                        'EndTime': Employee.new_end_time,
-                        'Hours': dh + "." + dm
+                Employee.new_time = {
+                    "ContractID": Employee.c_id,
+                    'TimeSheets': [
+                        {
+                            'Date': Employee.new_date,
+                            'StartTime': Employee.new_start_time,
+                            'EndTime': Employee.new_end_time,
+                            'Hours': diff_hours
+                        }
+                    ],
+                    "Title": Employee.time_sheet_title
+                };
+
+
+                ServiceEmployee.AddTimeSheet(Employee.new_time, function (response) {
+
+
+                    if (response.status) {
+                        MessageService.Success("Employee Time sheet added successfully!");
+                    } else {
+                        MessageService.Error(response.message);
                     }
-                ],
-                "Title": Employee.time_sheet_title
-            };
 
-
-            ServiceEmployee.AddTimeSheet(Employee.new_time, function (response) {
-
-
-                if (response.status) {
-                    MessageService.Success("Employee Time sheet added successfully!");
-                    Employee.TimeSheets[0].TimeSheets = response.data.TimeSheets;
-                } else {
-                    MessageService.Error(response.message);
-                }
-
-            });
+                });   
+            }
         }
     }
 
@@ -924,12 +932,11 @@
         Timesheet.approveTimesheet = function (time_sheet_id) {
 
             $http({
-                url: '/curl/api.php?function=approve_time_sheet_employee',
-                method: 'POST',
+                url: RESOURCE_URL.BASE_URI + '/employee/timesheet/'+$stateParams.ContractID+'/'+time_sheet_id+'/true',
+                method: 'PUT',
                 headers: {
-                    JWT_TOKEN: 'JWT ' + $rootScope.globals.current_user.token,
-                    contract_id: $stateParams.ContractID,
-                    time_sheet_id: time_sheet_id
+                    'Content-Type': 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                 }
             }).then(function (response) {
 
@@ -950,12 +957,11 @@
          ------------------------------------------------------------------------------------------ */
         Timesheet.recontestTimesheet = function (time_sheet_id) {
             $http({
-                url: '/curl/api.php?function=recontest_time_sheet_employee',
-                method: 'POST',
+                url: RESOURCE_URL.BASE_URI + '/employee/timesheet/'+$stateParams.ContractID+'/'+time_sheet_id+'/false',
+                method: 'PUT',
                 headers: {
-                    JWT_TOKEN: 'JWT ' + $rootScope.globals.current_user.token,
-                    contract_id: $stateParams.ContractID,
-                    time_sheet_id: time_sheet_id
+                    'Content-Type': 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                 }
             }).then(function (response) {
 
@@ -1007,32 +1013,16 @@
 
     angular.module('etControllersEmployee')
         .controller("EmployeeBillingController", EmployeeBillingController);
-    EmployeeBillingController.$inject = ['$scope', '$rootScope', '$http', '$state', 'AuthService', 'MessageService'];
+    EmployeeBillingController.$inject = ['$scope', '$rootScope', '$http', '$state', 'AuthService', 'MessageService','RESOURCE_URL','$httpParamSerializerJQLike'];
 
-    function EmployeeBillingController($scope, $rootScope, $http, $state, AuthService, MessageService) {
+    function EmployeeBillingController($scope, $rootScope, $http, $state, AuthService, MessageService,RESOURCE_URL,$httpParamSerializerJQLike) {
 
         var Billing = this;
-        Billing.account = {
-            "country": "NZ",
-            "currency": "nzd",
-            "account_holder_name": "William Harris",
-            "account_holder_type": "individual",
-            "routing_number": "110000",
-            "account_number": "0001234067"
-        };
         Billing.filename = null;
         Billing.step_1 = true;
         Billing.step_2 = false;
         Billing.cards = [];
         Billing.have_card = false;
-
-        Billing.card = {
-            'number': 4242424242424242,
-            'exp_month': 12,
-            'exp_year': 2018,
-            'cvc': 123
-        };
-
 
         if (!AuthService.isAuthenticated()) {
 
@@ -1043,10 +1033,11 @@
         Billing.getCards = function () {
 
             $http({
-                url: '/curl/api.php?function=get_card_info',
-                method: 'POST',
+                url: RESOURCE_URL.BASE_URI + '/user/card',
+                method: 'GET',
                 headers: {
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token
+                    'Content-type' : 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
                 }
             }).then(function (response) {
 
@@ -1070,15 +1061,22 @@
         Billing.saveCard = function () {
             MessageService.Success("Please wait... adding your card");
             //Get stripe token
+            var card_details = {
+                    card : {
+                        'number': Billing.card.number,
+                        'exp_month': Billing.card.exp_month,
+                        'exp_year': Billing.card.exp_year,
+                        'cvc': Billing.card.cvc
+                    }
+                };
             $http({
-                url: '/curl/api.php?function=stripe_token',
+                url: 'https://api.stripe.com/v1/tokens',
                 method: 'POST',
                 headers: {
-                    'number': Billing.card.number,
-                    'exp_month': Billing.card.exp_month,
-                    'exp_year': Billing.card.exp_year,
-                    'cvc': Billing.card.cvc
-                }
+                    'Authorization': 'Bearer '+RESOURCE_URL.STRIPE_API,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: $httpParamSerializerJQLike(card_details)
             }).then(function (response) {
 
 
@@ -1088,13 +1086,15 @@
                 //Send stripe token
                 if (Billing.stripe_token != null) {
                     $http({
-                        url: '/curl/api.php?add_card',
+                        url: RESOURCE_URL.BASE_URI+'/user/billing/',
                         method: 'POST',
                         headers: {
-                            'data': angular.toJson({
+                            'Content-type' : 'application/json',
+                            'Authorization': 'JWT '+$rootScope.globals.current_user.token,
+                        },
+                        data: angular.toJson({
                                 "stripeToken": Billing.stripe_token
                             })
-                        }
                     }).then(function (response) {
                         MessageService.Success("Your card added successfully !");
                         //Get all cards
@@ -1118,13 +1118,13 @@
 
         Billing.addAccountStepOne = function () {
             $http({
-                url: '/curl/api.php?function=billing_step_one',
+                url: RESOURCE_URL.BASE_URI+'/user/billing/bank',
                 method: 'POST',
                 headers: {
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'data': angular.toJson(Billing.account)
-                }
-
+                    'Content-type' : 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
+                },
+                data: angular.toJson(Billing.account)
             }).then(function (response) {
 
                 if (response.data.status) {
@@ -1146,14 +1146,13 @@
         Billing.addAccountStepTwo = function (token) {
 
             $http({
-                url: '/curl/api.php?function=billing_step_two',
+                url: RESOURCE_URL.BASE_URI+'/user/billing/',
                 method: 'POST',
                 headers: {
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'data': angular.toJson({
-                        "stripeToken": token
-                    })
-                }
+                    'Content-type' : 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
+                },
+                data: angular.toJson({"stripeToken": token})
             }).then(function (s) {
                 MessageService.Success("Bank information updated successfully !");
             }, function () {
@@ -1166,20 +1165,20 @@
         Billing.addAccountStepVerify = function () {
 
             $http({
-                url: '/curl/api.php?function=billing_step_verify',
+                url: RESOURCE_URL.BASE_URI+'/user/billing/verify',
                 method: 'POST',
                 headers: {
-                    'JWT_TOKEN': 'JWT ' + $rootScope.globals.current_user.token,
-                    'data': angular.toJson({
-                        "file": Billing.filename
-                    })
-                }
+                    'Content-type' : 'application/json',
+                    'Authorization': 'JWT '+$rootScope.globals.current_user.token,
+                },
+                data: angular.toJson({
+                    "file": Billing.filename
+                })
             }).then(function (s) {
                 MessageService.Success("File verified successfully !");
                 Billing.filename = "";
             }, function () {
                 MessageService.Error("Error on verify the files !");
-                $state.go("myBusinessHome");
             });
 
 
@@ -1226,11 +1225,8 @@
 
 
         $http({
-            url: '/curl/api.php?function=search_jobs',
-            method: 'POST',
-            headers: {
-                'skill': Search.paramSkill
-            }
+            url: RESOURCE_URL.BASE_URI+'/employer/job/search?skill='+Search.paramSkill,
+            method: 'GET',
         }).then(function (response) {
 
             if (response.data.status) {
